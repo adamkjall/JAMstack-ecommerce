@@ -14,7 +14,9 @@ const Navbar = () => {
   return (
     <nav className="flex py-4 justify-between items-center">
       <Link href="/">
-        <Logo width="100" />
+        <a>
+          <Logo width="100" />
+        </a>
       </Link>
       <div className="flex space-x-8 uppercase">
         <Link href="/products/">
