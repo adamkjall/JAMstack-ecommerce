@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@bigcommerce/storefront-data-hooks": "^1.0.2",
+    "@svgr/webpack": "^5.5.0",
     "autoprefixer": "^10.0.2",
     "html-react-parser": "^0.14.2",
     "next": "10.0.3",

@@ -1,18 +1,106 @@
+import LogoIcon from "../../../public/icons/logo.svg";
+
 export default function Footer() {
   return (
-    <footer className="grid grid-cols-2 gap-12 my-6">
-      <ul>
-        <li>Link 1</li>
-        <li>Link 2</li>
-        <li>Link 3</li>
-        <li>Link 4</li>
-      </ul>
-      <ul>
-        <li>Link 5</li>
-        <li>Link 6</li>
-        <li>Link 7</li>
-        <li>Link 8</li>
-      </ul>
+    <footer id="footer" className="bg-black">
+      {/* <!-- start container --> */}
+      <div className="container mx-auto pt-8 pb-4">
+        <div className="flex flex-wrap overflow-hidden sm:-mx-1 md:-mx-px lg:-mx-2 xl:-mx-2">
+          <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
+            {/* <!-- Column 1 Content --> */}
+            <LogoIcon width="150" fill="#FFF" />
+          </div>
+
+          <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
+            {/* <!-- Column 2 Content --> */}
+
+            <h4 className="text-white">Important</h4>
+            <ul className="nav navbar-nav">
+              <li id="navi-2" className="leading-7 text-sm">
+                <a className="text-white underline text-small" href="/page-1">
+                  Page 1{" "}
+                </a>
+              </li>
+              <li id="navi-1" className="leading-7 text-sm">
+                <a className="text-white underline text-small" href="/page-2">
+                  Page 2
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
+            {/* <!-- Column 3 Content --> */}
+            <h4 className="text-white">Info</h4>
+            <ul className="">
+              <li id="navi-2" className="leading-7 text-sm">
+                <a className="text-white underline text-small" href="/page-1">
+                  Page 1{" "}
+                </a>
+              </li>
+              <li id="navi-1" className="leading-7 text-sm">
+                <a className="text-white underline text-small" href="/page-2">
+                  Page 2
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
+            {/* <!-- Column 4 Content --> */}
+
+            <h4 className="text-white">Products</h4>
+            <ul className="">
+              <li id="navi-2" className="leading-7 text-sm">
+                <a className="text-white underline text-small" href="/page-1">
+                  Page 1{" "}
+                </a>
+              </li>
+              <li id="navi-1" className="leading-7 text-sm">
+                <a className="text-white underline text-small" href="/page-2">
+                  Page 2
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* <!-- Start footer bottom --> */}
+
+        <div
+          className="pt-4 md:flex md:items-center md:justify-center "
+          style={{ borderTop: "1px solid white" }}
+        >
+          <ul className="">
+            <li
+              className="md:mx-2 md:inline leading-7 text-sm"
+              id="footer-navi-2"
+            >
+              <a className="text-white underline text-small" href="/disclaimer">
+                Disclaimer
+              </a>
+            </li>
+            <li
+              className="md:mx-2 md:inline leading-7 text-sm"
+              id="footer-navi-2"
+            >
+              <a className="text-white underline text-small" href="/cookie">
+                Cookie policy
+              </a>
+            </li>
+            <li
+              className="md:mx-2 md:inline leading-7 text-sm"
+              id="footer-navi-2"
+            >
+              <a className="text-white underline text-small" href="/privacy">
+                Privacy
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/* <!-- end container --> */}
+      </div>
     </footer>
   );
 }

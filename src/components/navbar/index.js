@@ -1,14 +1,38 @@
 import Link from "next/link";
 
-const Navbar = (props) => {
-  // console.log("pages", props);
+import Logo from "../../../public/icons/logo.svg";
+import CartIcon from "../../../public/icons/cart.svg";
+import UserIcon from "../../../public/icons/user.svg";
+import HeartIcon from "../../../public/icons/heart.svg";
+import SearchIcon from "../../../public/icons/search.svg";
+
+import { useUI } from "contexts/ui/context";
+
+const Navbar = () => {
+  const { openSidebar } = useUI();
+
   return (
-    <nav className="">
-      {props?.pages.map((page) => (
-        <Link key={page.id} href={page.url}>
-          <a className="px-4 py-2 uppercase">{page.name}</a>
+    <nav className="flex py-4 justify-between items-center">
+      <Link href="/">
+        <Logo width="100" />
+      </Link>
+      <div className="flex space-x-8 uppercase">
+        <Link href="/products/">
+          <a className="">Produkter</a>
         </Link>
-      ))}
+        <Link href="/blog/">
+          <a className="">Blog</a>
+        </Link>
+        <Link href="/about/">
+          <a className="">Om oss</a>
+        </Link>
+      </div>
+      <div className="flex space-x-4">
+        <SearchIcon width="24" />
+        <HeartIcon width="24" />
+        <UserIcon width="24" />
+        <CartIcon width="24" onClick={openSidebar} />
+      </div>
     </nav>
   );
 };

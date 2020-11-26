@@ -32,10 +32,10 @@ export default function Home({ products }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="max-w-5xl mx-auto my-8">
-        <div className="grid grid-cols-4 gap-4">
+      <main className="my-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {products.map((product) => (
-            <ProductCard kay={product.node.entityId} product={product} />
+            <ProductCard key={product.node.entityId} product={product} />
           ))}
         </div>
       </main>

@@ -2,12 +2,15 @@ import "../styles/globals.css";
 import "../styles/tailwind.css";
 
 import Layout from "components/layout";
+import { UIProvider } from "contexts/ui/context";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout pageProps={pageProps}>
-      <Component {...pageProps} />
-    </Layout>
+    <UIProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </UIProvider>
   );
 }
 
