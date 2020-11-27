@@ -24,9 +24,9 @@ const ProductCard = ({ product }) => {
             height="300"
           />
           <div className="">Brand: {product.node?.brand?.entityId}</div>
-          <h2 className="text-2xl bold">{product.name}</h2>
+          <h2 className=" font-bold">{product.node.name}</h2>
           <div className="flex justify-between">
-            <div className="text-2xl mt-4">
+            <div className="text-lg mt-4">
               <span>{price}</span>
             </div>
           </div>

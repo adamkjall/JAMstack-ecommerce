@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@alan-ai/alan-sdk-web": "^1.8.5",
     "@bigcommerce/storefront-data-hooks": "^1.0.2",
     "@svgr/webpack": "^5.5.0",
     "html-react-parser": "^0.14.2",

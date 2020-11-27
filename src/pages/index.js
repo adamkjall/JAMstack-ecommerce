@@ -7,6 +7,8 @@ import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/ge
 // import getAllPages from "@bigcommerce/storefront-data-hooks/api/operations/get-all-pages";
 import Layout from "components/layout";
 
+import useAlan from "hooks/useAlan";
+
 export async function getStaticProps({ locale, preview = false }) {
   const config = getConfig({ locale });
 
@@ -25,10 +27,11 @@ export async function getStaticProps({ locale, preview = false }) {
 }
 
 export default function Home({ products }) {
+  useAlan(products);
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
+        <title>JAM commerce</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
