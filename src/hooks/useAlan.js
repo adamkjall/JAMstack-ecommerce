@@ -34,7 +34,12 @@ export default function useAlan(products) {
   const addProduct = useCallback(
     async ({ detail: { name, quantity } }) => {
       const item = products.find((product) =>
-        product.node.name.toLowerCase().includes(name.toLowerCase())
+        product.node.name
+          .toLowerCase()
+          .split("-")
+          .map((w) => w.trim())
+          .join(" ")
+          .includes(name.toLowerCase())
       );
       if (!item) {
         alanInstance.playText(`I cannot find the ${name} item`);
@@ -65,7 +70,12 @@ export default function useAlan(products) {
       }
 
       const item = cartItems.find((item) =>
-        item.name.toLowerCase().includes(name.toLowerCase())
+        item.name
+          .toLowerCase()
+          .split("-")
+          .map((w) => w.trim())
+          .join(" ")
+          .includes(name.toLowerCase())
       );
       if (!item) {
         alanInstance.playText(`Try to remove. I cannot find the ${name} item`);
