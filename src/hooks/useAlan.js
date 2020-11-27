@@ -99,7 +99,7 @@ export default function useAlan(products) {
 
   useEffect(() => {
     if (alanInstance != null) return;
-
+    console.log("key", process.env.ALAN_SDK_KEY);
     const alanBtn = require("@alan-ai/alan-sdk-web");
     const instance = alanBtn({
       bottom: "25px",
