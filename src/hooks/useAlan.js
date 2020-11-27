@@ -19,7 +19,7 @@ export default function useAlan(products) {
   const addItem = useAddItem();
   const removeItem = useRemoveItem();
 
-  const items = data?.line_items.physical_items ?? [];
+  const cartItems = data?.line_items.physical_items ?? [];
 
   const openCart = useCallback(() => {
     alanInstance.playText("Opening cart");
@@ -64,7 +64,7 @@ export default function useAlan(products) {
         return;
       }
 
-      const item = items.find((item) =>
+      const item = cartItems.find((item) =>
         item.name.toLowerCase().includes(name.toLowerCase())
       );
       if (!item) {
@@ -80,7 +80,7 @@ export default function useAlan(products) {
         }
       }
     },
-    [alanInstance, removeItem, items, isEmpty]
+    [alanInstance, removeItem, cartItems, isEmpty]
   );
 
   useEffect(() => {
