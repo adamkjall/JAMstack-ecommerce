@@ -3,18 +3,26 @@ import ProductCard from "components/product/productCard";
 
 import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
+import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
 // import getSiteInfo from "@bigcommerce/storefront-data-hooks/api/operations/get-site-info";
 // import getAllPages from "@bigcommerce/storefront-data-hooks/api/operations/get-all-pages";
-import Layout from "components/layout";
 
 export async function getStaticProps({ locale, preview = false }) {
   const config = getConfig({ locale });
 
   const { products } = await getAllProducts({
-    variables: { field: "products", first: 20 },
+    variables: { field: "products", first: 50 },
     config,
     preview,
   });
+
+  const { product } = await getProduct({
+    variables: { slug: "smith-journal-13" },
+    config,
+    preview,
+  });
+
+  console.log(products[0]);
 
   return {
     props: {
@@ -42,5 +50,3 @@ export default function Home({ products }) {
     </div>
   );
 }
-
-Home.Layout = Layout;
