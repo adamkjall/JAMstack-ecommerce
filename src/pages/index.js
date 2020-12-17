@@ -7,6 +7,8 @@ import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-pr
 // import getSiteInfo from "@bigcommerce/storefront-data-hooks/api/operations/get-site-info";
 // import getAllPages from "@bigcommerce/storefront-data-hooks/api/operations/get-all-pages";
 
+import { useQuery, gql } from "@apollo/client";
+
 export async function getStaticProps({ locale, preview = false }) {
   const config = getConfig({ locale });
 
@@ -22,7 +24,7 @@ export async function getStaticProps({ locale, preview = false }) {
     preview,
   });
 
-  console.log(products[0]);
+  // console.log(products[0]);
 
   return {
     props: {
@@ -32,7 +34,35 @@ export async function getStaticProps({ locale, preview = false }) {
   };
 }
 
+const QUERY = gql`
+  query paginateProducts($pageSize: Int = 20, $cursor: String) {
+    site {
+      products(first: $pageSize, after: $cursor) {
+        pageInfo {
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            entityId
+            name
+            type
+            brand {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export default function Home({ products }) {
+  const { loading, error, data } = useQuery(QUERY);
+  console.log("loading", loading);
+  console.log("error", error);
+  console.log("data", data);
   return (
     <div>
       <Head>
