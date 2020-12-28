@@ -24,7 +24,7 @@ function createApolloClient() {
     cache: new InMemoryCache(),
   });
 }
-
+// hello
 export function initializeApollo(inistialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient();
   // console.log(_apolloClient);
