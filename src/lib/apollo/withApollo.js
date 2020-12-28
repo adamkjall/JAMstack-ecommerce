@@ -1,5 +1,6 @@
 import withApollo from "next-with-apollo";
 import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 const httpLink = createHttpLink({
   uri:
@@ -7,7 +8,7 @@ const httpLink = createHttpLink({
       ? "http://localhost:8010/proxy"
       : process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_URL,
   headers: {
-    authorization: `Bearer ${process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_TOKEN}`,
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_TOKEN}`,
   },
 });
 
@@ -16,5 +17,14 @@ export default withApollo(
     new ApolloClient({
       link: httpLink,
       cache: new InMemoryCache().restore(initialState || {}),
-    })
+    }),
+  {
+    render: ({ Page, props }) => {
+      return (
+        <ApolloProvider client={props.apollo}>
+          <Page {...props} />
+        </ApolloProvider>
+      );
+    },
+  }
 );
