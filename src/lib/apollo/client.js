@@ -7,11 +7,18 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: new HttpLink({
-      uri: process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_URL,
-      credentials: "include",
-      "Content-Type": "application/json",
+      uri:
+        // !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+        //   ? "http://localhost:8010/proxy"
+        //   :
+
+        process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_URL,
+      // method: "POST",
+      // credentials: "same-origin",
+      mode: "no-cors",
       headers: {
-        Authorization: process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_TOKEN,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_TOKEN}`,
       },
     }),
     cache: new InMemoryCache(),
