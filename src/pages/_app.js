@@ -5,14 +5,14 @@ import Layout from "components/layout";
 import { UIProvider } from "contexts/ui/context";
 
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "lib/apollo/client";
+import withData from "lib/apollo/client";
 
-function MyApp({ Component, pageProps }) {
-  const apolloCLient = useApollo(pageProps.initialApolloState);
+function MyApp({ Component, pageProps, apollo }) {
+  // const apolloCLient = useApollo(pageProps.initialApolloState);
   // console.log("apollo client", apolloCLient);
 
   return (
-    <ApolloProvider client={apolloCLient}>
+    <ApolloProvider client={apollo}>
       <UIProvider>
         <Layout>
           <Component {...pageProps} />
@@ -22,4 +22,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default withData(MyApp);

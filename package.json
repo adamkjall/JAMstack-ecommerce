@@ -11,10 +11,14 @@
     "@apollo/client": "^3.3.6",
     "@bigcommerce/storefront-data-hooks": "^1.0.2",
     "@svgr/webpack": "^5.5.0",
+    "apollo-boost": "^0.4.9",
     "graphql": "^15.4.0",
+    "graphql-tag": "^2.11.0",
     "html-react-parser": "^0.14.2",
     "next": "10.0.3",
+    "next-with-apollo": "^5.1.0",
     "react": "^17.0.1",
+    "react-apollo": "^3.1.5",
     "react-dom": "^17.0.1"
   },
   "peerDependencies": {
