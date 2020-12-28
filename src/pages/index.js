@@ -6,10 +6,10 @@ import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/ge
 import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
 // import getSiteInfo from "@bigcommerce/storefront-data-hooks/api/operations/get-site-info";
 // import getAllPages from "@bigcommerce/storefront-data-hooks/api/operations/get-all-pages";
-import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
-// import { useQuery, gql } from "@apollo/client";
-import withApollo from "lib/apollo/withApollo";
+// import { useQuery } from "@apollo/react-hooks";
+// import gql from "graphql-tag";
+import { useQuery, gql } from "@apollo/client";
+// import withApollo from "lib/apollo/withApollo";
 
 export async function getStaticProps({ locale, preview = false }) {
   const config = getConfig({ locale });
@@ -83,4 +83,4 @@ function Home({ products }) {
   );
 }
 
-export default withApollo(Home);
+export default Home;
