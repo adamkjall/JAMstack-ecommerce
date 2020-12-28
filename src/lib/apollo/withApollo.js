@@ -12,7 +12,7 @@ const httpLink = createHttpLink({
     Authorization: `Bearer ${process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_TOKEN}`,
   },
 });
-
+//
 export default withApollo(
   ({ initialState }) =>
     new ApolloClient({
