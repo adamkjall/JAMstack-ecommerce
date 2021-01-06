@@ -85,7 +85,6 @@ const CartItem = ({ item, currencyCode }) => {
               type="number"
               max={99}
               min={0}
-              height="50"
               value={quantity}
               onChange={handleQuantity}
             />

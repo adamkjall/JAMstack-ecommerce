@@ -53,10 +53,10 @@ const ProductView = ({ product }) => {
       setLoading(false);
     }
   };
-  console.log("prod", {
-    productId: product.entityId,
-    variantId: product.variants.edges?.[0].node.entityId,
-  });
+  // console.log("prod", {
+  //   productId: product.entityId,
+  //   variantId: product.variants.edges?.[0].node.entityId,
+  // });
   return (
     <div className="my-8">
       <div className="grid grid-cols-2 gap-4">
