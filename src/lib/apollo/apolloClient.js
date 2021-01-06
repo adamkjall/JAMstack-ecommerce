@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { concatPagination } from "@apollo/client/utilities";
 
 export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 

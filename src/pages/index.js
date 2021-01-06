@@ -1,9 +1,13 @@
 import Head from "next/head";
-import ProductCard from "components/product/productCard";
 
-import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
-import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
-import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
+import ProductCard from "components/product/productCard";
+import Spinner from "components/spinner";
+
+// import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
+// import getAllProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
+// import fetchGraphqlApi from "@bigcommerce/storefront-data-hooks/api/utils/fetch-graphql-api";
+import { getAllProducts } from "lib/bigcommerce/operations";
+
 // import getSiteInfo from "@bigcommerce/storefront-data-hooks/api/operations/get-site-info";
 // import getAllPages from "@bigcommerce/storefront-data-hooks/api/operations/get-all-pages";
 // import { useQuery } from "@apollo/react-hooks";
@@ -11,63 +15,58 @@ import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-pr
 // import { useQuery, gql } from "@apollo/client";
 // import withApollo from "lib/apollo/withApollo";
 
-import { gql } from "@apollo/client";
+// import { gql, useQuery, NetworkStatus } from "@apollo/client";
 
-import { initializeApollo, addApolloState } from "lib/apollo/apolloClient";
+// import { initializeApollo, addApolloState } from "lib/apollo/apolloClient";
 
-export async function getStaticProps({ locale, preview = false }) {
-  const config = getConfig({ locale });
+// const QUERY = gql`
+//   query paginateProducts($pageSize: Int, $cursor: String) {
+//     site {
+//       products(first: $pageSize, after: $cursor) {
+//         pageInfo {
+//           startCursor
+//           endCursor
+//         }
+//         edges {
+//           cursor
+//           node {
+//             entityId
+//             name
+//             type
+//             brand {
+//               name
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
-  const { products } = await getAllProducts({
-    variables: { field: "products", first: 50 },
-    config,
-    preview,
-  });
+function Home({ products }) {
+  // const { loading, error, data, fetchMore, networkStatus } = useQuery(QUERY, {
+  //   variables: {
+  //     pageSize: 3,
+  //     cursor: "",
+  //   },
+  //   notifyOnNetworkStatusChange: true,
+  // });
+  // // console.log("data", data);
+  // const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 
-  const { product } = await getProduct({
-    variables: { slug: "smith-journal-13" },
-    config,
-    preview,
-  });
+  // const loadMore = () => {
+  //   fetchMore({
+  //     variables: {
+  //       pageSize: 3,
+  //       cursor: data?.site?.products.pageInfo.endCursor,
+  //     },
+  //   });
+  // };
 
-  const apolloClient = initializeApollo();
+  // if (loading && !loadingMorePosts) return <div>Loading..</div>;
 
-  await apolloClient.query({
-    query: QUERY,
-  });
+  // const products = data?.site?.products?.edges;
 
-  return addApolloState(apolloClient, {
-    props: {},
-    revalidate: 14400,
-  });
-}
-
-const QUERY = gql`
-  query paginateProducts($pageSize: Int = 20, $cursor: String) {
-    site {
-      products(first: $pageSize, after: $cursor) {
-        pageInfo {
-          startCursor
-          endCursor
-        }
-        edges {
-          cursor
-          node {
-            entityId
-            name
-            type
-            brand {
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-function Home(props) {
-  console.log("rest", props);
   return (
     <div>
       <Head>
@@ -76,14 +75,33 @@ function Home(props) {
       </Head>
 
       <main className="my-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {props?.products?.map((product) => (
-            <ProductCard key={product.node.entityId} product={product} />
-          ))}
-        </div>
+        {!products ? (
+          <Spinner />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {products.map((product) => (
+              <ProductCard key={product.node.entityId} product={product} />
+              // <div key={product.cursor} className="border p-8 m-4">
+              //   {product.node.name}
+              // </div>
+            ))}
+          </div>
+        )}
+        {/* <button onClick={loadMore}>Load more</button> */}
       </main>
     </div>
   );
+}
+
+export async function getStaticProps({ locale, preview = false }) {
+  const products = await getAllProducts(20);
+
+  return {
+    props: {
+      products,
+    },
+    revalidate: 1,
+  };
 }
 
 export default Home;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import Logo from "../../../public/icons/logo.svg";
+import Logo from "../../../public/icons/fox-icon.svg";
 import CartIcon from "../../../public/icons/cart.svg";
 import UserIcon from "../../../public/icons/user.svg";
 import HeartIcon from "../../../public/icons/heart.svg";
@@ -15,7 +15,7 @@ const Navbar = () => {
     <nav className="flex py-4 justify-between items-center">
       <Link href="/">
         <a>
-          <Logo width="100" />
+          <Logo width="50" />
         </a>
       </Link>
       <div className="flex space-x-8 uppercase">
