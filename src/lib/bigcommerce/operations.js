@@ -62,6 +62,7 @@ export const getProductBySlug = async (slug) => {
             id
             ... on Product {
               name
+              id
               entityId
               brand {
                 entityId
@@ -71,11 +72,12 @@ export const getProductBySlug = async (slug) => {
               images {
                 edges {
                   node {
+                    isDefault
                     altText
+                    urlOriginal
+                    url160wide: url(width: 160)
                     url320wide: url(width: 320)
                     url640wide: url(width: 640)
-                    url960wide: url(width: 960)
-                    url1280wide: url(width: 1280)
                   }
                 }
               }
@@ -142,10 +144,22 @@ export const getProductBySlug = async (slug) => {
                     id
                     entityId
                     name
+    
                     defaultImage {
                       altText
                       url160wide: url(width: 160)
                       url320wide: url(width: 320)
+                      url640wide: url(width: 640)
+                    }
+                    images {
+                      edges {
+                        node {
+                          altText
+                          urlOriginal
+                          url320wide: url(width: 320)
+                          url640wide: url(width: 640)
+                        }
+                      }
                     }
                     path
                     prices {
@@ -165,7 +179,7 @@ export const getProductBySlug = async (slug) => {
           }
         }
       }
-    }
+    }    
     `,
     { variables: { slug: paddedSlug } }
   );

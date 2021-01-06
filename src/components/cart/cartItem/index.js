@@ -72,7 +72,7 @@ const CartItem = ({ item, currencyCode }) => {
           <span className="font-bold text-lg cursor-pointer">{item.name}</span>
         </Link>
 
-        <div className="flex items-center">
+        <div className="flex items-center mt-1">
           <MinusIcon
             className="cursor-pointer"
             width="24"
@@ -85,6 +85,7 @@ const CartItem = ({ item, currencyCode }) => {
               type="number"
               max={99}
               min={0}
+              height="50"
               value={quantity}
               onChange={handleQuantity}
             />

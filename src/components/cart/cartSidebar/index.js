@@ -44,7 +44,11 @@ const CartSidebar = () => {
       } fixed transform top-0 right-0 w-96 h-full bg-white ease-in-out transition-all duration-300 z-30 p-4 shadow-lg`}
     >
       <header className="mb-4">
-        <CrossIcon width="24" onClick={closeSidebar} />
+        <CrossIcon
+          className="cursor-pointer"
+          width="24"
+          onClick={closeSidebar}
+        />
       </header>
       {isEmpty ? (
         <div>
@@ -65,11 +69,12 @@ const CartSidebar = () => {
           </div>
           <div>
             <ul>
-              <li>
+              {/* TODO what to show here */}
+              {/* <li className="flex justify-between">
                 <span>Subtotal</span>
                 <span>{subTotal}</span>
-              </li>
-              <li>
+              </li> */}
+              <li className="flex justify-between">
                 <span>Total</span>
                 <span>{total}</span>
               </li>

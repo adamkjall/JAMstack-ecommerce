@@ -20,24 +20,22 @@ const ProductCard = ({ product }) => {
 
   return (
     <Link href={"/product" + product.node.path}>
-      <a>
-        <div className="rounded shadow-lg p-4">
-          <Image
-            src={product.node.defaultImage.url320wide || "/"}
-            alt={product.node.defaultImage.altText || "Product image"}
-            width="320"
-            height="320"
-          />
-          <div className="brand text-sm mt-2">{product.node?.brand?.name}</div>
-          <h2 className="text-lg ">{product.node.name}</h2>
-          <div className="flex justify-between text-xl mt-3 ">
-            <span>{price}</span>
-            {onSale && (
-              <span className="line-through opacity-40">{basePrice}</span>
-            )}
-          </div>
+      <div className="rounded shadow-lg p-4 cursor-pointer">
+        <Image
+          src={product.node.defaultImage.url320wide || "/"}
+          alt={product.node.defaultImage.altText || "Product"}
+          width="320"
+          height="320"
+        />
+        <div className="brand text-sm mt-2">{product.node?.brand?.name}</div>
+        <h2 className="text-lg ">{product.node.name}</h2>
+        <div className="flex justify-between text-xl mt-3 ">
+          <span className={`${onSale && "text-red-500"}`}>{price}</span>
+          {onSale && (
+            <span className="line-through opacity-40">{basePrice}</span>
+          )}
         </div>
-      </a>
+      </div>
     </Link>
   );
 };
