@@ -1,43 +1,20 @@
-import withApollo from "next-with-apollo";
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
-import { ApolloProvider } from "@apollo/react-hooks";
-
-const httpLink = createHttpLink({
-  uri:
-    // !process.env.NODE_ENV || process.env.NODE_ENV === "development"
-    //   ? "http://localhost:8010/proxy"
-    //   :
-    process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_URL,
-  headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_TOKEN}`,
-  },
-});
-//
-export default withApollo(
-  ({ initialState }) =>
-    new ApolloClient({
-      link: httpLink,
-      cache: new InMemoryCache().restore(initialState || {}),
-    }),
-  {
-    render: ({ Page, props }) => {
-      return (
-        <ApolloProvider client={props.apollo}>
-          <Page {...props} />
-        </ApolloProvider>
-      );
-    },
-  }
-);
-
 import { useMemo } from "react";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+
+export const APOLLO_STATE_PROP_NAME = "__APOLLO_STATE__";
 
 let apolloClient;
 
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined", // set to true for SSR
-    link: httpLink,
+    link: new HttpLink({
+      uri: process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_URL,
+      credentials: "same-origin",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BIGCOMMERCE_STOREFRONT_API_TOKEN}`,
+      },
+    }),
     cache: new InMemoryCache(),
   });
 }
@@ -61,10 +38,20 @@ export function initializeApollo(initialState = null) {
 
   // Create the Apollo Client once in the client
   if (!apolloClient) apolloClient = _apolloClient;
+
   return _apolloClient;
 }
 
-export function useApollo(initialState) {
-  const store = useMemo(() => initializeApollo(initialState), [initialState]);
+export function addApolloState(client, pageProps) {
+  if (pageProps?.props) {
+    pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
+  }
+
+  return pageProps;
+}
+
+export function useApollo(pageProps) {
+  const state = pageProps[APOLLO_STATE_PROP_NAME];
+  const store = useMemo(() => initializeApollo(state), [state]);
   return store;
 }

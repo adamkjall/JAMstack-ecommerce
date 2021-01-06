@@ -1,18 +1,17 @@
-import "../styles/index.css";
-
 import Layout from "components/layout";
 
 import { UIProvider } from "contexts/ui/context";
 
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "lib/apollo/withApollo";
+import { useApollo } from "../lib/apollo/apolloClient";
 
-function MyApp({ Component, pageProps, apollo }) {
-  const apolloCLient = useApollo(pageProps.initialApolloState);
-  // console.log("apollo client", apolloCLient);
+import "../styles/index.css";
+
+function MyApp({ Component, pageProps }) {
+  const apolloClient = useApollo(pageProps);
 
   return (
-    <ApolloProvider client={apolloCLient}>
+    <ApolloProvider client={apolloClient}>
       <UIProvider>
         <Layout>
           <Component {...pageProps} />
