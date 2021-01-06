@@ -1,19 +1,31 @@
 import { useRouter } from "next/router";
 
-import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
-import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
-
-import ProductView from "components/product/productView";
+// import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
+// import getProduct from "@bigcommerce/storefront-data-hooks/api/operations/get-product";
 import getAllProductPaths from "@bigcommerce/storefront-data-hooks/api/operations/get-all-product-paths";
 
-export async function getStaticProps({ params, locale, preview }) {
-  const config = getConfig({ locale });
+import { getProductBySlug } from "lib/bigcommerce/operations";
 
-  const { product } = await getProduct({
-    variables: { slug: params.slug },
-    config,
-    preview,
-  });
+import ProductView from "components/product/productView";
+
+export default function Slug({ product }) {
+  const router = useRouter();
+
+  return router.isFallback ? (
+    <h1>Loading product...</h1>
+  ) : (
+    <ProductView product={product} />
+  );
+}
+
+export async function getStaticProps({ params, locale, preview }) {
+  const product = await getProductBySlug(params.slug);
+
+  // const { product } = await getProduct({
+  //   variables: { slug: params.slug },
+  //   config,
+  //   preview,
+  // });
 
   return {
     props: { product },
@@ -29,14 +41,4 @@ export async function getStaticPaths({ locales }) {
     paths: paths,
     fallback: false,
   };
-}
-
-export default function Slug({ product }) {
-  const router = useRouter();
-
-  return router.isFallback ? (
-    <h1>Loading product...</h1>
-  ) : (
-    <ProductView product={product} />
-  );
 }

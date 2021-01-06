@@ -18,17 +18,13 @@ const ProductCard = ({ product }) => {
   const onSale =
     product.node.prices?.price.value < product.node.prices.basePrice.value;
 
-  const defaultImage = product.node.images.edges.find(
-    (imgData) => imgData.node.isDefault
-  );
-
   return (
     <Link href={"/product" + product.node.path}>
       <a>
         <div className="rounded shadow-lg p-4">
           <Image
-            src={defaultImage?.node.url320wide || "/"}
-            alt={defaultImage?.node.altText || "Product image"}
+            src={product.node.defaultImage.url320wide || "/"}
+            alt={product.node.defaultImage.altText || "Product image"}
             width="320"
             height="320"
           />
