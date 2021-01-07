@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import Image from "next/image";
 import { useRouter } from "next/router";
 import parse from "html-react-parser";
@@ -10,6 +9,7 @@ import usePrice from "@bigcommerce/storefront-data-hooks/use-price";
 import { useUI } from "contexts/ui/context";
 
 import ProductCard from "../productCard";
+import ImageGallery from "../../imageGallery";
 
 const ProductView = ({ product }) => {
   const [loading, setLoading] = useState(false);
@@ -57,17 +57,18 @@ const ProductView = ({ product }) => {
   return (
     <div className="my-8">
       <div className="grid grid-cols-2 gap-4">
-        <div className="">
-          <Image
+        <div className="image-gallery w-80">
+          <ImageGallery images={product.images.edges} />
+          {/* <Image
             src={activeImage?.node?.url640wide || "/"}
             alt={activeImage?.node?.altText || "Product"}
             width="640"
             height="700"
             quality="85"
           />
-          <div className="grid grid-flow-col gap-6 mt-4">
-            {/* TODO fix slow change of image, image gallery component? */}
-            {product.images.edges.map((imageData) => (
+          <div className="grid grid-flow-col gap-6 mt-4"> */}
+          {/* TODO fix slow change of image, image gallery component? */}
+          {/* {product.images.edges.map((imageData) => (
               <Image
                 className="cursor-pointer"
                 key={imageData.node.url160wide}
@@ -79,7 +80,7 @@ const ProductView = ({ product }) => {
                 onClick={() => setActiveImage(imageData)}
               />
             ))}
-          </div>
+          </div> */}
         </div>
         <div>
           <div className="brand">{product?.brand?.name}</div>
