@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import parse from "html-react-parser";
 
 import useAddItem from "@bigcommerce/storefront-data-hooks/cart/use-add-item";
@@ -13,8 +11,6 @@ import ImageGallery from "../../imageGallery";
 
 const ProductView = ({ product }) => {
   const [loading, setLoading] = useState(false);
-  const [activeImage, setActiveImage] = useState({});
-  const router = useRouter();
   const addItem = useAddItem();
   const { openSidebar } = useUI();
 
@@ -27,15 +23,6 @@ const ProductView = ({ product }) => {
     amount: product.prices.basePrice.value,
     currencyCode: product.prices.basePrice.currencyCode,
   });
-
-  useEffect(() => {
-    if (product) {
-      const defaultImage = product.images.edges.find(
-        (imgData) => imgData.node.isDefault
-      );
-      setActiveImage(defaultImage);
-    }
-  }, [router.query]);
 
   const onSale = product.prices.price.value < product.prices.basePrice.value;
 
@@ -54,51 +41,52 @@ const ProductView = ({ product }) => {
     }
   };
 
+  console.log("prod", product);
+
+  const sizes = product.options.edges.find(
+    (option) => option.node.displayName === "Size"
+  );
+  const colors = product.options.edges.find(
+    (option) => option.node.displayName === "Color"
+  );
+
   return (
     <div className="my-8">
-      <div
-        style={
-          {
-            // display: "flex",
-            // flex: "0 0 30%",
-          }
-        }
-      ></div>
       <div className="grid grid-cols-2 gap-16 pb-16">
         <ImageGallery images={product.images.edges} />
-        {/* <div className="image-gallery"> */}
-        {/* <Image
-            src={activeImage?.node?.url640wide || "/"}
-            alt={activeImage?.node?.altText || "Product"}
-            width="640"
-            height="700"
-            quality="85"
-          />
-          <div className="grid grid-flow-col gap-6 mt-4"> */}
-        {/* TODO fix slow change of image, image gallery component? */}
-        {/* {product.images.edges.map((imageData) => (
-              <Image
-                className="cursor-pointer"
-                key={imageData.node.url160wide}
-                src={imageData.node.url160wide}
-                alt={imageData.node.altText || "Product"}
-                width="160"
-                height="200"
-                quality="75"
-                onClick={() => setActiveImage(imageData)}
-              />
-            ))}
-          </div> */}
-        {/* </div> */}
         <div>
           <div className="brand">{product?.brand?.name}</div>
           <h2 className="text-2xl bold">{product.name}</h2>
-          <div className="flex justify-between text-2xl mt-4">
+          <div className="price flex justify-between text-2xl mt-4">
             <span className={`${onSale && "text-red-500"}`}>{price}</span>
             {onSale && (
               <span className="line-through opacity-40">{basePrice}</span>
             )}
           </div>
+
+          <div className="options mt-2">
+            {sizes && (
+              <div>
+                <label htmlFor="sizes">Size:</label>
+                <select name="sizes" id="sizes" className="ml-2">
+                  {sizes.node.values.edges.map((val) => (
+                    <option value={val.node.label}>{val.node.label}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+            {colors && (
+              <div>
+                <label htmlFor="colors">Color:</label>
+                <select name="colors" id="colors" className="ml-2">
+                  {colors.node.values.edges.map((val) => (
+                    <option value={val.node.label}>{val.node.label}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+
           {/* TODO refactor button */}
           <button
             className="bg-black text-white px-4 py-1 rounded mt-4"
@@ -112,7 +100,7 @@ const ProductView = ({ product }) => {
       </div>
       {product.relatedProducts.edges.length > 0 && (
         <div>
-          <h2 className="text-xl mt-8 mb-4">Reltated products</h2>
+          <h2 className="text-xl mt-12">Related products</h2>
 
           <div className="flex space-x-4">
             {product.relatedProducts.edges.map((p) => (

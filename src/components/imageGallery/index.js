@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import ImageMagnify from "react-image-magnify";
 import Slider from "react-slick";
 
@@ -25,7 +23,6 @@ const ImageGallery = ({ images }) => {
       i < images.length ? <img src={images[i]?.node.url160wide} /> : <a></a>,
   };
 
-  console.log("image", images);
   return (
     <Slider {...sliderSettings}>
       {images.map((image, index) => (
