@@ -56,7 +56,7 @@ const ProductView = ({ product }) => {
 
   return (
     <div className="my-8">
-      <div className="grid grid-cols-2 gap-12">
+      <div className="grid grid-cols-2 gap-16">
         <div className="image-gallery">
           <ImageGallery images={product.images.edges} />
           {/* <Image
