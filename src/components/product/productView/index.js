@@ -56,8 +56,8 @@ const ProductView = ({ product }) => {
 
   return (
     <div className="my-8">
-      <div className="grid grid-cols-2 gap-4">
-        <div className="image-gallery w-80">
+      <div className="grid grid-cols-2 gap-12">
+        <div className="image-gallery">
           <ImageGallery images={product.images.edges} />
           {/* <Image
             src={activeImage?.node?.url640wide || "/"}
@@ -102,7 +102,7 @@ const ProductView = ({ product }) => {
           <div className="py-4">{parse(product.description)}</div>
         </div>
       </div>
-      {product.relatedProducts.edges.length && (
+      {product.relatedProducts.edges.length > 0 && (
         <div>
           <h2 className="text-xl mt-8 mb-4">Reltated products</h2>
 
