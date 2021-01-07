@@ -30,6 +30,10 @@ a {
   height: 60px;
 }
 
+.slick-slider .slick-dots {
+  bottom: -65px;
+}
+
 .slick-slider .slick-arrow.slick-prev:before,
 .slick-arrow.slick-next:before {
   color: black;
@@ -37,6 +41,17 @@ a {
 
 .slick-slider *:focus {
   outline: none !important;
+}
+
+.slick-slider .slick-slide img {
+  margin: 0 auto;
+}
+
+.enlarged-image {
+  z-index: 10;
+  opacity: 1;
+  filter: alpha(opacity=100);
+  background-color: white;
 }
 
 /* Start purging... */

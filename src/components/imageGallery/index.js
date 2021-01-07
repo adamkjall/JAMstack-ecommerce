@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import ImageMagnify from "react-image-magnify";
 import Slider from "react-slick";
 
@@ -16,19 +18,46 @@ const ImageGallery = ({ images }) => {
     swipeToSlide: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    customPaging: (i) => (
-      <a>
-        <img src={images[i].node.url160wide} />
-      </a>
-    ),
+    customPaging: (i) =>
+      i < images.length ? <img src={images[i]?.node.url160wide} /> : <a></a>,
   };
 
-  console.log("image", images[0]);
+  console.log("image", images);
   return (
     <Slider {...sliderSettings}>
       {images.map((image, index) => (
         <div key={index}>
-          <img src={image.node.url640wide} />
+          <ImageMagnify
+            {...{
+              smallImage: {
+                alt: image.node.altText || "Product",
+                // isFluidWidth: true,
+                width: 500,
+                height: 500,
+                src: image.node.url640wide,
+                srcSet: [
+                  `${image.node.url160wide} 160w`,
+                  `${image.node.url320wide} 320w`,
+                  `${image.node.url640wide} 640w`,
+                ].join(", "),
+                sizes: "(min-width: 480px) 30vw, 80vw",
+                // sizes:
+                //   "(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px",
+                sizes:
+                  "(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px",
+              },
+              largeImage: {
+                src: image.node.urlOriginal,
+                width: 1000,
+                height: 1000,
+              },
+              isHintEnabled: true,
+              shouldHideHintAfterFirstActivation: false,
+              enlargedImagePosition: "over",
+              enlargedImageClassName: "enlarged-image",
+              hoverDelayInMs: 0,
+            }}
+          />
         </div>
       ))}
     </Slider>

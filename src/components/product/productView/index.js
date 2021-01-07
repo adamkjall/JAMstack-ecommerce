@@ -56,10 +56,18 @@ const ProductView = ({ product }) => {
 
   return (
     <div className="my-8">
-      <div className="grid grid-cols-2 gap-16">
-        <div className="image-gallery">
-          <ImageGallery images={product.images.edges} />
-          {/* <Image
+      <div
+        style={
+          {
+            // display: "flex",
+            // flex: "0 0 30%",
+          }
+        }
+      ></div>
+      <div className="grid grid-cols-2 gap-16 pb-16">
+        <ImageGallery images={product.images.edges} />
+        {/* <div className="image-gallery"> */}
+        {/* <Image
             src={activeImage?.node?.url640wide || "/"}
             alt={activeImage?.node?.altText || "Product"}
             width="640"
@@ -67,8 +75,8 @@ const ProductView = ({ product }) => {
             quality="85"
           />
           <div className="grid grid-flow-col gap-6 mt-4"> */}
-          {/* TODO fix slow change of image, image gallery component? */}
-          {/* {product.images.edges.map((imageData) => (
+        {/* TODO fix slow change of image, image gallery component? */}
+        {/* {product.images.edges.map((imageData) => (
               <Image
                 className="cursor-pointer"
                 key={imageData.node.url160wide}
@@ -81,7 +89,7 @@ const ProductView = ({ product }) => {
               />
             ))}
           </div> */}
-        </div>
+        {/* </div> */}
         <div>
           <div className="brand">{product?.brand?.name}</div>
           <h2 className="text-2xl bold">{product.name}</h2>
