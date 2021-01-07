@@ -19,14 +19,14 @@ const Navbar = () => {
         </a>
       </Link>
       <div className="flex space-x-8 uppercase">
-        <Link href="/products/">
-          <a className="">Produkter</a>
+        <Link href="/">
+          <a className="">Products</a>
         </Link>
         <Link href="/blog/">
           <a className="">Blog</a>
         </Link>
         <Link href="/about/">
-          <a className="">Om oss</a>
+          <a className="">About</a>
         </Link>
       </div>
       <div className="flex space-x-4">

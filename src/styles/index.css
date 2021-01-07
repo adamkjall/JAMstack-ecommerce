@@ -45,6 +45,7 @@ a {
 
 .slick-slider .slick-slide img {
   margin: 0 auto;
+  max-width: none;
 }
 
 .enlarged-image {

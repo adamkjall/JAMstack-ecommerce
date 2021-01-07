@@ -9,6 +9,8 @@ import NextIcon from "../../../public/icons/next.svg";
 const ImageGallery = ({ images }) => {
   const sliderSettings = {
     dots: true,
+    // centerMode: true,
+    // centerPadding: "0px",
     dotsClass: "slick-dots slick-thumb",
     lazyload: true,
     infinite: true,
@@ -31,20 +33,8 @@ const ImageGallery = ({ images }) => {
             {...{
               smallImage: {
                 alt: image.node.altText || "Product",
-                // isFluidWidth: true,
-                width: 500,
-                height: 500,
+                isFluidWidth: true,
                 src: image.node.url640wide,
-                srcSet: [
-                  `${image.node.url160wide} 160w`,
-                  `${image.node.url320wide} 320w`,
-                  `${image.node.url640wide} 640w`,
-                ].join(", "),
-                sizes: "(min-width: 480px) 30vw, 80vw",
-                // sizes:
-                //   "(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px",
-                sizes:
-                  "(max-width: 480px) 100vw, (max-width: 1200px) 30vw, 360px",
               },
               largeImage: {
                 src: image.node.urlOriginal,
