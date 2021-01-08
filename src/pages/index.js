@@ -33,7 +33,7 @@ function Home({ products }) {
 }
 
 export async function getStaticProps({ locale, preview = false }) {
-  const products = await getAllProducts(20);
+  const products = await getAllProducts(50);
 
   return {
     props: {

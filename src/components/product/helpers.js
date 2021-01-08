@@ -21,7 +21,7 @@ export function getCurrentVariant(product, opts) {
     return Object.entries(opts).every(([key, value]) =>
       node?.productOptions.edges?.find((edge) => {
         if (
-          edge?.node.__typename === "MultipleChoiceOption" &&
+          // edge?.node.__typename === "MultipleChoiceOption" &&
           edge.node.displayName.toLowerCase() === key
         ) {
           return edge.node.values.edges?.find(

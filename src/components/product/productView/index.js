@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NextSeo } from "next-seo";
+import { useRouter } from "next/router";
 import parse from "html-react-parser";
 
 import useAddItem from "@bigcommerce/storefront-data-hooks/cart/use-add-item";
@@ -14,10 +15,35 @@ import { getCurrentVariant, getProductOptions } from "../helpers";
 
 const ProductView = ({ product }) => {
   const [loading, setLoading] = useState(false);
-  const [choices, setChoices] = useState({
-    size: null,
-    color: null,
-  });
+  const [choices, setChoices] = useState();
+  // options.reduce(
+  //   (choices, opt) => ({
+  //     ...choices,
+  //     [opt.displayName]: opt.values[0].label,
+  //   }),
+  //   {}
+  // )
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const options = getProductOptions(product);
+    const intialChoices = options.reduce(
+      (choices, opt) => ({
+        ...choices,
+        [opt.displayName]: opt.values[0].label,
+      }),
+      {}
+    );
+    setChoices(intialChoices);
+  }, [router.query]);
+
+  useEffect(() => {
+    if (!choices) return;
+
+    const variant = getCurrentVariant(product, choices);
+    setSelectedVariant(variant);
+  }, [choices]);
 
   const addItem = useAddItem();
   const { openSidebar } = useUI();
@@ -32,20 +58,27 @@ const ProductView = ({ product }) => {
   });
 
   const onSale = product.prices.price.value < product.prices.basePrice.value;
-  const options = getProductOptions(product);
-  const variant =
-    getCurrentVariant(product, choices) || product.variants.edges?.[0];
+  // const options = getProductOptions(product);
 
-  console.log("options", options);
-  console.log("variant", variant);
+  // console.log("variant", variant);
+  // console.log("variants", product.variants.edges);
+  // console.log("options", options);
+  // console.log("variant", variant);
+  console.log("choices", choices);
+  // console.log("product", product);
+  // useEffect(() => {
+
+  // }, choices)
 
   const addToCart = async () => {
     // TODO check if required choices are selcted before adding
     setLoading(true);
     try {
+      // const vari = await getVariantById(variant.node.entityId);
+      // console.log("variant", vari);
       await addItem({
         productId: product.entityId,
-        variantId: product.variants.edges?.[0].node.entityId, // TODO look up the correct variant
+        variantId: selectedVariant?.node.entityId, // TODO look up the correct variant
       });
       openSidebar();
       setLoading(false);
@@ -54,8 +87,6 @@ const ProductView = ({ product }) => {
       setLoading(false);
     }
   };
-
-  console.log("prod", product);
 
   const sizes = product.productOptions.edges.find(
     (option) => option.node.displayName === "Size"
@@ -95,42 +126,88 @@ const ProductView = ({ product }) => {
             )}
           </div>
 
-          <div className="options mt-2">
-            {sizes && (
-              <div>
-                <label htmlFor="sizes">Size:</label>
-                <select name="sizes" id="sizes" className="ml-2">
-                  {sizes.node.values.edges.map((val, i) => (
-                    <option key={i} value={val.node.label}>
-                      {val.node.label}
-                    </option>
+          {choices && (
+            <div className="options mt-4">
+              {colors && (
+                <div className="flex items-center space-x-3">
+                  <strong>Color:</strong>
+                  {colors.node.values.edges.map((color, i) => (
+                    <div
+                      className={`${
+                        choices.color === color.node.label &&
+                        "border-2 border-black border-"
+                      } rounded-full`}
+                    >
+                      <div
+                        className={`rounded-full w-8 h-8 m-px`}
+                        style={{
+                          backgroundColor: `${color.node.hexColors[0]}`,
+                        }}
+                        onClick={() =>
+                          setChoices((choices) => ({
+                            ...choices,
+                            color: color.node.label,
+                          }))
+                        }
+                      ></div>
+                    </div>
                   ))}
-                </select>
-              </div>
-            )}
-            {colors && (
-              <div>
-                <label htmlFor="colors">Color:</label>
-                <select name="colors" id="colors" className="ml-2">
+                  {/* <select
+                  name="colors"
+                  id="colors"
+                  className="ml-2"
+                  onChange={(e) =>
+                    setChoices((choices) => ({
+                      ...choices,
+                      color: e.target.value,
+                    }))
+                  }
+                >
                   {colors.node.values.edges.map((val, i) => (
                     <option key={i} value={val.node.label}>
                       {val.node.label}
                     </option>
                   ))}
-                </select>
-              </div>
-            )}
-          </div>
+                </select> */}
+                </div>
+              )}
+              {sizes && (
+                <div className="mt-3">
+                  <label htmlFor="sizes">
+                    <strong>Size:</strong>
+                  </label>
+                  <select
+                    name="sizes"
+                    id="sizes"
+                    className="ml-2"
+                    defaultValue={choices.size}
+                    onChange={(e) =>
+                      setChoices((choices) => ({
+                        ...choices,
+                        size: e.target.value,
+                      }))
+                    }
+                  >
+                    {sizes.node.values.edges.map((val, i) => (
+                      <option key={i} value={val.node.label}>
+                        {val.node.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* TODO refactor button */}
           <button
-            className="bg-black text-white px-4 py-1 rounded mt-4"
+            className="bg-black text-white px-4 py-1 rounded mt-6"
             onClick={addToCart}
             disabled={loading}
           >
             ADD TO CART
           </button>
-          <div className="py-4">{parse(product.description)}</div>
+          <div className="pt-8">{parse(product.description)}</div>
         </div>
       </div>
       {product.relatedProducts.edges.length > 0 && (

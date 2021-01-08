@@ -119,6 +119,10 @@ export const getProductBySlug = async (slug) => {
                   node {
                     id
                     entityId
+                    sku
+                    inventory {
+                      isInStock  
+                    }
                     productOptions {
                       edges {
                         node {
@@ -192,4 +196,47 @@ export const getProductBySlug = async (slug) => {
   );
 
   return res.data.site.route.node;
+};
+
+export const getVariantById = async (entityId) => {
+  const res = await fetchGraphqlApi(
+    `
+      query variantById($variantEntityId: Int!) {
+        site {
+          product(variantEntityId: $variantEntityId) {
+            name
+            sku
+            defaultImage {
+              url(width: 500, height: 500)
+            }
+            productOptions {
+              edges {
+                node {
+                  entityId
+                  displayName
+                  isRequired
+                  __typename
+                  ... on MultipleChoiceOption {
+                    values {
+                      edges {
+                        node {
+                          label
+                          entityId
+                          ... on SwatchOptionValue {
+                            hexColors
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    { variables: { variantEntityId: entityId } }
+  );
+  return res.data.site.product;
 };
