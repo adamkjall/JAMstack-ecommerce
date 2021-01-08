@@ -16,15 +16,20 @@ import { getCurrentVariant, getProductOptions } from "../helpers";
 const ProductView = ({ product }) => {
   const [loading, setLoading] = useState(false);
   const [choices, setChoices] = useState();
-  // options.reduce(
-  //   (choices, opt) => ({
-  //     ...choices,
-  //     [opt.displayName]: opt.values[0].label,
-  //   }),
-  //   {}
-  // )
   const [selectedVariant, setSelectedVariant] = useState(null);
   const router = useRouter();
+
+  const addItem = useAddItem();
+  const { openSidebar } = useUI();
+  const { price } = usePrice({
+    amount: product.prices.price.value,
+    baseAmount: product.prices.basePrice.value,
+    currencyCode: product.prices.price.currencyCode,
+  });
+  const { price: basePrice } = usePrice({
+    amount: product.prices.basePrice.value,
+    currencyCode: product.prices.basePrice.currencyCode,
+  });
 
   useEffect(() => {
     const options = getProductOptions(product);
@@ -45,40 +50,20 @@ const ProductView = ({ product }) => {
     setSelectedVariant(variant);
   }, [choices]);
 
-  const addItem = useAddItem();
-  const { openSidebar } = useUI();
-  const { price } = usePrice({
-    amount: product.prices.price.value,
-    baseAmount: product.prices.basePrice.value,
-    currencyCode: product.prices.price.currencyCode,
-  });
-  const { price: basePrice } = usePrice({
-    amount: product.prices.basePrice.value,
-    currencyCode: product.prices.basePrice.currencyCode,
-  });
-
-  const onSale = product.prices.price.value < product.prices.basePrice.value;
-  // const options = getProductOptions(product);
-
   // console.log("variant", variant);
   // console.log("variants", product.variants.edges);
   // console.log("options", options);
   // console.log("variant", variant);
-  console.log("choices", choices);
+  // console.log("choices", choices);
   // console.log("product", product);
-  // useEffect(() => {
-
-  // }, choices)
 
   const addToCart = async () => {
     // TODO check if required choices are selcted before adding
     setLoading(true);
     try {
-      // const vari = await getVariantById(variant.node.entityId);
-      // console.log("variant", vari);
       await addItem({
         productId: product.entityId,
-        variantId: selectedVariant?.node.entityId, // TODO look up the correct variant
+        variantId: selectedVariant?.node.entityId,
       });
       openSidebar();
       setLoading(false);
@@ -94,6 +79,7 @@ const ProductView = ({ product }) => {
   const colors = product.productOptions.edges.find(
     (option) => option.node.displayName === "Color"
   );
+  const onSale = product.prices.price.value < product.prices.basePrice.value;
 
   return (
     <div className="my-8">
@@ -152,23 +138,6 @@ const ProductView = ({ product }) => {
                       ></div>
                     </div>
                   ))}
-                  {/* <select
-                  name="colors"
-                  id="colors"
-                  className="ml-2"
-                  onChange={(e) =>
-                    setChoices((choices) => ({
-                      ...choices,
-                      color: e.target.value,
-                    }))
-                  }
-                >
-                  {colors.node.values.edges.map((val, i) => (
-                    <option key={i} value={val.node.label}>
-                      {val.node.label}
-                    </option>
-                  ))}
-                </select> */}
                 </div>
               )}
               {sizes && (
