@@ -91,17 +91,23 @@ export const getProductBySlug = async (slug) => {
                   currencyCode
                 }
               }
-              options {
+              productOptions {
                 edges {
                   node {
                     entityId
                     displayName
                     isRequired
-                    values {
-                      edges {
-                        node {
-                          entityId
-                          label
+                    __typename
+                    ... on MultipleChoiceOption {
+                      values {
+                        edges {
+                          node {
+                            label
+                            entityId
+                            ... on SwatchOptionValue {
+                              hexColors
+                            }
+                          }
                         }
                       }
                     }
@@ -113,22 +119,23 @@ export const getProductBySlug = async (slug) => {
                   node {
                     id
                     entityId
-                    defaultImage {
-                      altText
-                      url160wide: url(width: 160)
-                      url320wide: url(width: 320)
-                    }
-                    options {
+                    productOptions {
                       edges {
                         node {
+                          entityId
                           displayName
                           isRequired
-                          entityId
-                          values {
-                            edges {
-                              node {
-                                label
-                                entityId
+                          __typename
+                          ... on MultipleChoiceOption {
+                            values {
+                              edges {
+                                node {
+                                  label
+                                  entityId
+                                  ... on SwatchOptionValue {
+                                    hexColors
+                                  }
+                                }
                               }
                             }
                           }

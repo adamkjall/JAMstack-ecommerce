@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NextSeo } from "next-seo";
 import parse from "html-react-parser";
 
 import useAddItem from "@bigcommerce/storefront-data-hooks/cart/use-add-item";
@@ -9,11 +10,17 @@ import { useUI } from "contexts/ui/context";
 import ProductCard from "../productCard";
 import ImageGallery from "../../imageGallery";
 
+import { getCurrentVariant, getProductOptions } from "../helpers";
+
 const ProductView = ({ product }) => {
   const [loading, setLoading] = useState(false);
+  const [choices, setChoices] = useState({
+    size: null,
+    color: null,
+  });
+
   const addItem = useAddItem();
   const { openSidebar } = useUI();
-
   const { price } = usePrice({
     amount: product.prices.price.value,
     baseAmount: product.prices.basePrice.value,
@@ -25,13 +32,20 @@ const ProductView = ({ product }) => {
   });
 
   const onSale = product.prices.price.value < product.prices.basePrice.value;
+  const options = getProductOptions(product);
+  const variant =
+    getCurrentVariant(product, choices) || product.variants.edges?.[0];
+
+  console.log("options", options);
+  console.log("variant", variant);
 
   const addToCart = async () => {
+    // TODO check if required choices are selcted before adding
     setLoading(true);
     try {
       await addItem({
         productId: product.entityId,
-        variantId: product.variants.edges?.[0].node.entityId,
+        variantId: product.variants.edges?.[0].node.entityId, // TODO look up the correct variant
       });
       openSidebar();
       setLoading(false);
@@ -43,15 +57,32 @@ const ProductView = ({ product }) => {
 
   console.log("prod", product);
 
-  const sizes = product.options.edges.find(
+  const sizes = product.productOptions.edges.find(
     (option) => option.node.displayName === "Size"
   );
-  const colors = product.options.edges.find(
+  const colors = product.productOptions.edges.find(
     (option) => option.node.displayName === "Color"
   );
 
   return (
     <div className="my-8">
+      <NextSeo
+        title={product.name}
+        description={product.description}
+        openGraph={{
+          type: "website",
+          title: product.name,
+          description: product.description,
+          images: [
+            {
+              url: product.images.edges?.[0]?.node.urlOriginal,
+              width: 800,
+              height: 600,
+              alt: product.name,
+            },
+          ],
+        }}
+      />
       <div className="grid grid-cols-2 gap-16 pb-16">
         <ImageGallery images={product.images.edges} />
         <div>
@@ -69,8 +100,10 @@ const ProductView = ({ product }) => {
               <div>
                 <label htmlFor="sizes">Size:</label>
                 <select name="sizes" id="sizes" className="ml-2">
-                  {sizes.node.values.edges.map((val) => (
-                    <option value={val.node.label}>{val.node.label}</option>
+                  {sizes.node.values.edges.map((val, i) => (
+                    <option key={i} value={val.node.label}>
+                      {val.node.label}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -79,8 +112,10 @@ const ProductView = ({ product }) => {
               <div>
                 <label htmlFor="colors">Color:</label>
                 <select name="colors" id="colors" className="ml-2">
-                  {colors.node.values.edges.map((val) => (
-                    <option value={val.node.label}>{val.node.label}</option>
+                  {colors.node.values.edges.map((val, i) => (
+                    <option key={i} value={val.node.label}>
+                      {val.node.label}
+                    </option>
                   ))}
                 </select>
               </div>
