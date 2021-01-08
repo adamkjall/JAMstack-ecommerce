@@ -11,11 +11,16 @@ import { useUI } from "contexts/ui/context";
 import ProductCard from "../productCard";
 import ImageGallery from "../../imageGallery";
 
-import { getCurrentVariant, getProductOptions } from "../helpers";
+import {
+  getCurrentVariant,
+  getProductOptions,
+  getSizesForColorVariant,
+} from "../helpers";
 
 const ProductView = ({ product }) => {
   const [loading, setLoading] = useState(false);
   const [choices, setChoices] = useState();
+  const [sizes, setSizes] = useState();
   const [selectedVariant, setSelectedVariant] = useState(null);
   const router = useRouter();
 
@@ -41,6 +46,11 @@ const ProductView = ({ product }) => {
       {}
     );
     setChoices(intialChoices);
+
+    if (intialChoices.color && intialChoices.size) {
+      const sizesData = getSizesForColorVariant(product, intialChoices.color);
+      setSizes(sizesData);
+    }
   }, [router.query]);
 
   useEffect(() => {
@@ -48,6 +58,11 @@ const ProductView = ({ product }) => {
 
     const variant = getCurrentVariant(product, choices);
     setSelectedVariant(variant);
+
+    if (choices.color && choices.size) {
+      const sizesData = getSizesForColorVariant(product, choices.color);
+      setSizes(sizesData);
+    }
   }, [choices]);
 
   // console.log("variant", variant);
@@ -55,7 +70,9 @@ const ProductView = ({ product }) => {
   // console.log("options", options);
   // console.log("variant", variant);
   // console.log("choices", choices);
+  // console.log("selected", selectedVariant);
   // console.log("product", product);
+  // console.log("sizes", sizes);
 
   const addToCart = async () => {
     // TODO check if required choices are selcted before adding
@@ -73,9 +90,6 @@ const ProductView = ({ product }) => {
     }
   };
 
-  const sizes = product.productOptions.edges.find(
-    (option) => option.node.displayName === "Size"
-  );
   const colors = product.productOptions.edges.find(
     (option) => option.node.displayName === "Color"
   );
@@ -119,6 +133,7 @@ const ProductView = ({ product }) => {
                   <strong>Color:</strong>
                   {colors.node.values.edges.map((color, i) => (
                     <div
+                      key={i}
                       className={`${
                         choices.color === color.node.label &&
                         "border-2 border-black border-"
@@ -157,9 +172,13 @@ const ProductView = ({ product }) => {
                       }))
                     }
                   >
-                    {sizes.node.values.edges.map((val, i) => (
-                      <option key={i} value={val.node.label}>
-                        {val.node.label}
+                    {/* TODO prettify & prohibit item that's not in stock to be placed in cart */}
+                    {sizes.map((size) => (
+                      <option key={size.entityId} value={size.label}>
+                        {size.label}{" "}
+                        {size.inventory?.isInStock
+                          ? " in stock"
+                          : " not in stock"}
                       </option>
                     ))}
                   </select>

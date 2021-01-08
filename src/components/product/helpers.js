@@ -20,10 +20,7 @@ export function getCurrentVariant(product, opts) {
 
     return Object.entries(opts).every(([key, value]) =>
       node?.productOptions.edges?.find((edge) => {
-        if (
-          // edge?.node.__typename === "MultipleChoiceOption" &&
-          edge.node.displayName.toLowerCase() === key
-        ) {
+        if (edge.node.displayName.toLowerCase() === key) {
           return edge.node.values.edges?.find(
             (valueEdge) => valueEdge?.node.label === value
           );
@@ -33,4 +30,25 @@ export function getCurrentVariant(product, opts) {
   });
 
   return variant;
+}
+
+export function getSizesForColorVariant(product, color) {
+  const sizesForVariant = product.variants.edges.reduce((acc, variant) => {
+    const colorNode = variant.node.productOptions.edges.find(
+      ({ node }) => node.displayName === "Color"
+    );
+    const colorData = colorNode.node.values.edges[0].node;
+
+    if (colorData.label === color) {
+      const sizesNode = variant.node.productOptions.edges.find(
+        ({ node }) => node.displayName === "Size"
+      );
+      const sizeData = sizesNode.node.values.edges[0].node;
+
+      return [...acc, { ...sizeData, inventory: variant.node.inventory }];
+    }
+    return acc;
+  }, []);
+
+  return sizesForVariant;
 }

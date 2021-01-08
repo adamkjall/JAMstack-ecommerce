@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 // import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProductPaths from "@bigcommerce/storefront-data-hooks/api/operations/get-all-product-paths";
 
-import { getProductBySlug, getVariantById } from "lib/bigcommerce/operations";
+import { getProductBySlug } from "lib/bigcommerce/operations";
 
 import ProductView from "components/product/productView";
 
@@ -19,7 +19,7 @@ export default function Slug({ product }) {
 
 export async function getStaticProps({ params, locale, preview }) {
   const product = await getProductBySlug(params.slug);
-  const variant = await getVariantById(153);
+  // const variant = await getVariantById(153);
   // console.log("variant", variant.productOptions.edges[0].node.displayName);
   // console.log("variant", variant.productOptions.edges[0].node.values.edges);
   // console.log("variant", variant.productOptions.edges[1].node.displayName);
