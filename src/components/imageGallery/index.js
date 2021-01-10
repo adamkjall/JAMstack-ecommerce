@@ -9,7 +9,6 @@ const ImageGallery = ({ images }) => {
     dots: true,
     // centerMode: true,
     // centerPadding: "0px",
-    adaptiveHeight: true,
     dotsClass: "slick-dots slick-thumb",
     lazyload: true,
     infinite: true,
@@ -17,6 +16,7 @@ const ImageGallery = ({ images }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: true,
+    // arrows: false,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     customPaging: (i) =>

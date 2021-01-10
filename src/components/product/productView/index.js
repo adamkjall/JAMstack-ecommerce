@@ -80,8 +80,8 @@ const ProductView = ({ product }) => {
   // console.log("choices", choices);
   // console.log("selected", selectedVariant);
   console.log("product", product);
-  // console.log("sizes", sizes);
-  console.log("colors", colors);
+  console.log("sizes", sizes);
+  // console.log("colors", colors);
 
   const addToCart = async () => {
     // TODO check if required choices are selcted before adding
@@ -161,8 +161,8 @@ const ProductView = ({ product }) => {
                           <div
                             style={{
                               position: "relative",
-                              width: "50px",
-                              height: "50px",
+                              width: "60px",
+                              height: "60px",
                             }}
                           >
                             <Image
@@ -190,8 +190,11 @@ const ProductView = ({ product }) => {
                       <div
                         key={size.entityId}
                         className={`${
-                          choices.size === size.label
+                          choices.size === size.label &&
+                          (size.inventory?.isInStock || size.inventory === null)
                             ? "bg-green-500 text-white"
+                            : !size?.inventory?.isInStock
+                            ? "bg-red-400"
                             : "bg-gray-200"
                         } font-bold px-4 py-2 cursor-pointer`}
                         onClick={() =>
