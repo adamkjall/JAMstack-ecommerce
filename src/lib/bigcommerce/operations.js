@@ -120,6 +120,9 @@ export const getProductBySlug = async (slug) => {
                     id
                     entityId
                     sku
+                    defaultImage {
+                      url160wide: url(width: 160)
+                    }
                     inventory {
                       isInStock  
                     }

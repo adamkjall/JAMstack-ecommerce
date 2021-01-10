@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
+import Image from "next/image";
 import parse from "html-react-parser";
 
 import useAddItem from "@bigcommerce/storefront-data-hooks/cart/use-add-item";
@@ -21,6 +22,7 @@ const ProductView = ({ product }) => {
   const [loading, setLoading] = useState(false);
   const [choices, setChoices] = useState();
   const [sizes, setSizes] = useState();
+  const [colors, setColors] = useState();
   const [selectedVariant, setSelectedVariant] = useState(null);
   const router = useRouter();
 
@@ -36,6 +38,7 @@ const ProductView = ({ product }) => {
     currencyCode: product.prices.basePrice.currencyCode,
   });
 
+  // run on component mount and product url change
   useEffect(() => {
     const options = getProductOptions(product);
     const intialChoices = options.reduce(
@@ -47,12 +50,20 @@ const ProductView = ({ product }) => {
     );
     setChoices(intialChoices);
 
-    if (intialChoices.color && intialChoices.size) {
-      const sizesData = getSizesForColorVariant(product, intialChoices.color);
-      setSizes(sizesData);
-    }
-  }, [router.query]);
+    // set colors
+    const colorData = product.variants.edges.reduce((acc, variant) => {
+      const colorData = variant.node.productOptions.edges.find(
+        (opt) => opt.node.displayName === "Color"
+      );
+      const color = colorData.node.values.edges[0].node.label;
 
+      return { ...acc, [color]: variant.node.defaultImage.url160wide };
+    }, {});
+
+    setColors(colorData);
+  }, [router.query]);
+  console.log("colors2", colors);
+  // sideeffect when product choices are changed
   useEffect(() => {
     if (!choices) return;
 
@@ -70,7 +81,7 @@ const ProductView = ({ product }) => {
   // console.log("options", options);
   // console.log("variant", variant);
   // console.log("choices", choices);
-  console.log("selected", selectedVariant);
+  // console.log("selected", selectedVariant);
   // console.log("product", product);
   // console.log("sizes", sizes);
 
@@ -90,9 +101,6 @@ const ProductView = ({ product }) => {
     }
   };
 
-  const colors = product.productOptions.edges.find(
-    (option) => option.node.displayName === "Color"
-  );
   const onSale = product.prices.price.value < product.prices.basePrice.value;
   const inStock = selectedVariant?.node.inventory.isInStock;
 
@@ -119,8 +127,8 @@ const ProductView = ({ product }) => {
         <ImageGallery images={product.images.edges} />
         <div>
           <div className="brand">{product?.brand?.name}</div>
-          <h2 className="text-2xl bold">{product.name}</h2>
-          <div className="price flex justify-between text-2xl mt-4">
+          <h2 className="text-2xl font-semibold">{product.name}</h2>
+          <div className="price flex justify-between text-4xl mt-3 font-bold">
             <span className={`${onSale && "text-red-500"}`}>{price}</span>
             {onSale && (
               <span className="line-through opacity-40">{basePrice}</span>
@@ -128,32 +136,34 @@ const ProductView = ({ product }) => {
           </div>
 
           {choices && (
-            <div className="options mt-4">
+            <div className="options mt-5">
               {colors && (
-                <div className="flex items-center space-x-3">
-                  <strong>Color:</strong>
-                  {colors.node.values.edges.map((color, i) => (
-                    <div
-                      key={i}
-                      className={`${
-                        choices.color === color.node.label &&
-                        "border-2 border-black border-"
-                      } rounded-full`}
-                    >
+                <div className="">
+                  <div className="mb-2">
+                    <strong>Color:</strong> {choices.color}
+                  </div>
+                  <div className="flex">
+                    {Object.entries(colors).map(([color, imageUrl]) => (
                       <div
-                        className={`rounded-full w-8 h-8 m-px`}
-                        style={{
-                          backgroundColor: `${color.node.hexColors[0]}`,
-                        }}
-                        onClick={() =>
-                          setChoices((choices) => ({
-                            ...choices,
-                            color: color.node.label,
-                          }))
-                        }
-                      ></div>
-                    </div>
-                  ))}
+                        key={color}
+                        className={`${
+                          choices.color === color && "border-2 border-black"
+                        }  p-1 flex items-center`}
+                      >
+                        <Image
+                          src={imageUrl}
+                          width="60"
+                          height="60"
+                          onClick={() =>
+                            setChoices((choices) => ({
+                              ...choices,
+                              color: color,
+                            }))
+                          }
+                        ></Image>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
               {sizes && (
@@ -177,9 +187,7 @@ const ProductView = ({ product }) => {
                     {sizes.map((size) => (
                       <option key={size.entityId} value={size.label}>
                         {size.label}{" "}
-                        {size.inventory?.isInStock
-                          ? " - in stock"
-                          : " - not in stock"}
+                        {!size.inventory?.isInStock && " (not in stock)"}
                       </option>
                     ))}
                   </select>
