@@ -35,13 +35,13 @@ export function getCurrentVariant(product, opts) {
 export function getSizesForColorVariant(product, color) {
   const sizesForVariant = product.variants.edges.reduce((acc, variant) => {
     const colorNode = variant.node.productOptions.edges.find(
-      ({ node }) => node.displayName === "Color"
+      ({ node }) => node.displayName.toLowerCase() === "color"
     );
     const colorData = colorNode.node.values.edges[0].node;
 
     if (colorData.label === color) {
       const sizesNode = variant.node.productOptions.edges.find(
-        ({ node }) => node.displayName === "Size"
+        ({ node }) => node.displayName.toLowerCase() === "size"
       );
       const sizeData = sizesNode.node.values.edges[0].node;
 
@@ -54,14 +54,18 @@ export function getSizesForColorVariant(product, color) {
 }
 
 export function mapColorsToImages(product) {
-  const colorData = product.variants.edges.reduce((acc, variant) => {
+  const map = product.variants.edges.reduce((acc, variant) => {
     const colorData = variant.node.productOptions.edges.find(
-      (opt) => opt.node.displayName === "Color"
+      (opt) => opt.node.displayName.toLowerCase() === "color"
     );
+    if (!colorData) return { ...acc };
     const color = colorData.node.values.edges[0].node.label;
 
-    return { ...acc, [color]: variant.node.defaultImage?.url160wide || "/" };
+    return {
+      ...acc,
+      [color]: variant.node.defaultImage?.url160wide || undefined,
+    };
   }, {});
 
-  return colorData;
+  return map;
 }

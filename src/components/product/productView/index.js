@@ -52,10 +52,14 @@ const ProductView = ({ product }) => {
     );
     setChoices(intialChoices);
 
-    // map colors with product image
-    const colorMap = mapColorsToImages(product);
-
-    setColors(colorMap);
+    const hasColorOption = product.productOptions.edges.find(
+      ({ node }) => node.displayName.toLowerCase() === "color"
+    );
+    if (hasColorOption) {
+      // map colors with product image
+      const colorMap = mapColorsToImages(product);
+      setColors(colorMap);
+    }
   }, [router.query]);
 
   // sideeffect when product choices are changed
@@ -118,7 +122,9 @@ const ProductView = ({ product }) => {
         }}
       />
       <div className="grid grid-cols-2 gap-16 pb-16">
-        <ImageGallery images={product.images.edges} />
+        <div>
+          <ImageGallery images={product.images.edges} />
+        </div>
         <div>
           <div className="brand">{product?.brand?.name}</div>
           <h2 className="text-2xl font-semibold">{product.name}</h2>
@@ -151,19 +157,23 @@ const ProductView = ({ product }) => {
                           }))
                         }
                       >
-                        <div
-                          style={{
-                            position: "relative",
-                            width: "50px",
-                            height: "50px",
-                          }}
-                        >
-                          <Image
-                            src={imageUrl}
-                            layout="fill"
-                            objectFit="cover"
-                          />
-                        </div>
+                        {imageUrl ? (
+                          <div
+                            style={{
+                              position: "relative",
+                              width: "50px",
+                              height: "50px",
+                            }}
+                          >
+                            <Image
+                              src={imageUrl}
+                              layout="fill"
+                              objectFit="cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="px-1">{color}</div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -218,8 +228,8 @@ const ProductView = ({ product }) => {
         <div>
           <h2 className="text-xl mt-12">Related products</h2>
 
-          <div className="flex space-x-4">
-            {product.relatedProducts.edges.map((p) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {product.relatedProducts.edges.slice(0, 4).map((p) => (
               <ProductCard key={p.node.id} product={p} />
             ))}
           </div>
