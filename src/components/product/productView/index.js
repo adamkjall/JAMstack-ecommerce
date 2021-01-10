@@ -191,9 +191,9 @@ const ProductView = ({ product }) => {
                         key={size.entityId}
                         className={`${
                           choices.size === size.label &&
-                          (size.inventory?.isInStock || size.inventory === null)
+                          (!size.inventory || size.inventory.isInStock)
                             ? "bg-green-500 text-white"
-                            : !size?.inventory?.isInStock
+                            : size.inventory && !size?.inventory?.isInStock
                             ? "bg-red-400"
                             : "bg-gray-200"
                         } font-bold px-4 py-2 cursor-pointer`}
