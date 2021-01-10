@@ -21,12 +21,14 @@ const ProductCard = ({ product }) => {
   return (
     <Link href={"/product" + product.node.path}>
       <div className="rounded shadow-lg p-4 cursor-pointer">
-        <Image
-          src={product.node.defaultImage.url320wide || "/"}
-          alt={product.node.defaultImage.altText || "Product"}
-          width="320"
-          height="320"
-        />
+        <div style={{ position: "relative", width: "auto", height: "200px" }}>
+          <Image
+            src={product.node.defaultImage.url320wide || "/"}
+            alt={product.node.defaultImage.altText || "Product"}
+            layout="fill"
+            objectFit="cover"
+          />
+        </div>
         <div className="brand text-sm mt-2">{product.node?.brand?.name}</div>
         <h2 className="text-lg ">{product.node.name}</h2>
         <div className="flex justify-between text-xl mt-3 ">
