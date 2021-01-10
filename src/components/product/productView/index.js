@@ -16,6 +16,7 @@ import {
   getCurrentVariant,
   getProductOptions,
   getSizesForColorVariant,
+  mapColorsToImages,
 } from "../helpers";
 
 const ProductView = ({ product }) => {
@@ -41,6 +42,7 @@ const ProductView = ({ product }) => {
   // run on component mount and product url change
   useEffect(() => {
     const options = getProductOptions(product);
+    // find intial options
     const intialChoices = options.reduce(
       (choices, opt) => ({
         ...choices,
@@ -50,19 +52,12 @@ const ProductView = ({ product }) => {
     );
     setChoices(intialChoices);
 
-    // set colors
-    const colorData = product.variants.edges.reduce((acc, variant) => {
-      const colorData = variant.node.productOptions.edges.find(
-        (opt) => opt.node.displayName === "Color"
-      );
-      const color = colorData.node.values.edges[0].node.label;
+    // map colors with product image
+    const colorMap = mapColorsToImages(product);
 
-      return { ...acc, [color]: variant.node.defaultImage.url160wide };
-    }, {});
-
-    setColors(colorData);
+    setColors(colorMap);
   }, [router.query]);
-  console.log("colors2", colors);
+
   // sideeffect when product choices are changed
   useEffect(() => {
     if (!choices) return;
@@ -137,6 +132,7 @@ const ProductView = ({ product }) => {
 
           {choices && (
             <div className="options mt-5">
+              {/* TODO refactor component  */}
               {colors && (
                 <div className="">
                   <div className="mb-2">
@@ -168,29 +164,30 @@ const ProductView = ({ product }) => {
               )}
               {sizes && (
                 <div className="mt-3">
-                  <label htmlFor="sizes">
+                  <div>
                     <strong>Size:</strong>
-                  </label>
-                  <select
-                    name="sizes"
-                    id="sizes"
-                    className="ml-2"
-                    defaultValue={choices.size}
-                    onChange={(e) =>
-                      setChoices((choices) => ({
-                        ...choices,
-                        size: e.target.value,
-                      }))
-                    }
-                  >
-                    {/* TODO prettify  */}
+                  </div>
+                  <div className="flex space-x-3">
+                    {/* TODO refactor component  */}
                     {sizes.map((size) => (
-                      <option key={size.entityId} value={size.label}>
-                        {size.label}{" "}
-                        {!size.inventory?.isInStock && " (not in stock)"}
-                      </option>
+                      <div
+                        key={size.entityId}
+                        className={`${
+                          choices.size === size.label
+                            ? "bg-green-500 text-white"
+                            : "bg-gray-200"
+                        } font-bold px-4 py-2`}
+                        onClick={() =>
+                          setChoices((choices) => ({
+                            ...choices,
+                            size: size.label,
+                          }))
+                        }
+                      >
+                        {size.label}
+                      </div>
                     ))}
-                  </select>
+                  </div>
                 </div>
               )}
             </div>

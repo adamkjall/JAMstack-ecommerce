@@ -52,3 +52,16 @@ export function getSizesForColorVariant(product, color) {
 
   return sizesForVariant;
 }
+
+export function mapColorsToImages(product) {
+  const colorData = product.variants.edges.reduce((acc, variant) => {
+    const colorData = variant.node.productOptions.edges.find(
+      (opt) => opt.node.displayName === "Color"
+    );
+    const color = colorData.node.values.edges[0].node.label;
+
+    return { ...acc, [color]: variant.node.defaultImage.url160wide };
+  }, {});
+
+  return colorData;
+}
