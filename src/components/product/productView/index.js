@@ -71,14 +71,13 @@ const ProductView = ({ product }) => {
     }
   }, [choices]);
 
-  // console.log("variant", variant);
   // console.log("variants", product.variants.edges);
   // console.log("options", options);
-  // console.log("variant", variant);
   // console.log("choices", choices);
   // console.log("selected", selectedVariant);
-  // console.log("product", product);
+  console.log("product", product);
   // console.log("sizes", sizes);
+  console.log("colors", colors);
 
   const addToCart = async () => {
     // TODO check if required choices are selcted before adding
@@ -97,7 +96,7 @@ const ProductView = ({ product }) => {
   };
 
   const onSale = product.prices.price.value < product.prices.basePrice.value;
-  const inStock = selectedVariant?.node.inventory.isInStock;
+  const inStock = selectedVariant?.node.inventory?.isInStock ?? true;
 
   return (
     <div className="my-8">
@@ -144,27 +143,35 @@ const ProductView = ({ product }) => {
                         key={color}
                         className={`${
                           choices.color === color && "border-2 border-black"
-                        }  p-1 flex items-center`}
+                        }  px-1 py-1.5 flex items-center cursor-pointer`}
+                        onClick={() =>
+                          setChoices((choices) => ({
+                            ...choices,
+                            color: color,
+                          }))
+                        }
                       >
-                        <Image
-                          src={imageUrl}
-                          width="60"
-                          height="60"
-                          onClick={() =>
-                            setChoices((choices) => ({
-                              ...choices,
-                              color: color,
-                            }))
-                          }
-                        ></Image>
+                        <div
+                          style={{
+                            position: "relative",
+                            width: "50px",
+                            height: "50px",
+                          }}
+                        >
+                          <Image
+                            src={imageUrl}
+                            layout="fill"
+                            objectFit="cover"
+                          />
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
               {sizes && (
-                <div className="mt-3">
-                  <div>
+                <div className="mt-2">
+                  <div className="mb-2">
                     <strong>Size:</strong>
                   </div>
                   <div className="flex space-x-3">
@@ -176,7 +183,7 @@ const ProductView = ({ product }) => {
                           choices.size === size.label
                             ? "bg-green-500 text-white"
                             : "bg-gray-200"
-                        } font-bold px-4 py-2`}
+                        } font-bold px-4 py-2 cursor-pointer`}
                         onClick={() =>
                           setChoices((choices) => ({
                             ...choices,

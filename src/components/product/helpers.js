@@ -60,7 +60,7 @@ export function mapColorsToImages(product) {
     );
     const color = colorData.node.values.edges[0].node.label;
 
-    return { ...acc, [color]: variant.node.defaultImage.url160wide };
+    return { ...acc, [color]: variant.node.defaultImage?.url160wide || "/" };
   }, {});
 
   return colorData;

@@ -59,13 +59,14 @@ const CartItem = ({ item, currencyCode }) => {
       } flex flex-row space-x-8 py-8`}
     >
       <div className="w-16 h-16 relative overflow-hidden self-center">
-        <Image
-          src={item.image_url}
-          width="60"
-          height="60"
-          alt="Product image"
-          className="w-100 h-full"
-        />
+        <div style={{ position: "relative", width: "60px", height: "60px" }}>
+          <Image
+            src={item.image_url}
+            layout="fill"
+            objectFit="cover"
+            alt="Product"
+          />
+        </div>
       </div>
       <div className="flex flex-1 flex-col text-base">
         <Link href="/">
