@@ -8,8 +8,8 @@ import usePrice from "@bigcommerce/storefront-data-hooks/use-price";
 
 import { useUI } from "contexts/ui/context";
 
-import ProductCard from "../productCard";
-import ImageGallery from "../../imageGallery";
+import ProductCard from "components/product/productCard";
+import ImageGallery from "components/imageGallery";
 
 import {
   getCurrentVariant,
@@ -70,7 +70,7 @@ const ProductView = ({ product }) => {
   // console.log("options", options);
   // console.log("variant", variant);
   // console.log("choices", choices);
-  // console.log("selected", selectedVariant);
+  console.log("selected", selectedVariant);
   // console.log("product", product);
   // console.log("sizes", sizes);
 
@@ -94,6 +94,7 @@ const ProductView = ({ product }) => {
     (option) => option.node.displayName === "Color"
   );
   const onSale = product.prices.price.value < product.prices.basePrice.value;
+  const inStock = selectedVariant?.node.inventory.isInStock;
 
   return (
     <div className="my-8">
@@ -172,13 +173,13 @@ const ProductView = ({ product }) => {
                       }))
                     }
                   >
-                    {/* TODO prettify & prohibit item that's not in stock to be placed in cart */}
+                    {/* TODO prettify  */}
                     {sizes.map((size) => (
                       <option key={size.entityId} value={size.label}>
                         {size.label}{" "}
                         {size.inventory?.isInStock
-                          ? " in stock"
-                          : " not in stock"}
+                          ? " - in stock"
+                          : " - not in stock"}
                       </option>
                     ))}
                   </select>
@@ -189,12 +190,15 @@ const ProductView = ({ product }) => {
 
           {/* TODO refactor button */}
           <button
-            className="bg-black text-white px-4 py-1 rounded mt-6"
+            className={`${
+              inStock ? "bg-black" : "bg-gray-400"
+            }  text-white px-4 py-1 rounded mt-6`}
             onClick={addToCart}
-            disabled={loading}
+            disabled={loading || !inStock}
           >
             ADD TO CART
           </button>
+          {!inStock && <div className="text-red-600">Item not in stock</div>}
           <div className="pt-8">{parse(product.description)}</div>
         </div>
       </div>
