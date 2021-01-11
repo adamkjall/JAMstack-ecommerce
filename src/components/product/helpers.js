@@ -32,6 +32,12 @@ export function getCurrentVariant(product, opts) {
   return variant;
 }
 
+/**
+ * Returns an array where each element is the size data and inventory status
+ *  for a particular color variant
+ * @param {Object} product
+ * @param {string} color
+ */
 export function getSizesForColorVariant(product, color) {
   const sizesForVariant = product.variants.edges.reduce((acc, variant) => {
     const colorNode = variant.node.productOptions.edges.find(
@@ -53,12 +59,17 @@ export function getSizesForColorVariant(product, color) {
   return sizesForVariant;
 }
 
+/**
+ * Maps a products colors to imageUrls
+ * @param {Object} product
+ */
 export function mapColorsToImages(product) {
   const map = product.variants.edges.reduce((acc, variant) => {
     const colorData = variant.node.productOptions.edges.find(
       (opt) => opt.node.displayName.toLowerCase() === "color"
     );
     if (!colorData) return { ...acc };
+
     const color = colorData.node.values.edges[0].node.label;
 
     return {
