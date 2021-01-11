@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 function EmbeddedCheckout(props) {
   const { data } = useCart();
   const [checkoutLoaded, setCheckoutLoaded] = useState(false);
-  console.log("cart data", data);
+
   const containerId = props.containerId || "V1StGXR8_Z5jdHi6B-myT";
 
   useEffect(() => {
@@ -15,18 +15,15 @@ function EmbeddedCheckout(props) {
         cartId: data?.id,
       });
       const url = resp.data.data.embedded_checkout_url;
-      console.log("url", url);
       try {
-        const hej = await embedCheckout({
+        await embedCheckout({
           containerId,
           url,
           onError: (err) => console.error(err),
           onFrameError: (err) => console.error(err),
         });
-        console.log("hej", hej);
         setCheckoutLoaded(true);
       } catch (err) {
-        console.log("åh nej");
         console.error(err);
       }
     };
@@ -34,7 +31,7 @@ function EmbeddedCheckout(props) {
     if (data && !checkoutLoaded) handleEmbed();
   }, [data]);
 
-  return <div id={containerId} />;
+  return <div className="py-4" id={containerId} />;
 }
 
 export default EmbeddedCheckout;
