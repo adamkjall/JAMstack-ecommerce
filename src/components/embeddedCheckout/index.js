@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 function EmbeddedCheckout(props) {
   const { data } = useCart();
   const [checkoutLoaded, setCheckoutLoaded] = useState(false);
-
+  console.log("cart data", data);
   const containerId = props.containerId || "V1StGXR8_Z5jdHi6B-myT";
 
   useEffect(() => {
