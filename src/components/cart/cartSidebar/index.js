@@ -9,15 +9,6 @@ import CartItem from "components/cart/cartItem";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 
-export async function getStaticProps(props) {
-  // checkout.
-
-  return {
-    props: {},
-    revalidate: 60 * 60,
-  };
-}
-
 const CartSidebar = () => {
   const { data, isEmpty } = useCart();
   const { displaySidebar, closeSidebar } = useUI();

@@ -79,8 +79,8 @@ const ProductView = ({ product }) => {
   // console.log("options", options);
   // console.log("choices", choices);
   // console.log("selected", selectedVariant);
-  console.log("product", product);
-  console.log("sizes", sizes);
+  // console.log("product", product);
+  // console.log("sizes", sizes);
   // console.log("colors", colors);
 
   const addToCart = async () => {

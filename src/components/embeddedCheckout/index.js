@@ -15,16 +15,18 @@ function EmbeddedCheckout(props) {
         cartId: data?.id,
       });
       const url = resp.data.data.embedded_checkout_url;
-
+      console.log("url", url);
       try {
-        await embedCheckout({
+        const hej = await embedCheckout({
           containerId,
           url,
           onError: (err) => console.error(err),
           onFrameError: (err) => console.error(err),
         });
+        console.log("hej", hej);
         setCheckoutLoaded(true);
       } catch (err) {
+        console.log("åh nej");
         console.error(err);
       }
     };
