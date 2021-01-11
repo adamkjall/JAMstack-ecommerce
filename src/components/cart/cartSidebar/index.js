@@ -1,6 +1,6 @@
 import useCart from "@bigcommerce/storefront-data-hooks/cart/use-cart";
 import usePrice from "@bigcommerce/storefront-data-hooks/use-price";
-// import asd from "@bigcommerce/storefront-data-hooks/api/";
+// import checkout  from "@bigcommerce/storefront-data-hooks/api/checkout";
 
 import { useUI } from "contexts/ui/context";
 
@@ -8,6 +8,15 @@ import CrossIcon from "../../../../public/icons/close.svg";
 import CartItem from "components/cart/cartItem";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+
+export async function getStaticProps(props) {
+  // checkout.
+
+  return {
+    props: {},
+    revalidate: 60 * 60,
+  };
+}
 
 const CartSidebar = () => {
   const { data, isEmpty } = useCart();
@@ -20,7 +29,7 @@ const CartSidebar = () => {
   );
 
   const items = data?.line_items.physical_items ?? [];
-
+  // console.log("cartData", data);
   const ref = useRef();
 
   const handleClickOutside = (e) => {

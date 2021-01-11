@@ -39,7 +39,7 @@ export async function getStaticProps({ locale, preview = false }) {
     props: {
       products,
     },
-    revalidate: 1,
+    revalidate: 60 * 60,
   };
 }
 
