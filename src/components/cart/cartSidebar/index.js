@@ -20,7 +20,7 @@ const CartSidebar = () => {
   );
 
   const items = data?.line_items.physical_items ?? [];
-  // console.log("cartData", data);
+  console.log("cartData", data);
   const ref = useRef();
 
   const handleClickOutside = (e) => {
