@@ -85,7 +85,12 @@ const CartSidebar = () => {
         </div>
       )}
       <Link href="/checkout">
-        <button>Checkout</button>
+        <button
+          className="w-full rounded bg-black text-white py-2 px-4 mt-4 hover:bg-white hover:text-black border-transparent hover:border-black border-2"
+          onClick={closeSidebar}
+        >
+          Checkout
+        </button>
       </Link>
     </aside>
   );
