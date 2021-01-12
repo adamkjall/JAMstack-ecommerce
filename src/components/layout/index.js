@@ -17,7 +17,7 @@ export default function Layout({ children }) {
             <Navbar />
           </div>
         </header>
-        <main className="max-w-5xl w-full h-full mx-auto px-4 mb-auto">
+        <main className="max-w-5xl w-full min-h-full mx-auto px-4 mb-auto">
           {children}
         </main>
 
