@@ -19,16 +19,17 @@ function EmbeddedCheckout(props) {
       });
       const url = resp.data.data.embedded_checkout_url;
       try {
-        await embedCheckout({
+        return await embedCheckout({
           containerId,
           url,
           onError: (err) => console.error(err),
           onFrameError: (err) => console.error(err),
           onComplete: () => removeCookie("bc_cartId"),
         });
-        setCheckoutLoaded(true);
       } catch (err) {
         console.error(err);
+      } finally {
+        setCheckoutLoaded(true);
       }
     };
     console.log("handleEmbed", handleEmbed);
