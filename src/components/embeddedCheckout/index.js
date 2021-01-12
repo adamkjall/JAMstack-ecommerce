@@ -29,7 +29,7 @@ function EmbeddedCheckout(props) {
     };
 
     if (data && !checkoutLoaded) handleEmbed();
-  }, [data]);
+  }, []);
 
   return <div className="py-4" id={containerId} />;
 }
