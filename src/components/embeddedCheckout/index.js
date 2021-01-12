@@ -32,8 +32,10 @@ function EmbeddedCheckout(props) {
         setCheckoutLoaded(true);
       }
     };
-    console.log("handleEmbed", handleEmbed);
-    if (data && !checkoutLoaded) handleEmbed();
+    if (data && !checkoutLoaded) {
+      console.log("handleEmbed", handleEmbed);
+      handleEmbed();
+    }
   }, [data]);
 
   return (
