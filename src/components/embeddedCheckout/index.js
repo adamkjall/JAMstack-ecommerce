@@ -31,7 +31,7 @@ function EmbeddedCheckout(props) {
         console.error(err);
       }
     };
-
+    console.log("handleEmbed", handleEmbed);
     if (data && !checkoutLoaded) handleEmbed();
   }, [data]);
 
