@@ -33,7 +33,7 @@ function EmbeddedCheckout(props) {
       }
     };
     if (data && !checkoutLoaded) {
-      console.log("handleEmbed", handleEmbed);
+      console.log("handleEmbed", handleEmbed());
       handleEmbed();
     }
   }, [data]);
