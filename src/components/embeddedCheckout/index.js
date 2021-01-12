@@ -8,7 +8,7 @@ import getCartCookie from "@bigcommerce/storefront-data-hooks/api/utils/get-cart
 function EmbeddedCheckout(props) {
   const { data } = useCart();
   const [checkoutLoaded, setCheckoutLoaded] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["bc_cartid"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["bc_cartId"]);
   console.log(getCartCookie("bc_cartid"));
 
   const containerId = props.containerId || "V1StGXR8_Z5jdHi6B-myT";
@@ -27,7 +27,7 @@ function EmbeddedCheckout(props) {
           onFrameError: (err) => console.error(err),
           onComplete: () => {
             console.log("I completed");
-            removeCookie("bc_cartid");
+            removeCookie("bc_cartId");
           },
         });
         setCheckoutLoaded(true);
