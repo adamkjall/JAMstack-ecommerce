@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import { embedCheckout } from "@bigcommerce/checkout-sdk";
 import useCart from "@bigcommerce/storefront-data-hooks/cart/use-cart";
@@ -7,6 +8,8 @@ import getCartCookie from "@bigcommerce/storefront-data-hooks/api/utils/get-cart
 function EmbeddedCheckout(props) {
   const { data } = useCart();
   const [checkoutLoaded, setCheckoutLoaded] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["bc_cartid"]);
+  console.log(getCartCookie("bc_cartid"));
 
   const containerId = props.containerId || "V1StGXR8_Z5jdHi6B-myT";
 
@@ -24,7 +27,7 @@ function EmbeddedCheckout(props) {
           onFrameError: (err) => console.error(err),
           onComplete: () => {
             console.log("I completed");
-            getCartCookie("bc_cartid");
+            removeCookie("bc_cartid");
           },
         });
         setCheckoutLoaded(true);
@@ -34,7 +37,7 @@ function EmbeddedCheckout(props) {
     };
 
     if (data && !checkoutLoaded) handleEmbed();
-  }, []);
+  }, [data]);
 
   return <div className="relative min-h-full py-4" id={containerId} />;
 }

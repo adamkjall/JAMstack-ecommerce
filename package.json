@@ -16,6 +16,7 @@
     "next": "10.0.3",
     "next-seo": "^4.17.0",
     "react": "^17.0.1",
+    "react-cookie": "^4.0.3",
     "react-dom": "^17.0.1",
     "react-image-magnify": "^2.7.4",
     "react-slick": "^0.27.13",
