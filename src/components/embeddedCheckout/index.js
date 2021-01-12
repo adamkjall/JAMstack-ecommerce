@@ -12,7 +12,6 @@ function EmbeddedCheckout(props) {
   const containerId = props.containerId || "V1StGXR8_Z5jdHi6B-myT";
 
   useEffect(() => {
-    setCheckoutLoaded(false);
     const handleEmbed = async () => {
       const resp = await axios.post("/api/bigcommerce/embedded-checkout", {
         cartId: data?.id,
@@ -24,7 +23,7 @@ function EmbeddedCheckout(props) {
           url,
           onError: (err) => console.error(err),
           onFrameError: (err) => console.error(err),
-          onComplete: () => removeCookie("bc_cartId"),
+          onComplete: () => removeCookie("bc_cartId"), // clears cart
         });
       } catch (err) {
         console.error(err);
@@ -33,7 +32,6 @@ function EmbeddedCheckout(props) {
       }
     };
     if (data && !checkoutLoaded) {
-      console.log("handleEmbed", handleEmbed());
       handleEmbed();
     }
   }, [data]);
