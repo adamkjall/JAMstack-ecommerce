@@ -14,6 +14,7 @@ function EmbeddedCheckout(props) {
   const containerId = props.containerId || "V1StGXR8_Z5jdHi6B-myT";
 
   useEffect(() => {
+    setCheckoutLoaded(false);
     const handleEmbed = async () => {
       const resp = await axios.post("/api/bigcommerce/embedded-checkout", {
         cartId: data?.id,
@@ -39,7 +40,7 @@ function EmbeddedCheckout(props) {
     if (data && !checkoutLoaded) handleEmbed();
   }, [data]);
 
-  return <div className="relative min-h-full py-4" id={containerId} />;
+  return <div className="relative py-4" id={containerId} />;
 }
 
 export default EmbeddedCheckout;
