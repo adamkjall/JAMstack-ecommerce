@@ -20,7 +20,7 @@ const CartSidebar = () => {
   );
 
   const items = data?.line_items.physical_items ?? [];
-  console.log("cartData", data);
+
   const ref = useRef();
 
   const handleClickOutside = (e) => {
@@ -29,6 +29,7 @@ const CartSidebar = () => {
     closeSidebar();
   };
 
+  // this effect makes sure clicks outside sidebar closes the sidebar
   useEffect(() => {
     if (displaySidebar) {
       document.addEventListener("click", handleClickOutside);
@@ -86,8 +87,13 @@ const CartSidebar = () => {
       )}
       <Link href="/checkout">
         <button
-          className="w-full rounded bg-black text-white py-2 px-4 mt-4 hover:bg-white hover:text-black border-transparent hover:border-black border-2"
+          className={`${
+            items.length === 0
+              ? "bg-gray-300"
+              : "bg-black hover:bg-white hover:text-black hover:border-black"
+          } w-full rounded  text-white py-2 px-4 mt-4  border-transparent border-2`}
           onClick={closeSidebar}
+          disabled={items.length === 0}
         >
           Checkout
         </button>
