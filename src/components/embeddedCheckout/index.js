@@ -21,6 +21,7 @@ function EmbeddedCheckout(props) {
         return await embedCheckout({
           containerId,
           url,
+
           onError: (err) => console.error(err),
           onFrameError: (err) => console.error(err),
           onComplete: () => removeCookie("bc_cartId"), // clears cart
