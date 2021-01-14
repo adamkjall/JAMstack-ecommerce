@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import Layout from "components/layout";
 
 import { UIProvider } from "contexts/ui/context";
@@ -7,13 +9,20 @@ import "../styles/index.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <CookiesProvider>
-      <UIProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </UIProvider>
-    </CookiesProvider>
+    <>
+      <Head>
+        <title>JAMcom clothes</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <CookiesProvider>
+        <UIProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </UIProvider>
+      </CookiesProvider>
+    </>
   );
 }
 

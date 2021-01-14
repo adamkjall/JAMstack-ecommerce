@@ -19,7 +19,7 @@ const Navbar = () => {
         </a>
       </Link>
       <div className="flex space-x-8 uppercase">
-        <Link href="/">
+        <Link href="/products/">
           <a className="cursor-pointer">Products</a>
         </Link>
         <Link href="/blog/">

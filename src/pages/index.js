@@ -1,24 +1,11 @@
-import Head from "next/head";
-
 import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
 
-// import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
-// import getProducts from "@bigcommerce/storefront-data-hooks/api/operations/get-all-products";
-
 import { getProducts } from "lib/bigcommerce/operations";
-
-// import getSiteInfo from "@bigcommerce/storefront-data-hooks/api/operations/get-site-info";
-// import getAllPages from "@bigcommerce/storefront-data-hooks/api/operations/get-all-pages";
 
 function Home({ featuredProducts, bestSellingProducts, newestProducts }) {
   return (
     <div>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <main className="my-8">
         {!featuredProducts ? (
           <Spinner />
@@ -64,7 +51,7 @@ function Home({ featuredProducts, bestSellingProducts, newestProducts }) {
 export async function getStaticProps({ locale, preview = false }) {
   const featuredProducts = await getProducts("featured", 4);
   const bestSellingProducts = await getProducts("bestSelling", 4);
-  const newestProducts = await getProducts("newest", 4);
+  const newestProducts = await getProducts("newest", 8);
 
   return {
     props: {
