@@ -1,7 +1,7 @@
 import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
 
-import { getProducts } from "lib/bigcommerce/operations";
+import { getProducts } from "lib/bigcommerce/graphql/operations";
 
 function Home({ featuredProducts, bestSellingProducts, newestProducts }) {
   return (

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 // import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 import getAllProductPaths from "@bigcommerce/storefront-data-hooks/api/operations/get-all-product-paths";
 
-import { getProductBySlug } from "lib/bigcommerce/operations";
+import { getProductBySlug } from "lib/bigcommerce/graphql/operations";
 
 import ProductView from "components/product/productView";
 

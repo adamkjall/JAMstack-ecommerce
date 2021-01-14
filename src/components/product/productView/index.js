@@ -22,7 +22,6 @@ import {
 import styles from "./index.module.scss";
 
 const ProductView = ({ product }) => {
-  console.log(product.description);
   const [loading, setLoading] = useState(false);
   const [choices, setChoices] = useState();
   const [sizes, setSizes] = useState();

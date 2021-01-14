@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
 
-import { getProducts } from "lib/bigcommerce/operations";
+import { getProducts } from "lib/bigcommerce/graphql/operations";
+import { getCategories } from "lib/bigcommerce/rest";
 
 // import useSearch from "@bigcommerce/storefront-data-hooks/products/use-search";
 // import getSiteInfo from "@bigcommerce/storefront-data-hooks/api/operations/get-site-info";
@@ -17,27 +18,29 @@ export default function Products({ products, categories, pages }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BIGCOMMERCE_STORE_API_URL}/v3/catalog/products`,
-        {
-          credentials: "same-origin",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "X-Auth-Token": process.env.NEXT_PUBLIC_BIGCOMMERCE_STORE_API_TOKEN,
-          },
-        }
-      );
+      const res = await fetch(`/api/bigcommerce/catalog/categories`);
       const data = await res.json();
       console.log("fetched data", data);
     };
 
-    // fetchData();
+    fetchData();
   }, []);
   // console.log("products", products[0]);
   // console.log("data", data);
   return (
-    <div className="py-8">
+    <div className="flex py-8">
+      <div className="mr-10">
+        <h3 className="text-xl font-bold">Filters</h3>
+        {!categories ? (
+          <Spinner />
+        ) : (
+          <ul>
+            {categories.map((c) => (
+              <li key={c.id}>{c.name}</li>
+            ))}
+          </ul>
+        )}
+      </div>
       {!products ? (
         <Spinner />
       ) : (
@@ -65,17 +68,14 @@ export default function Products({ products, categories, pages }) {
 }
 
 export async function getStaticProps({ locale, preview = false }) {
-  // const config = getConfig({ locale });
-  // console.log("config", config);
-  // const { pages } = await getAllPages({ preview });
-  // const { categories } = await getSiteInfo({ preview });
-
   const products = await getProducts("newest", 40);
+
+  const categories = await getCategories();
 
   return {
     props: {
       products,
-      // categories,
+      categories,
       // pages,
     },
   };
