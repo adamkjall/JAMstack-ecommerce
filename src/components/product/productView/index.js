@@ -19,7 +19,10 @@ import {
   mapColorsToImages,
 } from "../helpers";
 
+import styles from "./index.module.scss";
+
 const ProductView = ({ product }) => {
+  console.log(product.description);
   const [loading, setLoading] = useState(false);
   const [choices, setChoices] = useState();
   const [sizes, setSizes] = useState();
@@ -224,7 +227,9 @@ const ProductView = ({ product }) => {
             ADD TO CART
           </button>
           {!inStock && <div className="text-red-600">Item not in stock</div>}
-          <div className="pt-8">{parse(product.description)}</div>
+          <div className={styles.parsedWrapper}>
+            {parse(product.description)}
+          </div>
         </div>
       </div>
       {product.relatedProducts.edges.length > 0 && (
