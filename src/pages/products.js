@@ -13,30 +13,41 @@ import { getCategories } from "lib/bigcommerce/rest";
 // import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
 
 export default function Products({ products, categories, pages }) {
-  const [hej, setHej] = useState();
+  const [selectedCategoryId, setSelectedCategoryId] = useState();
+  const [filteredProducts, setFilteredProducts] = useState();
   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`/api/bigcommerce/catalog/categories`);
+      const res = await fetch(
+        `/api/bigcommerce/catalog/products/category?id=${selectedCategoryId}`
+      );
       const data = await res.json();
       console.log("fetched data", data);
     };
 
-    fetchData();
-  }, []);
+    if (typeof selectedCategoryId === "number") {
+      fetchData();
+    }
+  }, [selectedCategoryId]);
   // console.log("products", products[0]);
   // console.log("data", data);
   return (
     <div className="flex py-8">
       <div className="mr-10">
-        <h3 className="text-xl font-bold">Filters</h3>
+        <h3 className="text-xl font-bold mb-2">Categories</h3>
         {!categories ? (
           <Spinner />
         ) : (
           <ul>
             {categories.map((c) => (
-              <li key={c.id}>{c.name}</li>
+              <li
+                className={c.id === selectedCategoryId && "font-bold"}
+                key={c.id}
+                onClick={() => setSelectedCategoryId(c.id)}
+              >
+                {c.name}
+              </li>
             ))}
           </ul>
         )}
