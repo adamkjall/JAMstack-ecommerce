@@ -1,22 +1,16 @@
-import {
-  getProductsByCategoryId,
-  getProductImages,
-} from "lib/bigcommerce/rest";
+import { getProducts, getProductImages } from "lib/bigcommerce/rest";
 
 export default async function (req, res) {
-  if (req.method !== "GET") {
-    res
-      .status(500)
-      .json({ message: "Only accept GET requests to this endpoint" });
-  }
+  // if (req.method !== "GET") {
+  //   res
+  //     .status(500)
+  //     .json({ message: "Only accept GET requests to this endpoint" });
+  // }
 
-  const categoryId = req.query.id;
+  console.log("req", req.body);
+  const filterOptions = req.body;
 
-  if (isNaN(categoryId)) {
-    res.status(500).json({ message: "CategoryId must be a number" });
-  }
-
-  let products = await getProductsByCategoryId(categoryId);
+  let products = await getProducts(filterOptions);
 
   products = await appendProductImages(products);
 
