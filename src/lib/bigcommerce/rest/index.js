@@ -60,7 +60,7 @@ export async function getProducts({
   const searchParam = searchTerm ? "keyword=" + searchTerm : "";
   const sortParam = sortBy ? "sort=" + sortBy : "";
   const directionPram = direction ? "direction=" + direction : "";
-  const brandParam = brandId ? "brand_id=" + brandId : "";
+  const brandParam = brandId ? "brand_id:in=" + brandId : "";
 
   const params = [
     categoryParam,

@@ -27,22 +27,23 @@ export default function Products({ products, categories, brands }) {
 
   console.log("options", filterOptions);
   console.log("router", router.query);
+  console.log("brands", brands);
 
-  function handleCategoryCheck(e) {
+  function handleCheck(e, property) {
     const clickedId = e.target.value;
-    const isChecked = filterOptions?.categoryId.includes(clickedId);
+    const isChecked = filterOptions?.[property]?.includes(clickedId);
     let ids;
     if (isChecked) {
-      ids = filterOptions.categoryId
+      ids = filterOptions[property]
         .split(",")
         .filter((id) => id !== clickedId)
         .join(",");
     } else {
-      ids = filterOptions?.categoryId
-        ? `${filterOptions.categoryId},${clickedId}`
-        : clickedId;
+      ids = filterOptions?.[property]
+        ? `${filterOptions[property]},${clickedId}`
+        : clickedId + "";
     }
-    setFilterOptions((opt) => ({ ...opt, categoryId: ids }));
+    setFilterOptions((opt) => ({ ...opt, [property]: ids }));
   }
 
   return (
@@ -53,24 +54,21 @@ export default function Products({ products, categories, brands }) {
           {!categories ? (
             <Spinner />
           ) : (
-            <div>
-              {categories
-                .sort((a, b) => a.sort_order - b.sort_order)
-                .map((c) => (
-                  <div className={`cursor-pointer`} key={c.id}>
-                    <input
-                      type="checkbox"
-                      id={c.id}
-                      name={c.name}
-                      value={c.id}
-                      onChange={handleCategoryCheck}
-                    />
-                    <label className="ml-2" htmlFor={c.id}>
-                      {c.name}
-                    </label>
-                  </div>
-                ))}
-            </div>
+            <ul>
+              {categories.map((c) => (
+                <li
+                  className={`${
+                    c.id === filterOptions?.categoryId ? "font-bold" : ""
+                  } cursor-pointer`}
+                  key={c.id}
+                  onClick={() =>
+                    setFilterOptions((opt) => ({ ...opt, categoryId: c.id }))
+                  }
+                >
+                  {c.name}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
         <div className="brands mt-8">
@@ -78,21 +76,23 @@ export default function Products({ products, categories, brands }) {
           {!brands ? (
             <Spinner />
           ) : (
-            <ul>
+            <div>
               {brands.map((brand) => (
-                <li
-                  className={`${
-                    brand.id === filterOptions?.brand ? "font-bold" : ""
-                  } cursor-pointer`}
-                  key={brand.id}
-                  onClick={() =>
-                    setFilterOptions((opt) => ({ ...opt, brandId: brand.id }))
-                  }
-                >
-                  {brand.name}
-                </li>
+                <div key={brand.id}>
+                  <input
+                    className="cursor-pointer"
+                    type="checkbox"
+                    id={brand.id}
+                    name={brand.name}
+                    value={brand.id}
+                    onChange={(e) => handleCheck(e, "brandId")}
+                  />
+                  <label className="ml-2" htmlFor={brand.id}>
+                    {brand.name}
+                  </label>
+                </div>
               ))}
-            </ul>
+            </div>
           )}
         </div>
       </div>
