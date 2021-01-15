@@ -3,34 +3,40 @@ import Link from "next/link";
 
 import usePrice from "@bigcommerce/storefront-data-hooks/use-price";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({
+  name,
+  brand,
+  retailPrice,
+  originalPrice,
+  currencyCode,
+  path,
+  imgUrl,
+  altText,
+}) => {
   const { price } = usePrice({
-    amount: product.node.prices?.price?.value,
-    baseAmount: product.node.prices?.basePrice?.value,
-    currencyCode: product.node.prices?.price?.currencyCode,
+    amount: retailPrice,
+    baseAmount: originalPrice,
+    currencyCode,
   });
-
   const { price: basePrice } = usePrice({
-    amount: product.node.prices?.basePrice?.value,
-    currencyCode: product.node.prices?.basePrice?.currencyCode,
+    amount: originalPrice,
+    currencyCode: currencyCode,
   });
-
-  const onSale =
-    product.node.prices?.price.value < product.node.prices.basePrice.value;
+  const onSale = retailPrice < originalPrice;
 
   return (
-    <Link href={"/product" + product.node.path}>
+    <Link href={"/product" + path}>
       <div className="rounded shadow-lg p-4 cursor-pointer">
         <div style={{ position: "relative", width: "auto", height: "200px" }}>
           <Image
-            src={product.node.defaultImage.url320wide || "/"}
-            alt={product.node.defaultImage.altText || "Product"}
+            src={imgUrl || "/"}
+            alt={altText || "Product"}
             layout="fill"
             objectFit="cover"
           />
         </div>
-        <div className="brand text-sm mt-2">{product.node?.brand?.name}</div>
-        <h2 className="text-lg ">{product.node.name}</h2>
+        <div className="brand text-sm mt-2">{brand}</div>
+        <h2 className="text-lg ">{name}</h2>
         <div className="flex justify-between text-xl mt-3 ">
           <span className={`${onSale && "text-red-500"}`}>{price}</span>
           {onSale && (

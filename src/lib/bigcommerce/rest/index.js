@@ -33,3 +33,12 @@ export async function getProductsByCategoryId(categoryId) {
   const data = await response.json();
   return data.data;
 }
+
+export async function getProductImages(productId) {
+  const response = await fetch(
+    `${process.env.BIGCOMMERCE_STORE_API_URL}/v3/catalog/products/${productId}/images`,
+    DEFAULT_OPTIONS
+  );
+  const data = await response.json();
+  return data.data;
+}

@@ -23,7 +23,7 @@ export default function Products({ products, categories, pages }) {
         `/api/bigcommerce/catalog/products/category?id=${selectedCategoryId}`
       );
       const data = await res.json();
-      console.log("fetched data", data);
+      setFilteredProducts(data);
     };
 
     if (typeof selectedCategoryId === "number") {
@@ -31,7 +31,7 @@ export default function Products({ products, categories, pages }) {
     }
   }, [selectedCategoryId]);
   // console.log("products", products[0]);
-  // console.log("data", data);
+  console.log("data", filteredProducts);
   return (
     <div className="flex py-8">
       <div className="mr-10">
@@ -42,7 +42,9 @@ export default function Products({ products, categories, pages }) {
           <ul>
             {categories.map((c) => (
               <li
-                className={c.id === selectedCategoryId && "font-bold"}
+                className={`${
+                  c.id === selectedCategoryId ? "font-bold" : ""
+                } cursor-pointer`}
                 key={c.id}
                 onClick={() => setSelectedCategoryId(c.id)}
               >
@@ -68,9 +70,32 @@ export default function Products({ products, categories, pages }) {
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {products.map((product) => (
-              <ProductCard key={product.node.id} product={product} />
-            ))}
+            {filteredProducts
+              ? filteredProducts.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    name={product.name}
+                    brand={product.brand}
+                    retailPrice={product.calculated_price}
+                    originalPrice={product.price}
+                    currencyCode={"USD"}
+                    path={product.custom_url.url}
+                    imgUrl={product.imgUrl}
+                  />
+                ))
+              : products.map(({ node: product }) => (
+                  <ProductCard
+                    key={product.id}
+                    name={product.name}
+                    brand={product.brand?.name}
+                    retailPrice={product.prices.price.value}
+                    originalPrice={product.prices.basePrice.value}
+                    currencyCode={product.prices.price.currencyCode}
+                    path={product.path}
+                    imgUrl={product.defaultImage.url320wide}
+                    altText={product.defaultImage.altText}
+                  />
+                ))}
           </div>
         </div>
       )}
