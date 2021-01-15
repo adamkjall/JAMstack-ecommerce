@@ -55,19 +55,21 @@ export default function Products({ products, categories, brands }) {
             <Spinner />
           ) : (
             <ul>
-              {categories.map((c) => (
-                <li
-                  className={`${
-                    c.id === filterOptions?.categoryId ? "font-bold" : ""
-                  } cursor-pointer`}
-                  key={c.id}
-                  onClick={() =>
-                    setFilterOptions((opt) => ({ ...opt, categoryId: c.id }))
-                  }
-                >
-                  {c.name}
-                </li>
-              ))}
+              {categories
+                .sort((a, b) => a.sort_order - b.sort_order)
+                .map((c) => (
+                  <li
+                    className={`${
+                      c.id === filterOptions?.categoryId ? "font-bold" : ""
+                    } cursor-pointer`}
+                    key={c.id}
+                    onClick={() =>
+                      setFilterOptions((opt) => ({ ...opt, categoryId: c.id }))
+                    }
+                  >
+                    {c.name}
+                  </li>
+                ))}
             </ul>
           )}
         </div>
