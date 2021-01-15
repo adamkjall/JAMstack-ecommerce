@@ -20,6 +20,10 @@ export async function getBrands() {
   return await myFetch("catalog/brands");
 }
 
+export async function getBrandById(brandId) {
+  return await myFetch("catalog/brands/" + brandId);
+}
+
 export async function getCategories() {
   return await myFetch("catalog/categories");
 }
@@ -37,27 +41,34 @@ export async function getProductImages(productId) {
 }
 
 /**
- *
- * @param {Object} filterOptions object with any of the keys categories, searchTerm, sortBy, direction
- * @param {number} filterOptions.categories categories as ids, eg. 12, "12" or "12,18,20"
- * @param {string} filterOptions.searchTerm will match with a products name, description or sku
+ * Get products
+ * @param {Object} filterOptions Object with filter entries
+ * @param {string|number} filterOptions.categoryId Filter on category id, eg. 12, "12" or for serveral "12,18,20"
+ * @param {string} filterOptions.searchTerm Filter by searchTerm, matches on properties name, description or sku
  * @param {string} filterOptions.sortBy Allowed Values: id, name, sku, price, date_modified, date_last_imported, inventory_level, is_visible, total_sold
  * @param {string} filterOptions.direction Allowed Values: asc, desc
+ * @param {string|number} filterOptions.brandId Filter items by brand_id.
  */
 export async function getProducts({
-  categories,
+  categoryId,
   searchTerm,
   sortBy,
   direction,
+  brandId,
 }) {
-  const categoryParam = categories ? "categories:in=" + categories : "";
+  const categoryParam = categoryId ? "categories:in=" + categoryId : "";
   const searchParam = searchTerm ? "keyword=" + searchTerm : "";
   const sortParam = sortBy ? "sort=" + sortBy : "";
   const directionPram = direction ? "direction=" + direction : "";
+  const brandParam = brandId ? "brand_id=" + brandId : "";
 
-  const params = [categoryParam, searchParam, sortParam, directionPram].join(
-    "&"
-  );
+  const params = [
+    categoryParam,
+    searchParam,
+    sortParam,
+    directionPram,
+    brandParam,
+  ].join("&");
 
   return await myFetch(`catalog/products?${params}`);
 }

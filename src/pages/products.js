@@ -5,15 +5,10 @@ import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
 
 import { getProducts } from "lib/bigcommerce/graphql/operations";
-import { getCategories } from "lib/bigcommerce/rest";
+import { getCategories, getBrands } from "lib/bigcommerce/rest";
 
-export default function Products({ products, categories, pages }) {
-  const [filterOptions, setFilterOptions] = useState({
-    categories: "",
-    searchTerm: "",
-    sortBy: "",
-    direction: "",
-  });
+export default function Products({ products, categories, brands }) {
+  const [filterOptions, setFilterOptions] = useState();
   const [filteredProducts, setFilteredProducts] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -34,40 +29,68 @@ export default function Products({ products, categories, pages }) {
       setLoading(false);
     };
 
-    fetchData();
+    if (filterOptions) {
+      fetchData();
+    }
   }, [filterOptions]);
 
-  console.log("router", router);
+  console.log("options", filterOptions);
+  console.log("filteredProducts", filteredProducts);
+  console.log("router", router.query);
   return (
     <div className="flex py-8">
-      <div className="mr-10">
-        <h3 className="text-xl font-bold mb-2">Categories</h3>
-        {!categories ? (
-          <Spinner />
-        ) : (
-          <ul>
-            {categories
-              .sort((a, b) => a.sort_order - b.sort_order)
-              .map((c) => (
+      <div className="flex-1 mr-10">
+        <div className="categories">
+          <h3 className="text-xl font-bold mb-2">Categories</h3>
+          {!categories ? (
+            <Spinner />
+          ) : (
+            <ul>
+              {categories
+                .sort((a, b) => a.sort_order - b.sort_order)
+                .map((c) => (
+                  <li
+                    className={`${
+                      c.id === filterOptions?.categories ? "font-bold" : ""
+                    } cursor-pointer`}
+                    key={c.id}
+                    onClick={() =>
+                      setFilterOptions((opt) => ({ ...opt, categoryId: c.id }))
+                    }
+                  >
+                    {c.name}
+                  </li>
+                ))}
+            </ul>
+          )}
+        </div>
+        <div className="brands mt-8">
+          <h3 className="text-xl font-bold mb-2">Brands</h3>
+          {!brands ? (
+            <Spinner />
+          ) : (
+            <ul>
+              {brands.map((brand) => (
                 <li
                   className={`${
-                    c.id === filterOptions.categories ? "font-bold" : ""
+                    brand.id === filterOptions?.brand ? "font-bold" : ""
                   } cursor-pointer`}
-                  key={c.id}
+                  key={brand.id}
                   onClick={() =>
-                    setFilterOptions((opt) => ({ ...opt, categories: c.id }))
+                    setFilterOptions((opt) => ({ ...opt, brandId: brand.id }))
                   }
                 >
-                  {c.name}
+                  {brand.name}
                 </li>
               ))}
-          </ul>
-        )}
+            </ul>
+          )}
+        </div>
       </div>
       {!products ? (
         <Spinner />
       ) : (
-        <div className="w-full mb-8">
+        <div className="mb-8">
           <div className="flex justify-end mb-2">
             <div className="border border-gray-500 text-gray-800 px-2 py-px rounded">
               <label htmlFor="sort">Sort by:</label>
@@ -128,14 +151,14 @@ export default function Products({ products, categories, pages }) {
 
 export async function getStaticProps({ locale, preview = false }) {
   const products = await getProducts("newest", 40);
-
   const categories = await getCategories();
+  const brands = await getBrands();
 
   return {
     props: {
       products,
       categories,
-      // pages,
+      brands,
     },
   };
 }
