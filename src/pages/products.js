@@ -7,39 +7,30 @@ import Spinner from "components/spinner";
 import { getProducts } from "lib/bigcommerce/graphql/operations";
 import { getCategories, getBrands } from "lib/bigcommerce/rest";
 
+import useSearch from "hooks/useSearch";
+
 export default function Products({ products, categories, brands }) {
   const [filterOptions, setFilterOptions] = useState();
-  const [filteredProducts, setFilteredProducts] = useState();
-  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-
+  const { result, error, loading } = useSearch(router.query);
+  console.log("loading", loading);
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const res = await fetch(`/api/bigcommerce/catalog/products`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(filterOptions),
-      });
-      const data = await res.json();
-      setFilteredProducts(data);
-      setLoading(false);
-    };
-
-    if (filterOptions) {
-      fetchData();
-    }
+    router.push(
+      {
+        pathname: "/products",
+        query: filterOptions,
+      },
+      undefined,
+      { shallow: true }
+    );
   }, [filterOptions]);
 
   console.log("options", filterOptions);
-  console.log("filteredProducts", filteredProducts);
   console.log("router", router.query);
   return (
     <div className="flex py-8">
-      <div className="flex-1 mr-10">
+      <div className="mr-10">
         <div className="categories">
           <h3 className="text-xl font-bold mb-2">Categories</h3>
           {!categories ? (
@@ -90,7 +81,7 @@ export default function Products({ products, categories, brands }) {
       {!products ? (
         <Spinner />
       ) : (
-        <div className="mb-8">
+        <div className="mb-8 flex-1">
           <div className="flex justify-end mb-2">
             <div className="border border-gray-500 text-gray-800 px-2 py-px rounded">
               <label htmlFor="sort">Sort by:</label>
@@ -99,7 +90,10 @@ export default function Products({ products, categories, brands }) {
                 id="sort"
                 className="outline-none ml-2 bg-transparent"
                 onChange={(e) =>
-                  setFilterOptions((opt) => ({ ...opt, ...e.target.value }))
+                  setFilterOptions((opt) => ({
+                    ...opt,
+                    sortBy: e.target.value,
+                  }))
                 }
               >
                 <option defaultValue value="id">
@@ -115,8 +109,8 @@ export default function Products({ products, categories, brands }) {
             <Spinner />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {filteredProducts
-                ? filteredProducts.map((product) => (
+              {result
+                ? result.map((product) => (
                     <ProductCard
                       key={product.id}
                       name={product.name}

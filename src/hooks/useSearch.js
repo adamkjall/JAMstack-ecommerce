@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
-// ?
-
-export const useSearch = (query = {}) => {
+const useSearch = (query = {}) => {
   const [result, setResult] = useState();
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
@@ -34,8 +32,12 @@ export const useSearch = (query = {}) => {
       fetchData();
     }
   }, [query]);
+
+  return { result, loading, error };
 };
 
 function isEmptyObject(obj) {
   return JSON.stringify(obj) === "{}";
 }
+
+export default useSearch;
