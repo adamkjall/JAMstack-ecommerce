@@ -7,11 +7,6 @@ import Spinner from "components/spinner";
 import { getProducts } from "lib/bigcommerce/graphql/operations";
 import { getCategories } from "lib/bigcommerce/rest";
 
-// import useSearch from "@bigcommerce/storefront-data-hooks/products/use-search";
-// import getSiteInfo from "@bigcommerce/storefront-data-hooks/api/operations/get-site-info";
-// import getAllPages from "@bigcommerce/storefront-data-hooks/api/operations/get-all-pages";
-// import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
-
 export default function Products({ products, categories, pages }) {
   const [filterOptions, setFilterOptions] = useState({
     categories: "",
@@ -41,7 +36,8 @@ export default function Products({ products, categories, pages }) {
 
     fetchData();
   }, [filterOptions]);
-  console.log("options", filterOptions);
+
+  console.log("router", router);
   return (
     <div className="flex py-8">
       <div className="mr-10">
@@ -50,19 +46,21 @@ export default function Products({ products, categories, pages }) {
           <Spinner />
         ) : (
           <ul>
-            {categories.map((c) => (
-              <li
-                className={`${
-                  c.id === filterOptions.categories ? "font-bold" : ""
-                } cursor-pointer`}
-                key={c.id}
-                onClick={() =>
-                  setFilterOptions((opt) => ({ ...opt, categories: c.id }))
-                }
-              >
-                {c.name}
-              </li>
-            ))}
+            {categories
+              .sort((a, b) => a.sort_order - b.sort_order)
+              .map((c) => (
+                <li
+                  className={`${
+                    c.id === filterOptions.categories ? "font-bold" : ""
+                  } cursor-pointer`}
+                  key={c.id}
+                  onClick={() =>
+                    setFilterOptions((opt) => ({ ...opt, categories: c.id }))
+                  }
+                >
+                  {c.name}
+                </li>
+              ))}
           </ul>
         )}
       </div>
@@ -81,10 +79,12 @@ export default function Products({ products, categories, pages }) {
                   setFilterOptions((opt) => ({ ...opt, ...e.target.value }))
                 }
               >
-                <option value={{ sortBy: "id" }}>Newest</option>
-                <option value={{ sortBy: "total_sold" }}>Popular</option>
-                <option value={{ sortBy: "price" }}>Price - ascending</option>
-                <option value={{ sortBy: "price" }}>Price - descending</option>
+                <option defaultValue value="id">
+                  Newest
+                </option>
+                <option value="total_sold">Popular</option>
+                <option value="price">Price - ascending</option>
+                <option value="price">Price - descending</option>
               </select>
             </div>
           </div>

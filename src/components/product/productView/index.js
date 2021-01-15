@@ -236,9 +236,20 @@ const ProductView = ({ product }) => {
           <h2 className="text-xl mt-12">Related products</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {product.relatedProducts.edges.slice(0, 4).map((p) => (
-              <ProductCard key={p.node.id} product={p} />
-            ))}
+            {product.relatedProducts.edges
+              .slice(0, 4)
+              .map(({ node: product }) => (
+                <ProductCard
+                  key={product.id}
+                  name={product.name}
+                  brand={product.brand?.name}
+                  retailPrice={product.prices.price.value}
+                  originalPrice={product.prices.basePrice.value}
+                  currencyCode={product.prices.price.currencyCode}
+                  path={product.path}
+                  imgUrl={product.defaultImage.url320wide}
+                />
+              ))}
           </div>
         </div>
       )}

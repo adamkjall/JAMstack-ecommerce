@@ -7,40 +7,33 @@ const DEFAULT_OPTIONS = {
   },
 };
 
-export async function getCategories() {
+const myFetch = async (path) => {
   const response = await fetch(
-    `${process.env.BIGCOMMERCE_STORE_API_URL}/v3/catalog/categories`,
+    `${process.env.BIGCOMMERCE_STORE_API_URL}/v3/${path}`,
     DEFAULT_OPTIONS
   );
   const data = await response.json();
   return data.data;
+};
+
+export async function getBrands() {
+  return await myFetch("catalog/brands");
+}
+
+export async function getCategories() {
+  return await myFetch("catalog/categories");
 }
 
 export async function getCategoryById(categoryId) {
-  const response = await fetch(
-    `${process.env.BIGCOMMERCE_STORE_API_URL}/v3/catalog/categories/${categoryId}`,
-    DEFAULT_OPTIONS
-  );
-  const data = await response.json();
-  return data.data;
+  return await myFetch("catalog/categories/" + categoryId);
 }
 
 export async function getProductsByCategoryId(categoryId) {
-  const response = await fetch(
-    `${process.env.BIGCOMMERCE_STORE_API_URL}/v3/catalog/products?categories:in=${categoryId}`,
-    DEFAULT_OPTIONS
-  );
-  const data = await response.json();
-  return data.data;
+  return await myFetch(`catalog/products?categories:in=${categoryId}`);
 }
 
 export async function getProductImages(productId) {
-  const response = await fetch(
-    `${process.env.BIGCOMMERCE_STORE_API_URL}/v3/catalog/products/${productId}/images`,
-    DEFAULT_OPTIONS
-  );
-  const data = await response.json();
-  return data.data;
+  return await myFetch(`catalog/products/${productId}/images`);
 }
 
 /**
@@ -66,10 +59,5 @@ export async function getProducts({
     "&"
   );
 
-  const response = await fetch(
-    `${process.env.BIGCOMMERCE_STORE_API_URL}/v3/catalog/products?${params}`,
-    DEFAULT_OPTIONS
-  );
-  const data = await response.json();
-  return data.data;
+  return await myFetch(`catalog/products?${params}`);
 }
