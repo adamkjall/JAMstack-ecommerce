@@ -1,3 +1,4 @@
+import Image from "next/image";
 import ImageMagnify from "react-image-magnify";
 import Slider from "react-slick";
 
@@ -20,13 +21,18 @@ const ImageGallery = ({ images }) => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     customPaging: (i) =>
-      i < images.length ? <img src={images[i]?.node.url160wide} /> : <a></a>,
+      i < images.length ? (
+        <Image src={images[i]?.node.url160wide} width="80" height="80" />
+      ) : (
+        <a></a>
+      ),
   };
 
   return (
     <Slider {...sliderSettings}>
       {images.map((image, index) => (
         <div key={index}>
+          {/* TODO Optimize with srcSet & size */}
           <ImageMagnify
             {...{
               smallImage: {
