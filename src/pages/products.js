@@ -11,10 +11,9 @@ import useSearch from "hooks/useSearch";
 
 export default function Products({ products, categories, brands }) {
   const [filterOptions, setFilterOptions] = useState();
-
   const router = useRouter();
   const { result, error, loading } = useSearch(router.query);
-  console.log("loading", loading);
+
   useEffect(() => {
     router.push(
       {
@@ -28,6 +27,24 @@ export default function Products({ products, categories, brands }) {
 
   console.log("options", filterOptions);
   console.log("router", router.query);
+
+  function handleCategoryCheck(e) {
+    const clickedId = e.target.value;
+    const isChecked = filterOptions?.categoryId.includes(clickedId);
+    let ids;
+    if (isChecked) {
+      ids = filterOptions.categoryId
+        .split(",")
+        .filter((id) => id !== clickedId)
+        .join(",");
+    } else {
+      ids = filterOptions?.categoryId
+        ? `${filterOptions.categoryId},${clickedId}`
+        : clickedId;
+    }
+    setFilterOptions((opt) => ({ ...opt, categoryId: ids }));
+  }
+
   return (
     <div className="flex py-8">
       <div className="mr-10">
@@ -36,23 +53,24 @@ export default function Products({ products, categories, brands }) {
           {!categories ? (
             <Spinner />
           ) : (
-            <ul>
+            <div>
               {categories
                 .sort((a, b) => a.sort_order - b.sort_order)
                 .map((c) => (
-                  <li
-                    className={`${
-                      c.id === filterOptions?.categories ? "font-bold" : ""
-                    } cursor-pointer`}
-                    key={c.id}
-                    onClick={() =>
-                      setFilterOptions((opt) => ({ ...opt, categoryId: c.id }))
-                    }
-                  >
-                    {c.name}
-                  </li>
+                  <div className={`cursor-pointer`} key={c.id}>
+                    <input
+                      type="checkbox"
+                      id={c.id}
+                      name={c.name}
+                      value={c.id}
+                      onChange={handleCategoryCheck}
+                    />
+                    <label className="ml-2" htmlFor={c.id}>
+                      {c.name}
+                    </label>
+                  </div>
                 ))}
-            </ul>
+            </div>
           )}
         </div>
         <div className="brands mt-8">
