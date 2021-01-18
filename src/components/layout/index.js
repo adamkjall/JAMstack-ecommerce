@@ -11,7 +11,7 @@ export default function Layout({ children }) {
 
   return (
     <CommerceProvider locale={locale}>
-      <div className="relative flex flex-col h-screen w-screen justify-between overflow-x-hidden">
+      <div className="relative flex flex-col w-screen min-h-full justify-between overflow-x-hidden">
         <header className="shadow-md">
           <div className="max-w-5xl mx-auto px-4">
             <Navbar />
@@ -24,6 +24,17 @@ export default function Layout({ children }) {
         <CartSidebar />
         <Footer />
       </div>
+      {/* CSS to keep page full height */}
+      {/* <style global jsx>{`
+        html,
+        body,
+        body > div:first-child,
+        div#__next,
+        div#__next > div,
+        div#__next > div > div {
+          height: 100%;
+        }
+      `}</style> */}
     </CommerceProvider>
   );
 }
