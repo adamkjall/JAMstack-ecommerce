@@ -10,8 +10,10 @@
   "dependencies": {
     "@bigcommerce/checkout-sdk": "^1.121.0",
     "@bigcommerce/storefront-data-hooks": "^1.0.2",
+    "@contentful/rich-text-react-renderer": "^14.1.2",
     "@svgr/webpack": "^5.5.0",
     "axios": "^0.21.1",
+    "contentful": "^8.1.7",
     "html-react-parser": "^0.14.2",
     "next": "10.0.3",
     "next-seo": "^4.17.0",
