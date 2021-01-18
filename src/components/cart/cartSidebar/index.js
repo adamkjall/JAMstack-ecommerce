@@ -92,7 +92,7 @@ const CartSidebar = () => {
               items.length === 0
                 ? "bg-gray-300"
                 : "bg-black hover:bg-white hover:text-black hover:border-black"
-            } w-full rounded  text-white py-2 px-4 mt-4  border-transparent border-2`}
+            } w-full font-mono font-bold text-lg text-white py-1.5 px-4 mt-6 border-transparent border-2`}
             onClick={closeSidebar}
             disabled={items.length === 0}
           >

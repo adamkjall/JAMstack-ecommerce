@@ -11,15 +11,13 @@ export default function Layout({ children }) {
 
   return (
     <CommerceProvider locale={locale}>
-      <div className="relative flex flex-col w-screen min-h-full justify-between overflow-x-hidden">
+      <div className="relative flex flex-col min-h-full justify-between overflow-x-hidden">
         <header className="shadow-md">
           <div className="max-w-5xl mx-auto px-4">
             <Navbar />
           </div>
         </header>
-        <main className="max-w-5xl w-full mx-auto px-4 mb-auto">
-          {children}
-        </main>
+        <main className="w-full mx-auto mb-auto">{children}</main>
 
         <CartSidebar />
         <Footer />

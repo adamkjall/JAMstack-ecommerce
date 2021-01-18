@@ -29,6 +29,14 @@ a {
   box-sizing: border-box;
 }
 
+.btn {
+  @apply font-mono font-bold text-lg py-1.5 px-4;
+}
+
+.btn-black {
+  @apply bg-black hover:bg-white hover:text-black hover:border-black text-white border-transparent border-2;
+}
+
 /* Slider / Image gallery */
 .slick-slider .slick-thumb > li {
   /* display: flex;

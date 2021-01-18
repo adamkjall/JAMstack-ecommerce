@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ["cdn11.bigcommerce.com"],
+    domains: ["cdn11.bigcommerce.com", "images.ctfassets.net"],
   },
   i18n: {
     locales: ["en-US", "es"],

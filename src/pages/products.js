@@ -47,7 +47,7 @@ export default function Products({ products, categories, brands }) {
   }
 
   return (
-    <div className="flex py-8">
+    <div className="max-w-6xl mx-auto flex py-8">
       <div className="mr-10">
         <div className="categories">
           <h3 className="text-xl font-bold mb-2">Categories</h3>

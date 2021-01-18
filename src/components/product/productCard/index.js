@@ -28,7 +28,7 @@ const ProductCard = ({
     <Link href={"/product" + path}>
       <a>
         <div className="rounded shadow-lg p-4 cursor-pointer">
-          <div style={{ position: "relative", width: "auto", height: "200px" }}>
+          <div style={{ position: "relative", width: "auto", height: "300px" }}>
             <Image
               src={imgUrl || "/"}
               alt={altText || "Product"}

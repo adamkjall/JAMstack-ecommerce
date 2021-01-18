@@ -1,16 +1,51 @@
+import Image from "next/image";
+import Link from "next/link";
+
 import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
 
 import { getProducts } from "lib/bigcommerce/graphql/operations";
+import { getCategories } from "lib/contentful";
 
-function Home({ featuredProducts, bestSellingProducts, newestProducts }) {
+function Home({
+  categories,
+  featuredProducts,
+  bestSellingProducts,
+  newestProducts,
+}) {
   return (
     <div>
       <main className="my-8">
+        <section className="grid grid-cols-2">
+          {categories.map((category, index) => (
+            <Link href={category.slug}>
+              <a>
+                <div key={category.id} className="relative">
+                  <button
+                    className={`${
+                      index == 0 ? "right-0" : ""
+                    } btn btn-black z-10 absolute bottom-1/4 px-10 text-xl mx-10 min-w-min w-52`}
+                  >
+                    {category.title}
+                  </button>
+                  <Image
+                    src={"https:" + category.backgroundImage.fields.file.url}
+                    width={
+                      category.backgroundImage.fields.file.details.image.width
+                    }
+                    height={
+                      category.backgroundImage.fields.file.details.image.height
+                    }
+                  />
+                </div>
+              </a>
+            </Link>
+          ))}
+        </section>
         {!featuredProducts ? (
           <Spinner />
         ) : (
-          <div className="mb-8">
+          <div className="my-8">
             <h2 className="text-2xl">Featured</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
               {featuredProducts.map(({ node: product }) => (
@@ -76,17 +111,22 @@ function Home({ featuredProducts, bestSellingProducts, newestProducts }) {
 }
 
 export async function getStaticProps({ locale, preview = false }) {
+  // Product data from Bigcommerce
   const featuredProducts = await getProducts("featured", 4);
   const bestSellingProducts = await getProducts("bestSelling", 4);
   const newestProducts = await getProducts("newest", 8);
 
+  // Content data from Contentful
+  const categories = await getCategories();
+  console.log(categories[0].backgroundImage.fields.file.details);
   return {
     props: {
       featuredProducts,
       bestSellingProducts,
       newestProducts,
+      categories,
     },
-    revalidate: 60 * 60,
+    revalidate: 60,
   };
 }
 
