@@ -26,24 +26,26 @@ const ProductCard = ({
 
   return (
     <Link href={"/product" + path}>
-      <div className="rounded shadow-lg p-4 cursor-pointer">
-        <div style={{ position: "relative", width: "auto", height: "200px" }}>
-          <Image
-            src={imgUrl || "/"}
-            alt={altText || "Product"}
-            layout="fill"
-            objectFit="cover"
-          />
+      <a>
+        <div className="rounded shadow-lg p-4 cursor-pointer">
+          <div style={{ position: "relative", width: "auto", height: "200px" }}>
+            <Image
+              src={imgUrl || "/"}
+              alt={altText || "Product"}
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <div className="brand text-sm mt-2">{brand}</div>
+          <h2 className="text-lg ">{name}</h2>
+          <div className="flex justify-between text-xl mt-3 ">
+            <span className={`${onSale && "text-red-500"}`}>{price}</span>
+            {onSale && (
+              <span className="line-through opacity-40">{basePrice}</span>
+            )}
+          </div>
         </div>
-        <div className="brand text-sm mt-2">{brand}</div>
-        <h2 className="text-lg ">{name}</h2>
-        <div className="flex justify-between text-xl mt-3 ">
-          <span className={`${onSale && "text-red-500"}`}>{price}</span>
-          {onSale && (
-            <span className="line-through opacity-40">{basePrice}</span>
-          )}
-        </div>
-      </div>
+      </a>
     </Link>
   );
 };

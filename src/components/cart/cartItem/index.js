@@ -70,7 +70,7 @@ const CartItem = ({ item, currencyCode }) => {
       </div>
       <div className="flex flex-1 flex-col text-base">
         <Link href="/">
-          <span className="font-bold text-lg cursor-pointer">{item.name}</span>
+          <a className="font-bold text-lg cursor-pointer">{item.name}</a>
         </Link>
 
         <div className="flex items-center mt-1">

@@ -86,17 +86,19 @@ const CartSidebar = () => {
         </div>
       )}
       <Link href="/checkout">
-        <button
-          className={`${
-            items.length === 0
-              ? "bg-gray-300"
-              : "bg-black hover:bg-white hover:text-black hover:border-black"
-          } w-full rounded  text-white py-2 px-4 mt-4  border-transparent border-2`}
-          onClick={closeSidebar}
-          disabled={items.length === 0}
-        >
-          Checkout
-        </button>
+        <a>
+          <button
+            className={`${
+              items.length === 0
+                ? "bg-gray-300"
+                : "bg-black hover:bg-white hover:text-black hover:border-black"
+            } w-full rounded  text-white py-2 px-4 mt-4  border-transparent border-2`}
+            onClick={closeSidebar}
+            disabled={items.length === 0}
+          >
+            Checkout
+          </button>
+        </a>
       </Link>
     </aside>
   );
