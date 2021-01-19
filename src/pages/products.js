@@ -10,13 +10,17 @@ import { getCategories, getBrands } from "lib/bigcommerce/rest";
 import useSearch from "hooks/useSearch";
 
 export default function Products({ products, categories, brands }) {
-  const [filterOptions, setFilterOptions] = useState();
   const router = useRouter();
-  const { result, error, loading } = useSearch(filterOptions);
+  const [filterOptions, setFilterOptions] = useState(router.query);
+  const { result, error, loading } = useSearch(router.query);
+
+  useEffect(() => {
+    setFilterOptions(router.query);
+  }, [router.query?.searchTerm]);
 
   useEffect(() => {
     if (!filterOptions) {
-      setFilterOptions(router.query);
+      return;
     } else {
       const query = Object.entries(filterOptions).reduce(
         (acc, [key, value]) => {
@@ -37,7 +41,7 @@ export default function Products({ products, categories, brands }) {
 
   console.log("options", filterOptions);
   console.log("query", router.query);
-  // console.log("brands", brands);
+  console.log("error", error);
 
   function handleCheck(e, property) {
     const clickedId = e.target.value;
@@ -97,6 +101,7 @@ export default function Products({ products, categories, brands }) {
                     id={brand.id}
                     name={brand.name}
                     value={brand.id}
+                    checked={filterOptions?.brandId?.includes(brand.id)}
                     onChange={(e) => handleCheck(e, "brandId")}
                   />
                   <label className="ml-2" htmlFor={brand.id}>
@@ -113,10 +118,9 @@ export default function Products({ products, categories, brands }) {
       ) : (
         <div className="mb-8 flex-1">
           <div className="flex justify-between mb-2">
-            {filterOptions?.searchTerm && (
+            {router.query?.searchTerm && (
               <h2 className="text-xl">
-                Showing results for{" "}
-                <strong>"{filterOptions.searchTerm}"</strong>
+                Showing results for <strong>"{router.query.searchTerm}"</strong>
               </h2>
             )}
             <div className="border border-gray-500 text-gray-800 px-2 py-px rounded">
