@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import SearchIcon from "../../../public/icons/search.svg";
@@ -7,13 +7,17 @@ const Searchbar = () => {
   const [query, setQuery] = useState("");
   const router = useRouter();
 
+  // useEffect(() => {
+  //   console.log("router changed");
+  // }, [router]);
+
   function handleSearch() {
     if (query) {
       router.push({ pathname: "/products", query: { searchTerm: query } });
-      // router.push("/products?searchTerm=" + query);
+      setQuery("");
     }
   }
-  console.log("query", query);
+
   return (
     <div className="flex">
       <input

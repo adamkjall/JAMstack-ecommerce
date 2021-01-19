@@ -12,7 +12,7 @@ import useSearch from "hooks/useSearch";
 export default function Products({ products, categories, brands }) {
   const [filterOptions, setFilterOptions] = useState();
   const router = useRouter();
-  const { result, error, loading } = useSearch(router.query);
+  const { result, error, loading } = useSearch(filterOptions);
 
   useEffect(() => {
     if (!filterOptions) {
@@ -36,7 +36,7 @@ export default function Products({ products, categories, brands }) {
   }, [filterOptions]);
 
   console.log("options", filterOptions);
-  console.log("router", router);
+  console.log("query", router.query);
   // console.log("brands", brands);
 
   function handleCheck(e, property) {
@@ -112,7 +112,13 @@ export default function Products({ products, categories, brands }) {
         <Spinner />
       ) : (
         <div className="mb-8 flex-1">
-          <div className="flex justify-end mb-2">
+          <div className="flex justify-between mb-2">
+            {filterOptions?.searchTerm && (
+              <h2 className="text-xl">
+                Showing results for{" "}
+                <strong>"{filterOptions.searchTerm}"</strong>
+              </h2>
+            )}
             <div className="border border-gray-500 text-gray-800 px-2 py-px rounded">
               <label htmlFor="sort">Sort by:</label>
               <select
