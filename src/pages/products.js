@@ -15,14 +15,24 @@ export default function Products({ products, categories, brands }) {
   const { result, error, loading } = useSearch(router.query);
 
   useEffect(() => {
-    router.push(
-      {
-        pathname: "/products",
-        query: filterOptions,
-      },
-      undefined,
-      { shallow: true }
-    );
+    if (!filterOptions) {
+      setFilterOptions(router.query);
+    } else {
+      const query = Object.entries(filterOptions).reduce(
+        (acc, [key, value]) => {
+          if (!value) return { ...acc };
+          return { ...acc, [key]: value };
+        },
+        {}
+      );
+      router.push(
+        {
+          query,
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
   }, [filterOptions]);
 
   console.log("options", filterOptions);

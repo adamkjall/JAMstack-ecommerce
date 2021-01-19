@@ -6,6 +6,8 @@ import UserIcon from "../../../public/icons/user.svg";
 import HeartIcon from "../../../public/icons/heart.svg";
 import SearchIcon from "../../../public/icons/search.svg";
 
+import Searchbar from "components/searchbar";
+
 import { useUI } from "contexts/ui/context";
 
 const Navbar = () => {
@@ -30,7 +32,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="flex space-x-4">
-        <SearchIcon width="24" className="cursor-pointer" />
+        <Searchbar />
         <HeartIcon width="24" className="cursor-pointer" />
         <UserIcon width="24" className="cursor-pointer" />
         <CartIcon width="24" onClick={openSidebar} className="cursor-pointer" />
