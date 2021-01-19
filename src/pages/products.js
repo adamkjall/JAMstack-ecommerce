@@ -48,9 +48,10 @@ export default function Products({ products, categories, brands }) {
     }
   }, [searchQuery]);
 
-  console.log("options", searchQuery);
-  console.log("query", router.query);
+  // console.log("options", searchQuery);
+  // console.log("query", router.query);
 
+  // handles which checkboxes are set and stores it in state
   function handleCheck(e, property) {
     const clickedId = e.target.value;
     const isChecked = searchQuery?.[property]?.includes(clickedId);
@@ -82,7 +83,10 @@ export default function Products({ products, categories, brands }) {
                 .map((c) => (
                   <li
                     className={`${
-                      c.id == searchQuery?.categoryId ? "font-bold" : ""
+                      c.id == searchQuery?.categoryId ||
+                      (!searchQuery?.categoryId && c.id == 23) // id:23 = "All" is preselected
+                        ? "font-bold"
+                        : ""
                     } cursor-pointer`}
                     key={c.id}
                     onClick={() =>
