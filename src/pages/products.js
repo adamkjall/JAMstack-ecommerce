@@ -13,62 +13,59 @@ import { shallowEqual } from "utils";
 
 export default function Products({ products, categories, brands }) {
   const router = useRouter();
-  const [filterOptions, setFilterOptions] = useState();
-  const { result, error, loading } = useSearch(filterOptions);
+  const [searchQuery, setSearchQuery] = useState();
+  const { result, error, loading } = useSearch(searchQuery);
 
   // save the query to state
   useEffect(() => {
     const noQuery = JSON.stringify(router.query) === "{}";
     if (noQuery) {
-      setFilterOptions(null);
-    } else if (!filterOptions) {
-      setFilterOptions(router.query);
+      setSearchQuery(null);
+    } else if (!searchQuery) {
+      setSearchQuery(router.query);
     } else {
-      const hasQueryChanged = !shallowEqual(router.query, filterOptions);
+      const hasQueryChanged = !shallowEqual(router.query, searchQuery);
       // only update state if query differs from the one in state
       if (hasQueryChanged) {
-        setFilterOptions(router.query);
+        setSearchQuery(router.query);
       }
     }
   }, [router.query]);
 
   // updates to url according to the state
   useEffect(() => {
-    if (!filterOptions) {
+    if (!searchQuery) {
       return;
     } else {
       // create a query with only the options that have a value
-      const query = Object.entries(filterOptions).reduce(
-        (acc, [key, value]) => {
-          if (!value) return { ...acc };
-          return { ...acc, [key]: value };
-        },
-        {}
-      );
+      const query = Object.entries(searchQuery).reduce((acc, [key, value]) => {
+        if (!value) return { ...acc };
+        return { ...acc, [key]: value };
+      }, {});
       router.push({
         query,
       });
     }
-  }, [filterOptions]);
+  }, [searchQuery]);
 
-  console.log("options", filterOptions);
+  console.log("options", searchQuery);
   console.log("query", router.query);
 
   function handleCheck(e, property) {
     const clickedId = e.target.value;
-    const isChecked = filterOptions?.[property]?.includes(clickedId);
+    const isChecked = searchQuery?.[property]?.includes(clickedId);
     let ids;
     if (isChecked) {
-      ids = filterOptions[property]
+      ids = searchQuery[property]
         .split(",")
         .filter((id) => id !== clickedId)
         .join(",");
     } else {
-      ids = filterOptions?.[property]
-        ? `${filterOptions[property]},${clickedId}`
+      ids = searchQuery?.[property]
+        ? `${searchQuery[property]},${clickedId}`
         : clickedId + "";
     }
-    setFilterOptions((opt) => ({ ...opt, [property]: ids }));
+    setSearchQuery((opt) => ({ ...opt, [property]: ids }));
   }
 
   return (
@@ -85,11 +82,11 @@ export default function Products({ products, categories, brands }) {
                 .map((c) => (
                   <li
                     className={`${
-                      c.id == filterOptions?.categoryId ? "font-bold" : ""
+                      c.id == searchQuery?.categoryId ? "font-bold" : ""
                     } cursor-pointer`}
                     key={c.id}
                     onClick={() =>
-                      setFilterOptions((opt) => ({ ...opt, categoryId: c.id }))
+                      setSearchQuery((opt) => ({ ...opt, categoryId: c.id }))
                     }
                   >
                     {c.name}
@@ -112,7 +109,7 @@ export default function Products({ products, categories, brands }) {
                     id={brand.id}
                     name={brand.name}
                     value={brand.id}
-                    checked={filterOptions?.brandId?.includes(brand.id)}
+                    checked={searchQuery?.brandId?.includes(brand.id)}
                     onChange={(e) => handleCheck(e, "brandId")}
                   />
                   <label className="ml-2" htmlFor={brand.id}>
@@ -138,15 +135,14 @@ export default function Products({ products, categories, brands }) {
               )}
             </div>
             <div className="">
-              <label htmlFor="sort">Sort by:</label>
+              {/* <label htmlFor="sort">Sort by:</label> */}
               <select
                 name="sort"
                 id="sort"
                 className="outline-none ml-2 bg-transparent"
                 onChange={(e) =>
-                  setFilterOptions((opt) => {
+                  setSearchQuery((opt) => {
                     const value = e.target.value;
-
                     if (value.includes(",")) {
                       return {
                         ...opt,
@@ -162,9 +158,7 @@ export default function Products({ products, categories, brands }) {
                   })
                 }
               >
-                <option defaultValue value="id">
-                  Newest
-                </option>
+                <option value="id,desc">Newest</option>
                 <option value="total_sold">Popular</option>
                 <option value="price,asc">Price - ascending</option>
                 <option value="price,desc">Price - descending</option>
@@ -175,7 +169,7 @@ export default function Products({ products, categories, brands }) {
             <Spinner />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {result
+              {searchQuery && result
                 ? result.map((product) => (
                     <ProductCard
                       key={product.id}

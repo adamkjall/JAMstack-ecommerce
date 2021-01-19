@@ -52,8 +52,8 @@ export async function getProductImages(productId) {
 export async function getProducts({
   categoryId,
   searchTerm,
-  sortBy,
-  direction,
+  sortBy = "id",
+  direction = "desc",
   brandId,
 }) {
   const categoryParam = categoryId ? "categories:in=" + categoryId : "";
@@ -62,13 +62,16 @@ export async function getProducts({
   const directionPram = direction ? "direction=" + direction : "";
   const brandParam = brandId ? "brand_id:in=" + brandId : "";
 
+  // request params
   const params = [
     categoryParam,
     searchParam,
     sortParam,
     directionPram,
     brandParam,
-  ].join("&");
+  ]
+    .filter((param) => param)
+    .join("&");
 
   return await myFetch(`catalog/products?${params}`);
 }

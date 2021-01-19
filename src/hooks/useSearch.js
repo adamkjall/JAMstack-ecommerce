@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-const useSearch = (query = {}) => {
+const useSearch = (query) => {
   const [result, setResult] = useState();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const useSearch = (query = {}) => {
       }
     };
 
-    if (!isEmptyObject(query)) {
+    if (query && !isEmptyObject(query)) {
       fetchData();
     }
   }, [query]);
