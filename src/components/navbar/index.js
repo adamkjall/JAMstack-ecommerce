@@ -4,7 +4,6 @@ import Logo from "../../../public/icons/fox-icon.svg";
 import CartIcon from "../../../public/icons/cart.svg";
 import UserIcon from "../../../public/icons/user.svg";
 import HeartIcon from "../../../public/icons/heart.svg";
-import SearchIcon from "../../../public/icons/search.svg";
 
 import Searchbar from "components/searchbar";
 
@@ -21,13 +20,13 @@ const Navbar = () => {
         </a>
       </Link>
       <div className="flex space-x-8 uppercase">
-        <Link href="/products/">
+        <Link href="/products">
           <a className="cursor-pointer">Products</a>
         </Link>
-        <Link href="/blog/">
+        <Link href="/blog">
           <a className="cursor-pointer">Blog</a>
         </Link>
-        <Link href="/about/">
+        <Link href="/about">
           <a className="cursor-pointer">About</a>
         </Link>
       </div>

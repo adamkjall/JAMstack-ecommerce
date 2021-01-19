@@ -36,8 +36,8 @@ export default function Products({ products, categories, brands }) {
   }, [filterOptions]);
 
   console.log("options", filterOptions);
-  console.log("router", router.query);
-  console.log("brands", brands);
+  console.log("router", router);
+  // console.log("brands", brands);
 
   function handleCheck(e, property) {
     const clickedId = e.target.value;
