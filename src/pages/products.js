@@ -9,19 +9,35 @@ import { getCategories, getBrands } from "lib/bigcommerce/rest";
 
 import useSearch from "hooks/useSearch";
 
+import { shallowEqual } from "utils";
+
 export default function Products({ products, categories, brands }) {
   const router = useRouter();
-  const [filterOptions, setFilterOptions] = useState(router.query);
-  const { result, error, loading } = useSearch(router.query);
+  const [filterOptions, setFilterOptions] = useState();
+  const { result, error, loading } = useSearch(filterOptions);
 
+  // save the query to state
   useEffect(() => {
-    setFilterOptions(router.query);
-  }, [router.query?.searchTerm]);
+    const noQuery = JSON.stringify(router.query) === "{}";
+    if (noQuery) {
+      setFilterOptions(null);
+    } else if (!filterOptions) {
+      setFilterOptions(router.query);
+    } else {
+      const hasQueryChanged = !shallowEqual(router.query, filterOptions);
+      // only update state if query differs from the one in state
+      if (hasQueryChanged) {
+        setFilterOptions(router.query);
+      }
+    }
+  }, [router.query]);
 
+  // updates to url according to the state
   useEffect(() => {
     if (!filterOptions) {
       return;
     } else {
+      // create a query with only the options that have a value
       const query = Object.entries(filterOptions).reduce(
         (acc, [key, value]) => {
           if (!value) return { ...acc };
@@ -29,19 +45,14 @@ export default function Products({ products, categories, brands }) {
         },
         {}
       );
-      router.push(
-        {
-          query,
-        },
-        undefined,
-        { shallow: true }
-      );
+      router.push({
+        query,
+      });
     }
   }, [filterOptions]);
 
   console.log("options", filterOptions);
   console.log("query", router.query);
-  console.log("error", error);
 
   function handleCheck(e, property) {
     const clickedId = e.target.value;
@@ -74,7 +85,7 @@ export default function Products({ products, categories, brands }) {
                 .map((c) => (
                   <li
                     className={`${
-                      c.id === filterOptions?.categoryId ? "font-bold" : ""
+                      c.id == filterOptions?.categoryId ? "font-bold" : ""
                     } cursor-pointer`}
                     key={c.id}
                     onClick={() =>
@@ -117,31 +128,46 @@ export default function Products({ products, categories, brands }) {
         <Spinner />
       ) : (
         <div className="mb-8 flex-1">
-          <div className="flex justify-between mb-2">
-            {router.query?.searchTerm && (
-              <h2 className="text-xl">
-                Showing results for <strong>"{router.query.searchTerm}"</strong>
-              </h2>
-            )}
-            <div className="border border-gray-500 text-gray-800 px-2 py-px rounded">
+          <div className="flex justify-between mb-6">
+            <div>
+              {router.query?.searchTerm && (
+                <h2 className="text-xl">
+                  Showing results for{" "}
+                  <strong>"{router.query.searchTerm}"</strong>
+                </h2>
+              )}
+            </div>
+            <div className="">
               <label htmlFor="sort">Sort by:</label>
               <select
                 name="sort"
                 id="sort"
                 className="outline-none ml-2 bg-transparent"
                 onChange={(e) =>
-                  setFilterOptions((opt) => ({
-                    ...opt,
-                    sortBy: e.target.value,
-                  }))
+                  setFilterOptions((opt) => {
+                    const value = e.target.value;
+
+                    if (value.includes(",")) {
+                      return {
+                        ...opt,
+                        sortBy: value.split(",")[0],
+                        direction: value.split(",")[1],
+                      };
+                    }
+
+                    return {
+                      ...opt,
+                      sortBy: value,
+                    };
+                  })
                 }
               >
                 <option defaultValue value="id">
                   Newest
                 </option>
                 <option value="total_sold">Popular</option>
-                <option value="price">Price - ascending</option>
-                <option value="price">Price - descending</option>
+                <option value="price,asc">Price - ascending</option>
+                <option value="price,desc">Price - descending</option>
               </select>
             </div>
           </div>
