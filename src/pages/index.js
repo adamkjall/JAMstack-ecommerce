@@ -5,9 +5,10 @@ import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
 
 import { getProducts } from "lib/bigcommerce/graphql/operations";
-import { getCategories } from "lib/contentful";
+import { getCategories, getHero } from "lib/contentful";
 
 function Home({
+  hero,
   categories,
   featuredProducts,
   bestSellingProducts,
@@ -115,13 +116,17 @@ export async function getStaticProps({ locale, preview = false }) {
 
   // Content data from Contentful
   const categories = await getCategories();
-  console.log(categories[0].backgroundImage.fields.file.details);
+  const hero = await getHero();
+  console.log("hero", hero);
+  // console.log();
+  // console.log(categories[0].backgroundImage.fields.file.details);
   return {
     props: {
       featuredProducts,
       bestSellingProducts,
       newestProducts,
       categories,
+      hero,
     },
     revalidate: 60,
   };

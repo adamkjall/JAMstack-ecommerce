@@ -13,14 +13,21 @@ export async function getCategories() {
   }
 }
 
+export async function getHero() {
+  const entry = await client.getEntries({ content_type: "hero" });
+
+  if (entry.items) {
+    return transformItems(entry.items);
+  }
+}
+
 // Helpers
+/**
+ * Transform items data to fit the application
+ * @param {array|object} items
+ */
 const transformItems = (items) =>
   items.map((item) => ({
     id: item.sys.id,
     ...item.fields,
   }));
-
-const transformItem = (item) => ({
-  id: item.sys.id,
-  ...item.fields,
-});
