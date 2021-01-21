@@ -35,7 +35,7 @@ function Home({
                   <button
                     className={`${
                       index == 0 ? "right-0" : ""
-                    } btn btn-black z-10 absolute bottom-1/4 px-10 text-xl mx-10 min-w-min w-52`}
+                    } btn btn-black z-10 absolute bottom-1/4 px-10 text-2xl mx-10 min-w-min w-52`}
                   >
                     {category.title}
                   </button>
