@@ -21,6 +21,14 @@ export async function getHero() {
   }
 }
 
+export async function getCampaign() {
+  const entry = await client.getEntries({ content_type: "campaign" });
+
+  if (entry.items) {
+    return transformItems(entry.items)[0];
+  }
+}
+
 // Helpers
 /**
  * Transform items data to fit the application

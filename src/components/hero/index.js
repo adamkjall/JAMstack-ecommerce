@@ -15,7 +15,7 @@ const Hero = ({ title, images, buttonText }) => {
   };
 
   return (
-    <div className="relative" style={{ height: "40vw" }}>
+    <div className="relative">
       <div className="absolute z-10 inset-0 flex justify-center items-center">
         <h1 className="text-9xl text-white ">{title}</h1>
       </div>
@@ -25,18 +25,17 @@ const Hero = ({ title, images, buttonText }) => {
       >
         <button className="btn btn-black text-2xl px-6">{buttonText}</button>
       </div>
-      <Slider {...settings}>
+      <Slider {...settings} style={{ filter: "brightness(0.85)" }}>
         {images.map((image) => (
-          <div id={image.id} style={{ filter: "brightness(0.85)" }}>
-            <Image
-              src={"https:" + image.fields.file.url}
-              width={image.fields.file.details.image.width}
-              height={image.fields.file.details.image.height}
-              objectFit="cover"
-              quality="100"
-              layout="responsive"
-            />
-          </div>
+          <Image
+            key={image.sys.id}
+            src={"https:" + image.fields.file.url}
+            width={image.fields.file.details.image.width}
+            height={image.fields.file.details.image.height * 0.75}
+            objectFit="cover"
+            quality="85"
+            layout="responsive"
+          />
         ))}
       </Slider>
     </div>

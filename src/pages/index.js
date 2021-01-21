@@ -6,11 +6,12 @@ import Spinner from "components/spinner";
 import Hero from "components/hero";
 
 import { getProducts } from "lib/bigcommerce/graphql/operations";
-import { getCategories, getHero } from "lib/contentful";
+import { getCategories, getHero, getCampaign } from "lib/contentful";
 
 function Home({
   hero,
   categories,
+  campaign,
   featuredProducts,
   bestSellingProducts,
   newestProducts,
@@ -27,11 +28,32 @@ function Home({
             />
           </a>
         </Link>
+        <Link href={campaign.linkUrl} className="z-50">
+          <a>
+            <div
+              className="py-12 flex justify-center text-5xl font-bold"
+              style={{
+                backgroundColor: campaign.color,
+                color: campaign.textColor,
+              }}
+            >
+              <div>
+                <div className="transform -rotate-6">
+                  <h1 className="text-3xl">{campaign.title}</h1>
+                  <h2 className="">{campaign.subTitle}</h2>
+                </div>
+                <button className="btn btn-black float-right mt-6">
+                  {campaign.linkText}
+                </button>
+              </div>
+            </div>
+          </a>
+        </Link>
         <section className="grid md:grid-cols-2" style={{ height: "50vw" }}>
           {categories.map((category, index) => (
-            <Link href={category.slug}>
+            <Link key={category.id} href={category.slug}>
               <a>
-                <div key={category.id} className="relative h-full">
+                <div className="relative h-full">
                   <button
                     className={`${
                       index == 0 ? "right-0" : ""
@@ -129,9 +151,9 @@ export async function getStaticProps({ locale, preview = false }) {
   // Content data from Contentful
   const categories = await getCategories();
   const hero = await getHero();
-  console.log("hero", hero);
-  // console.log();
-  // console.log(categories[0].backgroundImage.fields.file.details);
+  const campaign = await getCampaign();
+  console.log("campaign", campaign);
+
   return {
     props: {
       featuredProducts,
@@ -139,6 +161,7 @@ export async function getStaticProps({ locale, preview = false }) {
       newestProducts,
       categories,
       hero,
+      campaign,
     },
     revalidate: 60,
   };

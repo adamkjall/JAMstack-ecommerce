@@ -14,7 +14,12 @@ export default function Layout({ children }) {
       <div className="relative flex flex-col min-h-full justify-between overflow-x-hidden">
         <Navbar />
 
-        <main className="w-full mx-auto mb-auto mt-16">{children}</main>
+        <main
+          className="w-full mx-auto mb-auto"
+          style={{ marginTop: "71.42px" }}
+        >
+          {children}
+        </main>
 
         <CartSidebar />
         <Footer />
