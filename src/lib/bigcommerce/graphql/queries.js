@@ -220,3 +220,17 @@ query variantById($variantEntityId: Int!) {
   }
 }
 `;
+
+export const GET_ALL_PRODUCT_PATHS = `
+  query getAllProductPaths($first: Int = 250) {
+    site {
+      products(first: $first) {
+        edges {
+          node {
+            path
+          }
+        }
+      }
+    }
+  }
+`;

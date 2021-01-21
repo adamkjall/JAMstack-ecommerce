@@ -3,6 +3,7 @@ import {
   getProductsQuery,
   GET_PRODUCT_BY_SLUG,
   GET_VARIANT_BY_ID,
+  GET_ALL_PRODUCT_PATHS,
 } from "./queries";
 
 /**
@@ -34,4 +35,9 @@ export const getVariantById = async (entityId) => {
     variables: { variantEntityId: entityId },
   });
   return res.data.site.product;
+};
+
+export const getAllProductPaths = async () => {
+  const res = await fetchGraphqlApi(GET_ALL_PRODUCT_PATHS);
+  return res.data.site.products.edges;
 };

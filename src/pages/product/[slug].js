@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 
-// import { getConfig } from "@bigcommerce/storefront-data-hooks/api";
-import getAllProductPaths from "@bigcommerce/storefront-data-hooks/api/operations/get-all-product-paths";
-
-import { getProductBySlug } from "lib/bigcommerce/graphql/operations";
+import {
+  getProductBySlug,
+  getAllProductPaths,
+} from "lib/bigcommerce/graphql/operations";
 
 import ProductView from "components/product/productView";
 
@@ -27,7 +27,7 @@ export async function getStaticProps({ params, locale, preview }) {
 }
 
 export async function getStaticPaths({ locales }) {
-  const { products } = await getAllProductPaths();
+  const products = await getAllProductPaths();
   const paths = products.map((product) => `/product${product.node.path}`);
 
   return {
