@@ -18,7 +18,7 @@ function Home({
 }) {
   return (
     <div>
-      <main className="mb-8">
+      <main className="">
         <Link href={hero.linkUrl}>
           <a>
             <Hero
@@ -72,67 +72,84 @@ function Home({
             </Link>
           ))}
         </section>
-        <section className="container mx-auto px-4">
+        {/* <section className="grid grid-cols-1 gap-20 mt-20"> */}
+        <section className="grid grid-cols-1">
           {!featuredProducts ? (
             <Spinner />
           ) : (
-            <div className="my-8">
-              <h2 className="text-2xl">Featured</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {featuredProducts.map(({ node: product }) => (
-                  <ProductCard
-                    key={product.id}
-                    name={product.name}
-                    brand={product.brand?.name}
-                    retailPrice={product.prices.price.value}
-                    originalPrice={product.prices.basePrice.value}
-                    currencyCode={product.prices.price.currencyCode}
-                    path={product.path}
-                    imgUrl={product.defaultImage.url320wide}
-                  />
-                ))}
+            <div className="pt-12" style={{ backgroundColor: "#0C7AA4" }}>
+              <div className="container mx-auto ">
+                <h2 className="text-4xl font-bold text-white mb-8 ml-8">
+                  Featured
+                </h2>
+              </div>
+              <div style={{ backgroundColor: "#074962" }}>
+                <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-8 py-20">
+                  {featuredProducts.map(({ node: product }) => (
+                    <ProductCard
+                      key={product.id}
+                      name={product.name}
+                      brand={product.brand?.name}
+                      retailPrice={product.prices.price.value}
+                      originalPrice={product.prices.basePrice.value}
+                      currencyCode={product.prices.price.currencyCode}
+                      path={product.path}
+                      imgUrl={product.defaultImage.url320wide}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           )}
           {!bestSellingProducts ? (
             <Spinner />
           ) : (
-            <div className="mb-8">
-              <h2 className="text-2xl">Popular</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {bestSellingProducts.map(({ node: product }) => (
-                  <ProductCard
-                    key={product.id}
-                    name={product.name}
-                    brand={product.brand?.name}
-                    retailPrice={product.prices.price.value}
-                    originalPrice={product.prices.basePrice.value}
-                    currencyCode={product.prices.price.currencyCode}
-                    path={product.path}
-                    imgUrl={product.defaultImage.url320wide}
-                  />
-                ))}
+            <div className="pt-12" style={{ backgroundColor: "#1A1A1A" }}>
+              <div className="container mx-auto ">
+                <h2 className="text-4xl font-bold text-white mb-8 ml-8">
+                  Popular
+                </h2>
+              </div>
+              <div style={{ backgroundColor: "#101010" }}>
+                <div className=" container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-8 py-20">
+                  {bestSellingProducts.map(({ node: product }) => (
+                    <ProductCard
+                      key={product.id}
+                      name={product.name}
+                      brand={product.brand?.name}
+                      retailPrice={product.prices.price.value}
+                      originalPrice={product.prices.basePrice.value}
+                      currencyCode={product.prices.price.currencyCode}
+                      path={product.path}
+                      imgUrl={product.defaultImage.url320wide}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           )}
           {!newestProducts ? (
             <Spinner />
           ) : (
-            <div className="mb-8">
-              <h2 className="text-2xl">New arrivals</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-                {newestProducts.map(({ node: product }) => (
-                  <ProductCard
-                    key={product.id}
-                    name={product.name}
-                    brand={product.brand?.name}
-                    retailPrice={product.prices.price.value}
-                    originalPrice={product.prices.basePrice.value}
-                    currencyCode={product.prices.price.currencyCode}
-                    path={product.path}
-                    imgUrl={product.defaultImage.url320wide}
-                  />
-                ))}
+            <div className="pt-12" style={{ backgroundColor: "#F05A2B" }}>
+              <div className="container mx-auto ">
+                <h2 className="text-4xl font-bold mb-8 ml-8">New arrivals</h2>
+              </div>
+              <div style={{ backgroundColor: "#F7AC95" }}>
+                <div className=" container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 px-8 py-20">
+                  {newestProducts.map(({ node: product }) => (
+                    <ProductCard
+                      key={product.id}
+                      name={product.name}
+                      brand={product.brand?.name}
+                      retailPrice={product.prices.price.value}
+                      originalPrice={product.prices.basePrice.value}
+                      currencyCode={product.prices.price.currencyCode}
+                      path={product.path}
+                      imgUrl={product.defaultImage.url320wide}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           )}
