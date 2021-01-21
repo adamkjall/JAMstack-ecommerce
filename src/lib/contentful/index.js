@@ -17,7 +17,7 @@ export async function getHero() {
   const entry = await client.getEntries({ content_type: "hero" });
 
   if (entry.items) {
-    return transformItems(entry.items);
+    return transformItems(entry.items)[0];
   }
 }
 

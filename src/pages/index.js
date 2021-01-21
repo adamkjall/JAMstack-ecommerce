@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
+import Hero from "components/hero";
 
 import { getProducts } from "lib/bigcommerce/graphql/operations";
 import { getCategories, getHero } from "lib/contentful";
@@ -16,7 +17,12 @@ function Home({
 }) {
   return (
     <div>
-      <main className="my-8">
+      <main className="mb-8">
+        <Hero
+          title={hero.title}
+          images={hero.backgroundImages}
+          link={{ title: hero.linkText, url: hero.linkUrl }}
+        />
         <section className="grid md:grid-cols-2" style={{ height: "50vw" }}>
           {categories.map((category, index) => (
             <Link href={category.slug}>
