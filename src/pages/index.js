@@ -16,11 +16,11 @@ function Home({
   return (
     <div>
       <main className="my-8">
-        <section className="grid grid-cols-2">
+        <section className="grid md:grid-cols-2" style={{ height: "50vw" }}>
           {categories.map((category, index) => (
             <Link href={category.slug}>
-              <a>
-                <div key={category.id} className="relative">
+              <a className="h-full">
+                <div key={category.id} className="relative h-full">
                   <button
                     className={`${
                       index == 0 ? "right-0" : ""
@@ -30,12 +30,9 @@ function Home({
                   </button>
                   <Image
                     src={"https:" + category.backgroundImage.fields.file.url}
-                    width={
-                      category.backgroundImage.fields.file.details.image.width
-                    }
-                    height={
-                      category.backgroundImage.fields.file.details.image.height
-                    }
+                    objectFit="cover"
+                    layout="fill"
+                    alt={`Category ${category.title}`}
                   />
                 </div>
               </a>
