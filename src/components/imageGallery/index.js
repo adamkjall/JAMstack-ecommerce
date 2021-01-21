@@ -42,8 +42,8 @@ const ImageGallery = ({ images }) => {
               },
               largeImage: {
                 src: image.node.urlOriginal,
-                width: 1000,
-                height: 1000,
+                width: 2000,
+                height: 2000,
               },
               enlargedImagePosition: "over",
               enlargedImageClassName: "enlarged-image",

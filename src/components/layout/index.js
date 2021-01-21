@@ -13,7 +13,7 @@ export default function Layout({ children }) {
     <CommerceProvider locale={locale}>
       <div className="relative flex flex-col min-h-full justify-between overflow-x-hidden">
         <header className="shadow-md">
-          <div className="max-w-5xl mx-auto px-4">
+          <div className="max-w-6xl mx-auto px-4">
             <Navbar />
           </div>
         </header>

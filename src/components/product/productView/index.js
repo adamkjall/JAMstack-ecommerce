@@ -105,7 +105,7 @@ const ProductView = ({ product }) => {
   const inStock = selectedVariant?.node.inventory?.isInStock ?? true;
 
   return (
-    <div className="my-8">
+    <div className="container mx-auto my-8">
       <NextSeo
         title={product.name}
         description={product.description}

@@ -21,9 +21,9 @@ const Hero = ({ title, images, buttonText }) => {
       </div>
       <div
         className="absolute z-10 bottom-0"
-        style={{ top: "70%", left: "65%" }}
+        style={{ top: "75%", left: "65%" }}
       >
-        <button className="btn btn-black">{buttonText}</button>
+        <button className="btn btn-black text-2xl px-6">{buttonText}</button>
       </div>
       <Slider {...settings} style={{ filter: "brightness(0.85)" }}>
         {images.map((image) => (
