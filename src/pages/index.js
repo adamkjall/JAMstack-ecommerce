@@ -18,15 +18,19 @@ function Home({
   return (
     <div>
       <main className="mb-8">
-        <Hero
-          title={hero.title}
-          images={hero.backgroundImages}
-          link={{ title: hero.linkText, url: hero.linkUrl }}
-        />
+        <Link href={hero.linkUrl}>
+          <a>
+            <Hero
+              title={hero.title}
+              images={hero.backgroundImages}
+              buttonText={hero.linkText}
+            />
+          </a>
+        </Link>
         <section className="grid md:grid-cols-2" style={{ height: "50vw" }}>
           {categories.map((category, index) => (
             <Link href={category.slug}>
-              <a className="h-full">
+              <a>
                 <div key={category.id} className="relative h-full">
                   <button
                     className={`${

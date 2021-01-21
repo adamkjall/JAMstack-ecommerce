@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import Slider from "react-slick";
 
-const Hero = ({ title, images, link }) => {
+const Hero = ({ title, images, buttonText }) => {
   const settings = {
     infinite: true,
     slidesToShow: 1,
@@ -23,7 +23,7 @@ const Hero = ({ title, images, link }) => {
         className="absolute z-10 bottom-0"
         style={{ top: "70%", left: "65%" }}
       >
-        <button className="btn btn-black">{link.title}</button>
+        <button className="btn btn-black">{buttonText}</button>
       </div>
       <Slider {...settings} style={{ filter: "brightness(0.85)" }}>
         {images.map((image) => (
@@ -34,7 +34,7 @@ const Hero = ({ title, images, link }) => {
               height={image.fields.file.details.image.height}
               objectFit="cover"
               quality="100"
-              // layout="fill"
+              layout="responsive"
             />
           </div>
         ))}
