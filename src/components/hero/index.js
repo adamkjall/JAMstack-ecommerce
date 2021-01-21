@@ -12,7 +12,13 @@ const Hero = ({ title, images, buttonText }) => {
     autoplaySpeed: 4000,
     // speed: 250,
     // cssEase: "linear",
+
+    adaptiveHeight: true,
   };
+
+  console.log("img height", images[0].fields.file.details.image.height);
+  console.log("img height", images[1].fields.file.details.image.height);
+  console.log("img height", images[2].fields.file.details.image.height);
 
   return (
     <div className="relative">
@@ -31,7 +37,7 @@ const Hero = ({ title, images, buttonText }) => {
             key={image.sys.id}
             src={"https:" + image.fields.file.url}
             width={image.fields.file.details.image.width}
-            height={image.fields.file.details.image.height * 0.75}
+            height={image.fields.file.details.image.height * 0.8}
             objectFit="cover"
             quality="85"
             layout="responsive"
