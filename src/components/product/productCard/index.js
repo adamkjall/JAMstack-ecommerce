@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import WishlistButton from "components/wishlistButton";
+
 import usePrice from "@bigcommerce/storefront-data-hooks/use-price";
 
 const ProductCard = ({
   name,
+  id,
   brand,
   retailPrice,
   originalPrice,
@@ -27,7 +30,10 @@ const ProductCard = ({
   return (
     <Link href={"/product" + path}>
       <a>
-        <div className="rounded-sm shadow-lg p-4 cursor-pointer bg-white">
+        <div className="relative rounded-sm shadow-lg p-4 cursor-pointer bg-white max-w-sm">
+          <div className="float-right">
+            <WishlistButton productId={id} />
+          </div>
           <div style={{ position: "relative", width: "auto", height: "300px" }}>
             <Image
               src={imgUrl || "/"}

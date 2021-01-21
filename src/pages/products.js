@@ -70,7 +70,7 @@ export default function Products({ products, categories, brands }) {
   }
 
   return (
-    <div className="container mx-auto flex py-8">
+    <div className="container mx-auto flex py-8 px-4">
       <div className="mr-10">
         <div className="categories">
           <h3 className="text-xl font-bold mb-2">Categories</h3>
@@ -172,11 +172,13 @@ export default function Products({ products, categories, brands }) {
           {loading ? (
             <Spinner />
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+              {/* <div className="grid auto-cols-fr gap-8"> */}
               {searchQuery && result
                 ? result.map((product) => (
                     <ProductCard
                       key={product.id}
+                      id={product.id}
                       name={product.name}
                       brand={product.brand}
                       retailPrice={product.calculated_price}
@@ -189,6 +191,7 @@ export default function Products({ products, categories, brands }) {
                 : products.map(({ node: product }) => (
                     <ProductCard
                       key={product.id}
+                      id={product.id}
                       name={product.name}
                       brand={product.brand?.name}
                       retailPrice={product.prices.price.value}

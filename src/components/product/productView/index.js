@@ -241,6 +241,7 @@ const ProductView = ({ product }) => {
               .map(({ node: product }) => (
                 <ProductCard
                   key={product.id}
+                  id={product.id}
                   name={product.name}
                   brand={product.brand?.name}
                   retailPrice={product.prices.price.value}
