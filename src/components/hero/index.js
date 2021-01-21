@@ -9,11 +9,11 @@ const Hero = ({ title, images, buttonText }) => {
     slidesToScroll: 1,
     arrows: false,
     autoplay: true,
-    speed: 0,
     autoplaySpeed: 4000,
-    // adaptiveHeight: true,
+    // speed: 250,
+    // cssEase: "linear",
   };
-  console.log("image", images[0]);
+
   return (
     <div className="relative" style={{ height: "40vw" }}>
       <div className="absolute z-10 inset-0 flex justify-center items-center">
@@ -25,9 +25,9 @@ const Hero = ({ title, images, buttonText }) => {
       >
         <button className="btn btn-black text-2xl px-6">{buttonText}</button>
       </div>
-      <Slider {...settings} style={{ filter: "brightness(0.85)" }}>
+      <Slider {...settings}>
         {images.map((image) => (
-          <div id={image.id}>
+          <div id={image.id} style={{ filter: "brightness(0.85)" }}>
             <Image
               src={"https:" + image.fields.file.url}
               width={image.fields.file.details.image.width}
