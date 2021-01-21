@@ -12,24 +12,19 @@ const Hero = ({ title, images, buttonText }) => {
     autoplaySpeed: 4000,
     // speed: 250,
     // cssEase: "linear",
-
-    adaptiveHeight: true,
   };
-
-  console.log("img height", images[0].fields.file.details.image.height);
-  console.log("img height", images[1].fields.file.details.image.height);
-  console.log("img height", images[2].fields.file.details.image.height);
 
   return (
     <div className="relative h-full">
       <div className="absolute z-10 inset-0 flex justify-center items-center">
-        <h1 className="text-9xl text-white ">{title}</h1>
+        <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl text-white ">
+          {title}
+        </h1>
       </div>
-      <div
-        className="absolute z-10 bottom-0"
-        style={{ top: "75%", left: "65%" }}
-      >
-        <button className="btn btn-black text-2xl px-6">{buttonText}</button>
+      <div className="absolute z-10" style={{ top: "75%", left: "65%" }}>
+        <button className="btn btn-black md:text-xl px-6 whitespace-nowrap">
+          {buttonText}
+        </button>
       </div>
       <Slider {...settings} style={{ filter: "brightness(0.85)" }}>
         {images.map((image) => (
