@@ -19,11 +19,7 @@ export default function Slug({ product }) {
 
 export async function getStaticProps({ params, locale, preview }) {
   const product = await getProductBySlug(params.slug);
-  // const variant = await getVariantById(153);
-  // console.log("variant", variant.productOptions.edges[0].node.displayName);
-  // console.log("variant", variant.productOptions.edges[0].node.values.edges);
-  // console.log("variant", variant.productOptions.edges[1].node.displayName);
-  // console.log("variant", variant.productOptions.edges[1].node.values.edges);
+
   return {
     props: { product },
     revalidate: 200,
