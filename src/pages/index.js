@@ -49,7 +49,10 @@ function Home({
             </div>
           </a>
         </Link>
-        <section className="grid md:grid-cols-2" style={{ height: "50vw" }}>
+        <section
+          className="grid md:grid-cols-2"
+          // style={{ height: "50vw" }}
+        >
           {categories.map((category, index) => (
             <Link key={category.id} href={category.slug}>
               <a>
@@ -64,7 +67,9 @@ function Home({
                   <Image
                     src={"https:" + category.backgroundImage.fields.file.url}
                     objectFit="cover"
-                    layout="fill"
+                    layout="responsive"
+                    width={600}
+                    height={950}
                     alt={`Category ${category.title}`}
                   />
                 </div>

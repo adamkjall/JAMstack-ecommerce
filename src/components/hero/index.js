@@ -21,7 +21,7 @@ const Hero = ({ title, images, buttonText }) => {
   console.log("img height", images[2].fields.file.details.image.height);
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <div className="absolute z-10 inset-0 flex justify-center items-center">
         <h1 className="text-9xl text-white ">{title}</h1>
       </div>
@@ -36,11 +36,12 @@ const Hero = ({ title, images, buttonText }) => {
           <Image
             key={image.sys.id}
             src={"https:" + image.fields.file.url}
-            width={image.fields.file.details.image.width}
-            height={image.fields.file.details.image.height * 0.8}
-            objectFit="cover"
-            quality="85"
+            // width={image.fields.file.details.image.width}
+            // height={image.fields.file.details.image.height * 0.8}
             layout="responsive"
+            objectFit="cover"
+            width={1900}
+            height={980}
           />
         ))}
       </Slider>
