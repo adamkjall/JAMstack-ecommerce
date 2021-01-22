@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import Logo from "../../../public/icons/fox-icon.svg";
 import CartIcon from "../../../public/icons/cart.svg";
@@ -11,6 +12,7 @@ import { useUI } from "contexts/ui/context";
 
 const Navbar = () => {
   const { openSidebar } = useUI();
+  const { query } = useRouter();
 
   return (
     <header className="fixed z-50 w-full bg-white shadow-md">
@@ -20,16 +22,28 @@ const Navbar = () => {
             <Logo width="50" />
           </a>
         </Link>
-        <div className="flex space-x-8 uppercase justify-self-center">
-          <Link href="/products&categoryId=19">
-            <a className="cursor-pointer">Women</a>
+        <div
+          className={`flex space-x-8 uppercase justify-self-center font-semibold`}
+        >
+          <Link href={{ pathname: "/products", query: { categoryId: 19 } }}>
+            <a className={`${query?.categoryId == 19 ? "navBorder" : ""}`}>
+              Women
+            </a>
           </Link>
-          <Link href="/products&categoryId=18">
-            <a className="cursor-pointer">Men</a>
+          <Link href={{ pathname: "/products", query: { categoryId: 18 } }}>
+            <a className={`${query?.categoryId == 18 ? "navBorder" : ""}`}>
+              Men
+            </a>
           </Link>
           {/*  TODO go to sale */}
-          <Link href="/products">
-            <a className="cursor-pointer">Sale</a>
+          <Link href={{ pathname: "/products", query: {} }}>
+            <a
+              className={`${
+                query?.categoryId == 20 ? "navBorder" : ""
+              } text-red-500`}
+            >
+              Sale
+            </a>
           </Link>
         </div>
         <div className="flex space-x-4 justify-self-end">
@@ -45,6 +59,18 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      <style jsx>{`
+        a::after {
+          display: block;
+          content: "";
+          border-bottom: solid 3px black;
+          transform: scaleX(0);
+          transition: transform 250ms ease-in-out;
+        }
+        .navBorder::after {
+          transform: scaleX(1);
+        }
+      `}</style>
     </header>
   );
 };
