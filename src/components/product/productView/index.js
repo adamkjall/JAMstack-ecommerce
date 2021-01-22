@@ -7,7 +7,7 @@ import parse from "html-react-parser";
 import useAddItem from "@bigcommerce/storefront-data-hooks/cart/use-add-item";
 import usePrice from "@bigcommerce/storefront-data-hooks/use-price";
 
-import { useUI } from "contexts/ui/context";
+import { useUI } from "contexts/ui";
 
 import ProductCard from "components/product/productCard";
 import ImageGallery from "components/imageGallery";

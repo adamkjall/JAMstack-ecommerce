@@ -4,6 +4,7 @@ import { CommerceProvider } from "@bigcommerce/storefront-data-hooks";
 
 import Navbar from "components/navbar";
 import CartSidebar from "components/cart/cartSidebar";
+import NavSidebar from "components/navbar/navSidebar";
 import Footer from "components/footer";
 
 export default function Layout({ children }) {
@@ -20,7 +21,7 @@ export default function Layout({ children }) {
         >
           {children}
         </main>
-
+        <NavSidebar />
         <CartSidebar />
         <Footer />
       </div>

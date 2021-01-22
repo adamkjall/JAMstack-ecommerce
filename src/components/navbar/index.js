@@ -8,10 +8,10 @@ import HeartIcon from "../../../public/icons/heart.svg";
 
 import Searchbar from "components/searchbar";
 
-import { useUI } from "contexts/ui/context";
+import { useUI } from "contexts/ui";
 
 const Navbar = () => {
-  const { openSidebar } = useUI();
+  const { openCartSidebar } = useUI();
   const { query } = useRouter();
 
   return (
@@ -53,7 +53,7 @@ const Navbar = () => {
             <UserIcon width="24" className="cursor-pointer" />
             <CartIcon
               width="24"
-              onClick={openSidebar}
+              onClick={openCartSidebar}
               className="cursor-pointer"
             />
           </div>

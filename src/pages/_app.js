@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import Layout from "components/layout";
 
-import { UIProvider } from "contexts/ui/context";
+import { UIProvider } from "contexts/ui";
 import { CookiesProvider } from "react-cookie";
 
 import "../styles/index.css";

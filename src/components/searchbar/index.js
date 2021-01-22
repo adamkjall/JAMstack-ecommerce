@@ -23,7 +23,7 @@ const Searchbar = () => {
   return (
     <div className="relative mx-auto text-gray-600">
       <input
-        className="border-2 border-gray-400 h-9 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+        className="border-2 border-gray-400 h-9 px-3 pr-10 rounded-lg text-sm focus:outline-none"
         type="search"
         placeholder="Search"
         value={query}

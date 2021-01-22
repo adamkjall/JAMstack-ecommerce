@@ -1,17 +1,17 @@
-import useCart from "@bigcommerce/storefront-data-hooks/cart/use-cart";
-import usePrice from "@bigcommerce/storefront-data-hooks/use-price";
-// import checkout  from "@bigcommerce/storefront-data-hooks/api/checkout";
-
-import { useUI } from "contexts/ui/context";
-
-import CrossIcon from "../../../../public/icons/close.svg";
-import CartItem from "components/cart/cartItem";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 
+import useCart from "@bigcommerce/storefront-data-hooks/cart/use-cart";
+import usePrice from "@bigcommerce/storefront-data-hooks/use-price";
+
+import { useUI } from "contexts/ui";
+import CartItem from "components/cart/cartItem";
+
+import CrossIcon from "../../../../public/icons/close.svg";
+
 const CartSidebar = () => {
   const { data, isEmpty } = useCart();
-  const { displaySidebar, closeSidebar } = useUI();
+  const { displayCartSidebar, closeCartSidebar } = useUI();
   const { price: subTotal } = usePrice(
     data && { amount: data.base_amount, currencyCode: data.currency.code }
   );
@@ -26,32 +26,30 @@ const CartSidebar = () => {
   const handleClickOutside = (e) => {
     if (ref.current.contains(e.target)) return;
 
-    closeSidebar();
+    closeCartSidebar();
   };
 
   // this effect makes sure clicks outside sidebar closes the sidebar
   useEffect(() => {
-    if (displaySidebar) {
+    if (displayCartSidebar) {
       document.addEventListener("click", handleClickOutside);
     } else {
       document.removeEventListener("click", handleClickOutside);
     }
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [displaySidebar]);
+  }, [displayCartSidebar]);
 
   return (
     <aside
       ref={ref}
       className={`${
-        displaySidebar ? "" : "translate-x-full"
-      } fixed transform top-0 right-0 w-96 h-full bg-white ease-in-out transition-all duration-300 z-30 p-4 shadow-lg`}
+        displayCartSidebar ? "" : "translate-x-full"
+      } fixed transform top-0 right-0 w-96 h-full bg-white ease-in-out transition-all duration-300 z-50 p-4 shadow-lg`}
     >
       <header className="mb-4">
-        <CrossIcon
-          className="cursor-pointer"
-          width="24"
-          onClick={closeSidebar}
-        />
+        <button className="focus:outline-none" onClick={closeCartSidebar}>
+          <CrossIcon width="24" />
+        </button>
       </header>
       {isEmpty ? (
         <div>
@@ -93,7 +91,7 @@ const CartSidebar = () => {
                 ? "bg-gray-300"
                 : "bg-black hover:bg-white hover:text-black hover:border-black"
             } w-full font-mono font-bold text-lg text-white py-1.5 px-4 mt-6 border-transparent border-2`}
-            onClick={closeSidebar}
+            onClick={closeCartSidebar}
             disabled={items.length === 0}
           >
             Checkout
