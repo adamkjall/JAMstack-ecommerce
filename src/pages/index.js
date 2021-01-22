@@ -28,10 +28,10 @@ function Home({
             />
           </a>
         </Link>
-        <Link href={campaign.linkUrl} className="z-50">
+        <Link href={campaign.linkUrl}>
           <a>
             <div
-              className="py-12 flex justify-center text-5xl font-bold"
+              className="py-12 flex justify-center text-5xl font-bold -m-px"
               style={{
                 backgroundColor: campaign.color,
                 color: campaign.textColor,

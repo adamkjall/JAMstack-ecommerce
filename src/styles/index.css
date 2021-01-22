@@ -80,6 +80,11 @@ a {
   background-color: white;
 }
 
+/* Embedded checkout */
+#cart-edit-link {
+  display: none;
+}
+
 /* Start purging... */
 @tailwind utilities;
 /* Stop purging. */
