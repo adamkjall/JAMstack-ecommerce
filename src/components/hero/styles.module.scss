@@ -1,0 +1,35 @@
+.heroWrapper {
+  position: relative;
+  height: calc(100vh - 71.5px);
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  height: calc(100vh - 71.5px);
+  object-fit: cover;
+}
+
+.buttonContainer {
+  position: absolute;
+  z-index: 20;
+  top: 75%;
+  left: 30%;
+
+  @media screen and (min-width: 420px) {
+    left: 45%;
+  }
+  @media screen and (min-width: 540px) {
+    left: 55%;
+  }
+  @media screen and (min-width: 640px) {
+    left: 65%;
+  }
+}
+
+.title {
+  @media screen and (max-width: 440px) {
+    padding-left: 2rem;
+    font-size: 4rem;
+  }
+}

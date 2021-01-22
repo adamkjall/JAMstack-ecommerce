@@ -4,6 +4,7 @@ import Link from "next/link";
 import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
 import Hero from "components/hero";
+import Category from "components/category";
 
 import { getProducts } from "lib/bigcommerce/graphql/operations";
 import { getCategories, getHero, getCampaign } from "lib/contentful";
@@ -31,7 +32,7 @@ function Home({
         <Link href={campaign.linkUrl}>
           <a>
             <div
-              className="py-12 flex justify-center text-5xl font-bold -m-px"
+              className="py-12 flex justify-center text-5xl font-bold -m-1"
               style={{
                 backgroundColor: campaign.color,
                 color: campaign.textColor,
@@ -56,7 +57,15 @@ function Home({
           {categories.map((category, index) => (
             <Link key={category.id} href={category.slug}>
               <a>
-                <div className="relative h-full">
+                <Category
+                  categoryName={category.title}
+                  imageUrl={category.backgroundImage.fields.file.url}
+                  alignButtonX={index === 0 ? "right" : "left"}
+                />
+                {/* <div
+                  className="relative"
+                  style={{ width: "100%", height: "500px" }}
+                >
                   <button
                     className={`${
                       index == 0 ? "right-0" : ""
@@ -67,12 +76,12 @@ function Home({
                   <Image
                     src={"https:" + category.backgroundImage.fields.file.url}
                     objectFit="cover"
-                    layout="responsive"
-                    width={600}
-                    height={950}
+                    layout="fill"
+                    // width={600}
+                    // height={950}
                     alt={`Category ${category.title}`}
                   />
-                </div>
+                </div> */}
               </a>
             </Link>
           ))}
