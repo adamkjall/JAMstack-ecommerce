@@ -5,49 +5,62 @@ import Logo from "../../../public/icons/fox-icon.svg";
 import CartIcon from "../../../public/icons/cart.svg";
 import UserIcon from "../../../public/icons/user.svg";
 import HeartIcon from "../../../public/icons/heart.svg";
+import MenuIcon from "../../../public/icons/menu.svg";
 
 import Searchbar from "components/searchbar";
 
 import { useUI } from "contexts/ui";
 
+import styles from "./styles.module.scss";
+
 const Navbar = () => {
-  const { openCartSidebar } = useUI();
+  const { openCartSidebar, openMenuSidebar } = useUI();
   const { query } = useRouter();
 
   return (
     <header className="fixed z-50 w-full bg-white shadow-md">
-      <nav className="container mx-auto py-3 px-6 grid grid-cols-3 items-center">
+      <nav className={`${styles.nav} container mx-auto py-3 px-6`}>
         <Link href="/">
-          <a className="cursor-pointer">
+          <a className={`${styles.logo} cursor-pointer`}>
             <Logo width="50" />
           </a>
         </Link>
-        <div
-          className={`flex space-x-8 uppercase justify-self-center font-semibold`}
-        >
-          <Link href={{ pathname: "/products", query: { categoryId: 19 } }}>
-            <a className={`${query?.categoryId == 19 ? "navBorder" : ""}`}>
-              Women
-            </a>
-          </Link>
-          <Link href={{ pathname: "/products", query: { categoryId: 18 } }}>
-            <a className={`${query?.categoryId == 18 ? "navBorder" : ""}`}>
-              Men
-            </a>
-          </Link>
-          {/*  TODO go to sale */}
-          <Link href={{ pathname: "/products", query: {} }}>
-            <a
-              className={`${
-                query?.categoryId == 20 ? "navBorder" : ""
-              } text-red-500`}
-            >
-              Sale
-            </a>
-          </Link>
+        <div className="flex items-center">
+          <button
+            className={`${styles.hamburgerMenu} focus:outline-none`}
+            onClick={openMenuSidebar}
+          >
+            <MenuIcon width="24" />
+          </button>
+          <div
+            className={`${styles.menuLinksContainer} flex space-x-8 uppercase justify-self-center font-semibold`}
+          >
+            <Link href={{ pathname: "/products", query: { categoryId: 19 } }}>
+              <a className={`${query?.categoryId == 19 ? "navBorder" : ""}`}>
+                Women
+              </a>
+            </Link>
+            <Link href={{ pathname: "/products", query: { categoryId: 18 } }}>
+              <a className={`${query?.categoryId == 18 ? "navBorder" : ""}`}>
+                Men
+              </a>
+            </Link>
+            {/*  TODO go to sale */}
+            <Link href={{ pathname: "/products", query: {} }}>
+              <a
+                className={`${
+                  query?.categoryId == 20 ? "navBorder" : ""
+                } text-red-500`}
+              >
+                Sale
+              </a>
+            </Link>
+          </div>
         </div>
-        <div className="flex space-x-4 justify-self-end">
-          <Searchbar />
+        <div className={`${styles.actions} flex space-x-4 justify-self-end`}>
+          <div className={styles.searchbarContainer}>
+            <Searchbar />
+          </div>
           <div className="flex align-center space-x-4">
             <HeartIcon width="24" className="cursor-pointer" />
             <UserIcon width="24" className="cursor-pointer" />

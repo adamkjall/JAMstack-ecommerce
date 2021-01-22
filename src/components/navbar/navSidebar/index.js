@@ -27,8 +27,8 @@ const NavSidebar = () => {
     <aside
       ref={ref}
       className={`${
-        displayMenuSidebar ? "" : "translate-x-full"
-      } fixed top-0 -left-full w-96 h-full transform ease-in-out transition-all duration-300 z-50 p-4 bg-white`}
+        displayMenuSidebar ? "translate-x-full" : ""
+      } fixed top-0 -left-full w-full h-full transform ease-in-out transition-all duration-300 z-50 p-4 bg-white`}
     >
       <header className="mb-4">
         <button className="focus:outline-none" onClick={closeMenuSidebar}>

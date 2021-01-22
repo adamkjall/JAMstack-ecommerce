@@ -6,7 +6,7 @@ export const useUI = () => useContext(UIContext);
 
 export const UIProvider = ({ children }) => {
   const [displayCartSidebar, setDisplayCartSidebar] = useState(false);
-  const [displayMenuSidebar, setDisplayMenuSidebar] = useState(true);
+  const [displayMenuSidebar, setDisplayMenuSidebar] = useState(false);
 
   const openCartSidebar = () => setDisplayCartSidebar(true);
   const closeCartSidebar = () => setDisplayCartSidebar(false);
@@ -14,6 +14,7 @@ export const UIProvider = ({ children }) => {
   const openMenuSidebar = () => setDisplayMenuSidebar(true);
   const closeMenuSidebar = () => setDisplayMenuSidebar(false);
 
+  console.log("sidebar", displayMenuSidebar);
   return (
     <UIContext.Provider
       value={{

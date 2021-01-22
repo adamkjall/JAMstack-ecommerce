@@ -1,0 +1,45 @@
+.nav {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-areas: "logo navLinks actions";
+  justify-items: center;
+  align-items: center;
+
+  @media screen and (max-width: 1024px) {
+    grid-template-areas: "navLinks logo actions";
+  }
+}
+
+.logo {
+  grid-area: logo;
+  justify-self: start;
+  @media screen and (max-width: 1024px) {
+    justify-self: center;
+  }
+}
+
+.actions {
+  grid-area: actions;
+}
+
+.menuLinksContainer {
+  grid-area: navLinks;
+
+  @media screen and (max-width: 1024px) {
+    visibility: hidden;
+  }
+}
+
+.searchbarContainer {
+  @media screen and (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.hamburgerMenu {
+  display: none;
+
+  @media screen and (max-width: 1024px) {
+    display: block;
+  }
+}
