@@ -26,7 +26,7 @@
   grid-area: navLinks;
 
   @media screen and (max-width: 1024px) {
-    display: none;
+    display: none !important;
   }
 }
 
