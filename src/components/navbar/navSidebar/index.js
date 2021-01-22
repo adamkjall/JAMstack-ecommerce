@@ -11,7 +11,7 @@ import CrossIcon from "../../../../public/icons/close.svg";
 const NavSidebar = () => {
   const { displayMenuSidebar, closeMenuSidebar } = useUI();
   const ref = useRef();
-  const { query } = useRouter();
+  const router = useRouter();
 
   function handleClickOutside(e) {
     if (ref.current.contains(e.target)) return;
@@ -39,32 +39,47 @@ const NavSidebar = () => {
           <CrossIcon width="24" />
         </button>
       </header>
-      <nav className="flex flex-col items-center">
-        <div
-          className={`${""} flex space-x-8 uppercase justify-self-center font-semibold`}
-        >
-          <Link href={{ pathname: "/products", query: { categoryId: 19 } }}>
-            <a className={`${query?.categoryId == 19 ? "navBorder" : ""}`}>
-              Women
-            </a>
-          </Link>
-          <Link href={{ pathname: "/products", query: { categoryId: 18 } }}>
-            <a className={`${query?.categoryId == 18 ? "navBorder" : ""}`}>
-              Men
-            </a>
-          </Link>
-          {/*  TODO go to sale */}
-          <Link href={{ pathname: "/products", query: {} }}>
-            <a
-              className={`${
-                query?.categoryId == 20 ? "navBorder" : ""
-              } text-red-500`}
-            >
-              Sale
-            </a>
-          </Link>
-        </div>
+
+      <nav
+        className={`${""} flex flex-col justify-center items-center space-y-2 md:space-y-0 md:flex-row md:space-x-8 uppercase justify-self-center font-semibold`}
+      >
+        <Link href="/">
+          <a
+            className={`${router.pathname === "/" ? "navBorder" : ""}`}
+            onClick={closeMenuSidebar}
+          >
+            Home
+          </a>
+        </Link>
+        <Link href={{ pathname: "/products", query: { categoryId: 19 } }}>
+          <a
+            className={`${router.query?.categoryId == 19 ? "navBorder" : ""}`}
+            onClick={closeMenuSidebar}
+          >
+            Women
+          </a>
+        </Link>
+        <Link href={{ pathname: "/products", query: { categoryId: 18 } }}>
+          <a
+            className={`${router.query?.categoryId == 18 ? "navBorder" : ""}`}
+            onClick={closeMenuSidebar}
+          >
+            Men
+          </a>
+        </Link>
+        {/*  TODO go to sale */}
+        <Link href={{ pathname: "/products", query: {} }}>
+          <a
+            className={`${
+              router.query?.categoryId == 20 ? "navBorder" : ""
+            } text-red-500`}
+            onClick={closeMenuSidebar}
+          >
+            Sale
+          </a>
+        </Link>
       </nav>
+
       <div className="flex justify-center mt-6">
         <Searchbar />
       </div>
