@@ -32,7 +32,7 @@ function Home({
         <Link href={campaign.linkUrl}>
           <a>
             <div
-              className="py-12 flex justify-center text-5xl font-bold -m-1"
+              className="py-12 px-6 flex justify-center text-5xl font-bold -m-1"
               style={{
                 backgroundColor: campaign.color,
                 color: campaign.textColor,
@@ -50,10 +50,7 @@ function Home({
             </div>
           </a>
         </Link>
-        <section
-          className="grid md:grid-cols-2"
-          // style={{ height: "50vw" }}
-        >
+        <section className="grid md:grid-cols-2">
           {categories.map((category, index) => (
             <Link key={category.id} href={category.slug}>
               <a>
@@ -62,31 +59,11 @@ function Home({
                   imageUrl={category.backgroundImage.fields.file.url}
                   alignButtonX={index === 0 ? "right" : "left"}
                 />
-                {/* <div
-                  className="relative"
-                  style={{ width: "100%", height: "500px" }}
-                >
-                  <button
-                    className={`${
-                      index == 0 ? "right-0" : ""
-                    } btn btn-black z-10 absolute bottom-1/4 px-10 text-2xl mx-10 min-w-min w-52`}
-                  >
-                    {category.title}
-                  </button>
-                  <Image
-                    src={"https:" + category.backgroundImage.fields.file.url}
-                    objectFit="cover"
-                    layout="fill"
-                    // width={600}
-                    // height={950}
-                    alt={`Category ${category.title}`}
-                  />
-                </div> */}
               </a>
             </Link>
           ))}
         </section>
-        {/* <section className="grid grid-cols-1 gap-20 mt-20"> */}
+
         <section className="grid grid-cols-1">
           {!featuredProducts ? (
             <Spinner />

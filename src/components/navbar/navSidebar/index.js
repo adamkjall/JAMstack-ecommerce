@@ -39,7 +39,9 @@ const NavSidebar = () => {
           <CrossIcon width="24" />
         </button>
       </header>
-
+      <div className="flex justify-center mb-6">
+        <Searchbar />
+      </div>
       <nav
         className={`${""} flex flex-col justify-center items-center space-y-2 md:space-y-0 md:flex-row md:space-x-8 uppercase justify-self-center font-semibold`}
       >
@@ -78,11 +80,13 @@ const NavSidebar = () => {
             Sale
           </a>
         </Link>
+        <Link href={{ pathname: "/signin", query: {} }}>
+          <a onClick={closeMenuSidebar}>
+            <button className="btn btn-black mt-10">Sign in</button>
+          </a>
+        </Link>
       </nav>
 
-      <div className="flex justify-center mt-6">
-        <Searchbar />
-      </div>
       <style jsx>{`
         a::after {
           display: block;

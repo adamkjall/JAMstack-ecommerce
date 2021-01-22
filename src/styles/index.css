@@ -30,7 +30,7 @@ a {
 }
 
 .btn {
-  @apply font-mono font-bold text-lg py-1.5 px-4;
+  @apply font-mono font-bold text-lg py-1.5 px-4 rounded-sm;
 }
 
 .btn-black {
