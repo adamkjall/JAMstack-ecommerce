@@ -22,10 +22,10 @@ const Navbar = () => {
       <nav className={`${styles.nav} container mx-auto py-3 px-6`}>
         <Link href="/">
           <a className={`${styles.logo} cursor-pointer`}>
-            <Logo width="50" />
+            <Logo width="45" />
           </a>
         </Link>
-        <div className="flex items-center">
+        <div className={styles.linksWrapper}>
           <button
             className={`${styles.hamburgerMenu} focus:outline-none`}
             onClick={openMenuSidebar}

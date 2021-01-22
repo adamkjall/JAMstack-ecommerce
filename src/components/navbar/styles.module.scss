@@ -6,7 +6,7 @@
   align-items: center;
 
   @media screen and (max-width: 1024px) {
-    grid-template-areas: "navLinks logo actions";
+    grid-template-areas: "hamburgerMenu logo actions";
   }
 }
 
@@ -26,7 +26,7 @@
   grid-area: navLinks;
 
   @media screen and (max-width: 1024px) {
-    visibility: hidden;
+    display: none;
   }
 }
 
@@ -38,8 +38,16 @@
 
 .hamburgerMenu {
   display: none;
+  grid-area: hamburgerMenu;
 
   @media screen and (max-width: 1024px) {
     display: block;
+    justify-self: start;
+  }
+}
+
+.linksWrapper {
+  @media screen and (max-width: 1024px) {
+    justify-self: start;
   }
 }

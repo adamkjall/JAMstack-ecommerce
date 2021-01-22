@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
+import { useUI } from "contexts/ui";
+
 import SearchIcon from "../../../public/icons/search.svg";
 
 const Searchbar = () => {
   const [query, setQuery] = useState("");
   const router = useRouter();
+  const { closeMenuSidebar } = useUI();
 
   function search() {
     if (query) {
       router.push({ pathname: "/products", query: { searchTerm: query } });
       setQuery("");
+      closeMenuSidebar();
     }
   }
 
