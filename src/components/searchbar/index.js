@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 
 import SearchIcon from "../../../public/icons/search.svg";
@@ -21,16 +21,22 @@ const Searchbar = () => {
   }
 
   return (
-    <div className="flex">
+    <div className="relative mx-auto text-gray-600">
       <input
-        className="border-black border-b px-2"
-        type="text"
+        className="border-2 border-gray-400 h-9 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+        type="search"
+        placeholder="Search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
       />
-
-      <SearchIcon width="24" className="cursor-pointer" onClick={search} />
+      <button
+        type="submit"
+        className="absolute right-0 top-0 mt-2 mr-4"
+        onClick={search}
+      >
+        <SearchIcon width="22" />
+      </button>
     </div>
   );
 };
