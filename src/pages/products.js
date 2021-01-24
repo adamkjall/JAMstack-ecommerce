@@ -11,6 +11,8 @@ import useSearch from "hooks/useSearch";
 
 import { shallowEqual } from "utils";
 
+import CloseIcon from "../../public/icons/close.svg";
+
 export default function Products({ products, categories, brands }) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState();
@@ -18,8 +20,8 @@ export default function Products({ products, categories, brands }) {
 
   // save the query to state
   useEffect(() => {
-    const noQuery = JSON.stringify(router.query) === "{}";
-    if (noQuery) {
+    const hasQuery = JSON.stringify(router.query) !== "{}";
+    if (!hasQuery) {
       setSearchQuery(null);
     } else if (!searchQuery) {
       setSearchQuery(router.query);
@@ -48,7 +50,7 @@ export default function Products({ products, categories, brands }) {
     }
   }, [searchQuery]);
 
-  // console.log("options", searchQuery);
+  console.log("searchQuery", searchQuery);
   // console.log("query", router.query);
 
   // handles which checkboxes are set and stores it in state
@@ -67,6 +69,15 @@ export default function Products({ products, categories, brands }) {
         : clickedId + "";
     }
     setSearchQuery((opt) => ({ ...opt, [property]: ids }));
+  }
+
+  function resetSearchTerm() {
+    if (searchQuery?.searchTerm) {
+      const query = { ...searchQuery };
+      delete query.searchTerm;
+      console.log("query", query);
+      setSearchQuery(query);
+    }
   }
 
   return (
@@ -132,10 +143,25 @@ export default function Products({ products, categories, brands }) {
           <div className="flex justify-between mb-6">
             <div>
               {router.query?.searchTerm && (
-                <h2 className="text-xl">
-                  Showing results for{" "}
-                  <strong>"{router.query.searchTerm}"</strong>
-                </h2>
+                <div className="flex items-center">
+                  <h2 className="text-xl">
+                    Showing results for{" "}
+                    <strong>"{router.query.searchTerm}"</strong>
+                  </h2>
+                  <button
+                    onClick={resetSearchTerm}
+                    className="ml-4  bg-gray-700 rounded-full shadow-sm"
+                  >
+                    <CloseIcon
+                      width="20"
+                      height="20"
+                      className="pt-1 stroke-current text-white"
+                      strokeWidth="2"
+                      // stroke={"white"}
+                      // fill={"white"}
+                    />
+                  </button>
+                </div>
               )}
             </div>
             <div className="">

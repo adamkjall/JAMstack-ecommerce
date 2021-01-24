@@ -28,12 +28,12 @@ const ProductCard = ({
   const onSale = retailPrice < originalPrice;
 
   return (
-    <Link href={"/product" + path}>
-      <a>
-        <div className="relative rounded-sm shadow-lg p-4 cursor-pointer bg-white max-w-sm">
-          <div className="float-right">
-            <WishlistButton productId={id} />
-          </div>
+    <div className="relative rounded-sm shadow-lg p-4 cursor-pointer bg-white max-w-sm">
+      <div className="float-right z-20">
+        <WishlistButton productId={id} />
+      </div>
+      <Link href={"/product" + path}>
+        <a>
           <div style={{ position: "relative", width: "auto", height: "300px" }}>
             <Image
               src={imgUrl || "/"}
@@ -50,9 +50,9 @@ const ProductCard = ({
               <span className="line-through opacity-40">{basePrice}</span>
             )}
           </div>
-        </div>
-      </a>
-    </Link>
+        </a>
+      </Link>
+    </div>
   );
 };
 

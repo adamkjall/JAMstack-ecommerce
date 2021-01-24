@@ -39,15 +39,18 @@ const WishlistButton = ({ productId, variant }) => {
   // };
 
   function handleClick(e) {
-    e.preventDefault();
-    setChecked(!checked);
+    // e.preventDefault();
+    // e.stopImmediatePropagation();
+    // console.log("i got clicked");
+    // setChecked(!checked);
   }
 
   return (
     <div onClick={handleClick}>
       <HeartIcon
         width="24"
-        // className={styles.color}
+        className={`fill-current stroke-current text-pink-500`}
+        strokeWidth="2"
         // style={{ fill: "red" }}
         // fill={checked ? "hotPink" : "black"}
         // stroke={checked ? "hotPink" : "black"}
