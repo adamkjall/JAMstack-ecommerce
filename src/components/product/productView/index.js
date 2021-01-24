@@ -30,7 +30,7 @@ const ProductView = ({ product }) => {
   const router = useRouter();
 
   const addItem = useAddItem();
-  const { openSidebar } = useUI();
+  const { openCartSidebar } = useUI();
   const { price } = usePrice({
     amount: product.prices.price.value,
     baseAmount: product.prices.basePrice.value,
@@ -93,10 +93,10 @@ const ProductView = ({ product }) => {
         productId: product.entityId,
         variantId: selectedVariant?.node.entityId,
       });
-      openSidebar();
-      setLoading(false);
+      openCartSidebar();
     } catch (error) {
       console.log("Error adding to cart", error);
+    } finally {
       setLoading(false);
     }
   };

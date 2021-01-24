@@ -7,21 +7,21 @@ import useCart from "@bigcommerce/storefront-data-hooks/cart/use-cart";
 function EmbeddedCheckout(props) {
   const { data } = useCart();
   const [checkoutLoaded, setCheckoutLoaded] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["bc_cartId"]);
+  const [cookie, setCookie, removeCookie] = useCookies(["bc_cartId"]);
 
-  const containerId = props.containerId || "V1StGXR8_Z5jdHi6B-myT";
+  const containerId = props.containerId || "checkout-container";
 
   useEffect(() => {
     const handleEmbed = async () => {
-      const resp = await axios.post("/api/bigcommerce/embedded-checkout", {
-        cartId: data?.id,
-      });
-      const url = resp.data.data.embedded_checkout_url;
+      console.log("cookie", cookie);
       try {
+        const resp = await axios.post("/api/bigcommerce/embedded-checkout", {
+          cartId: data?.id,
+        });
+        const url = resp.data.data.embedded_checkout_url;
         return await embedCheckout({
           containerId,
           url,
-
           onError: (err) => console.error(err),
           onFrameError: (err) => console.error(err),
           onComplete: () => removeCookie("bc_cartId"), // clears cart
@@ -32,7 +32,7 @@ function EmbeddedCheckout(props) {
         setCheckoutLoaded(true);
       }
     };
-    if (data && !checkoutLoaded) {
+    if (data?.id && !checkoutLoaded) {
       handleEmbed();
     }
   }, [data]);
