@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed z-50 w-full bg-white shadow-md">
-      <nav className={`${styles.nav} container mx-auto py-3 px-6 text-lg`}>
+      <nav className={`${styles.nav} container mx-auto py-3 px-4 text-lg`}>
         <Link href="/">
           <a className={`${styles.logo} cursor-pointer`}>
             <Logo width="45" />

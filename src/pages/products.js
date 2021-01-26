@@ -12,10 +12,13 @@ import useSearch from "hooks/useSearch";
 import { shallowEqual } from "utils";
 
 import CloseIcon from "../../public/icons/close.svg";
+import NextIcon from "../../public/icons/next.svg";
+import SettingsIcon from "../../public/icons/settings.svg";
 
 export default function Products({ products, categories, brands }) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState();
+  const [showFilter, setShowFilter] = useState(false);
   const { result, error, loading } = useSearch(searchQuery);
 
   // save the query to state
@@ -85,99 +88,97 @@ export default function Products({ products, categories, brands }) {
   }
 
   return (
-    <div className="container relative mx-auto flex flex-col md:flex-row py-4 md:py-8 px-4">
-      <div
-        className={`${
-          true ? "translate-y-full" : ""
-        } absolute transform -top-full h-full w-full ease-in-out transition-transform duration-300 bg-white z-20 shadow-lg md:mr-10 `}
-      >
-        <div className="categories">
-          <h3 className="text-2xl font-bold mb-2">Categories</h3>
-          {!categories ? (
-            <Spinner />
-          ) : (
-            <ul>
-              {categories
-                .sort((a, b) => a.sort_order - b.sort_order)
-                .map((c) => (
-                  <li
-                    className={`${
-                      c.id == searchQuery?.categoryId ||
-                      (!searchQuery?.categoryId && c.id == 23) // id:23 = "All" is preselected
-                        ? "font-bold"
-                        : ""
-                    } cursor-pointer text-xl`}
-                    key={c.id}
-                    onClick={() =>
-                      setSearchQuery((opt) => ({ ...opt, categoryId: c.id }))
-                    }
-                  >
-                    {c.name}
-                  </li>
-                ))}
-            </ul>
-          )}
-        </div>
-        <div className="brands mt-4">
-          <h3 className="text-2xl font-bold mb-2">Brands</h3>
-          {!brands ? (
-            <Spinner />
-          ) : (
-            <div>
-              {brands.map((brand) => (
-                <div key={brand.id}>
-                  <input
-                    className="cursor-pointer"
-                    type="checkbox"
-                    id={brand.id}
-                    name={brand.name}
-                    value={brand.id}
-                    checked={searchQuery?.brandId?.includes(brand.id)}
-                    onChange={(e) => handleCheck(e, "brandId")}
-                  />
-                  <label className="ml-2 text-xl" htmlFor={brand.id}>
-                    {brand.name}
-                  </label>
-                </div>
-              ))}
+    <div className="container overflow-hidden relative mx-auto flex flex-col md:flex-row ">
+      {showFilter ? (
+        <div
+          className={`fixed overflow-hidden w-full bg-white z-20 md:mr-10 p-4 flex flex-col -mt-px`}
+          style={{ height: "calc(100vh - 70px" }}
+        >
+          <div className="categories">
+            <div className="flex justify-between items-center">
+              <h3 className="text-2xl font-bold mb-2">Categories</h3>
             </div>
-          )}
-        </div>
-      </div>
-      {!products ? (
-        <Spinner />
-      ) : (
-        <div className="mb-8 mt-8 flex-1">
-          <div className="grid grid-cols-1 gap-4 mb-6">
-            <div>
-              {router.query?.searchTerm && (
-                <div className="flex items-center">
-                  <h2 className="text-xl">
-                    Showing results for{" "}
-                    <strong>"{router.query.searchTerm}"</strong>
-                  </h2>
-                  <button
-                    onClick={resetSearchTerm}
-                    className="ml-4  bg-gray-700 rounded-full shadow-sm"
-                  >
-                    <CloseIcon
-                      width="20"
-                      height="20"
-                      className="pt-1 stroke-current text-white"
-                      strokeWidth="2"
-                      // stroke={"white"}
-                      // fill={"white"}
+            {!categories ? (
+              <Spinner />
+            ) : (
+              <ul>
+                {categories
+                  .sort((a, b) => a.sort_order - b.sort_order)
+                  .map((c) => (
+                    <li
+                      className={`${
+                        c.id == searchQuery?.categoryId ||
+                        (!searchQuery?.categoryId && c.id == 23) // id:23 = "All" is preselected
+                          ? "font-bold"
+                          : ""
+                      } cursor-pointer text-xl`}
+                      key={c.id}
+                      onClick={() =>
+                        setSearchQuery((opt) => ({ ...opt, categoryId: c.id }))
+                      }
+                    >
+                      {c.name}
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </div>
+          <div className="brands mt-4">
+            <h3 className="text-2xl font-bold mb-2">Brands</h3>
+            {!brands ? (
+              <Spinner />
+            ) : (
+              <div>
+                {brands.map((brand) => (
+                  <div key={brand.id}>
+                    <input
+                      className="cursor-pointer"
+                      type="checkbox"
+                      id={brand.id}
+                      name={brand.name}
+                      value={brand.id}
+                      checked={searchQuery?.brandId?.includes(brand.id)}
+                      onChange={(e) => handleCheck(e, "brandId")}
                     />
-                  </button>
-                </div>
-              )}
+                    <label className="ml-2 text-xl" htmlFor={brand.id}>
+                      {brand.name}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div
+            className="flex justify-center items-end flex-1"
+            onClick={() => setShowFilter(false)}
+          >
+            <div className="flex">
+              <span className="pr-2 pb-2 text-xl">Hide filters</span>
+
+              <CloseIcon width="24" />
             </div>
-            <div className="text-lg border-b border-gray-400">
-              {/* <label htmlFor="sort">Sort by:</label> */}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div
+            className="fixed z-20 w-full grid grid-cols-2 gap-4 justify-items-start items-center px-4 py-2 -mt-px text-white"
+            style={{ backgroundColor: "#0C7AA4" }}
+          >
+            <div
+              className="w-full flex justify-between items-center"
+              onClick={() => setShowFilter(true)}
+            >
+              <span className="">Filters</span>
+              <SettingsIcon width="18" fill="white" stroke="white" />
+            </div>
+
+            {/* <label htmlFor="sort">Sort by:</label> */}
+            <div className="w-full">
               <select
                 name="sort"
                 id="sort"
-                className="outline-none ml-2 bg-transparent"
+                className="outline-none bg-transparent w-full"
                 onChange={(e) =>
                   setSearchQuery((opt) => {
                     const value = e.target.value;
@@ -196,49 +197,88 @@ export default function Products({ products, categories, brands }) {
                   })
                 }
               >
-                <option value="id,desc">Newest</option>
-                <option value="total_sold">Popular</option>
-                <option value="price,asc">Price - ascending</option>
-                <option value="price,desc">Price - descending</option>
+                <option value="id,desc" className="text-black">
+                  Newest
+                </option>
+                <option value="total_sold" className="text-black">
+                  Popular
+                </option>
+                <option value="price,asc" className="text-black">
+                  Price (asc)
+                </option>
+                <option value="price,desc" className="text-black">
+                  Price (desc)
+                </option>
               </select>
             </div>
           </div>
-          {loading ? (
+          {!products ? (
             <Spinner />
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {/* <div className="grid auto-cols-fr gap-8"> */}
-              {searchQuery && result
-                ? result.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      id={product.id}
-                      name={product.name}
-                      brand={product.brand}
-                      retailPrice={product.calculated_price}
-                      originalPrice={product.price}
-                      currencyCode={"USD"}
-                      path={product.custom_url.url}
-                      imgUrl={product.imgUrl}
-                    />
-                  ))
-                : products.map(({ node: product }) => (
-                    <ProductCard
-                      key={product.id}
-                      id={product.id}
-                      name={product.name}
-                      brand={product.brand?.name}
-                      retailPrice={product.prices.price.value}
-                      originalPrice={product.prices.basePrice.value}
-                      currencyCode={product.prices.price.currencyCode}
-                      path={product.path}
-                      imgUrl={product.defaultImage.url320wide}
-                      altText={product.defaultImage.altText}
-                    />
-                  ))}
+            <div className="px-4 mb-8 mt-8 flex-1">
+              <div className="grid grid-cols-1 gap-4 mb-6">
+                <div>
+                  {router.query?.searchTerm && (
+                    <div className="flex items-center">
+                      <h2 className="text-xl">
+                        Showing results for{" "}
+                        <strong>"{router.query.searchTerm}"</strong>
+                      </h2>
+                      <button
+                        onClick={resetSearchTerm}
+                        className="ml-4  bg-gray-700 rounded-full shadow-sm"
+                      >
+                        <CloseIcon
+                          width="20"
+                          height="20"
+                          className="pt-1 stroke-current text-white"
+                          strokeWidth="2"
+                          // stroke={"white"}
+                          // fill={"white"}
+                        />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              {loading ? (
+                <Spinner />
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                  {/* <div className="grid auto-cols-fr gap-8"> */}
+                  {searchQuery && result
+                    ? result.map((product) => (
+                        <ProductCard
+                          key={product.id}
+                          id={product.id}
+                          name={product.name}
+                          brand={product.brand}
+                          retailPrice={product.calculated_price}
+                          originalPrice={product.price}
+                          currencyCode={"USD"}
+                          path={product.custom_url.url}
+                          imgUrl={product.imgUrl}
+                        />
+                      ))
+                    : products.map(({ node: product }) => (
+                        <ProductCard
+                          key={product.id}
+                          id={product.id}
+                          name={product.name}
+                          brand={product.brand?.name}
+                          retailPrice={product.prices.price.value}
+                          originalPrice={product.prices.basePrice.value}
+                          currencyCode={product.prices.price.currencyCode}
+                          path={product.path}
+                          imgUrl={product.defaultImage.url320wide}
+                          altText={product.defaultImage.altText}
+                        />
+                      ))}
+                </div>
+              )}
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

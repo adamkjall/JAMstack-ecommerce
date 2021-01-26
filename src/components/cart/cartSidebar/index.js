@@ -44,7 +44,7 @@ const CartSidebar = () => {
       ref={ref}
       className={`${
         displayCartSidebar ? "" : "translate-x-full"
-      } fixed transform top-0 right-0 w-96 h-full bg-white ease-in-out transition-all duration-300 z-50 p-4 shadow-lg`}
+      } fixed transform top-0 right-0 w-full md:w-96 h-full bg-white ease-in-out transition-all duration-300 z-50 p-4 shadow-lg`}
     >
       <header className="mb-4">
         <button className="focus:outline-none" onClick={closeCartSidebar}>

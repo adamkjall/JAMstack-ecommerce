@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="flex flex-wrap overflow-hidden sm:-mx-1 md:-mx-px lg:-mx-2 xl:-mx-2">
           <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
             {/* <!-- Column 1 Content --> */}
-            <LogoIcon width="75" />
+            <LogoIcon width="50" />
           </div>
 
           <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
@@ -68,10 +68,10 @@ export default function Footer() {
         {/* <!-- Start footer bottom --> */}
 
         <div
-          className="pt-4 md:flex md:items-center md:justify-center "
+          className="pt-4 px-4 md:flex md:items-center md:justify-center "
           style={{ borderTop: "1px solid white" }}
         >
-          <ul className="">
+          <ul className="flex justify-between">
             <li
               className="md:mx-2 md:inline leading-7 text-sm"
               id="footer-navi-2"
