@@ -85,10 +85,14 @@ export default function Products({ products, categories, brands }) {
   }
 
   return (
-    <div className="container mx-auto flex py-8 px-4">
-      <div className="mr-10">
+    <div className="container relative mx-auto flex flex-col md:flex-row py-4 md:py-8 px-4">
+      <div
+        className={`${
+          true ? "translate-y-full" : ""
+        } absolute transform -top-full h-full w-full ease-in-out transition-transform duration-300 bg-white z-20 shadow-lg md:mr-10 `}
+      >
         <div className="categories">
-          <h3 className="text-xl font-bold mb-2">Categories</h3>
+          <h3 className="text-2xl font-bold mb-2">Categories</h3>
           {!categories ? (
             <Spinner />
           ) : (
@@ -102,7 +106,7 @@ export default function Products({ products, categories, brands }) {
                       (!searchQuery?.categoryId && c.id == 23) // id:23 = "All" is preselected
                         ? "font-bold"
                         : ""
-                    } cursor-pointer`}
+                    } cursor-pointer text-xl`}
                     key={c.id}
                     onClick={() =>
                       setSearchQuery((opt) => ({ ...opt, categoryId: c.id }))
@@ -114,8 +118,8 @@ export default function Products({ products, categories, brands }) {
             </ul>
           )}
         </div>
-        <div className="brands mt-8">
-          <h3 className="text-xl font-bold mb-2">Brands</h3>
+        <div className="brands mt-4">
+          <h3 className="text-2xl font-bold mb-2">Brands</h3>
           {!brands ? (
             <Spinner />
           ) : (
@@ -131,7 +135,7 @@ export default function Products({ products, categories, brands }) {
                     checked={searchQuery?.brandId?.includes(brand.id)}
                     onChange={(e) => handleCheck(e, "brandId")}
                   />
-                  <label className="ml-2" htmlFor={brand.id}>
+                  <label className="ml-2 text-xl" htmlFor={brand.id}>
                     {brand.name}
                   </label>
                 </div>
@@ -143,8 +147,8 @@ export default function Products({ products, categories, brands }) {
       {!products ? (
         <Spinner />
       ) : (
-        <div className="mb-8 flex-1">
-          <div className="flex justify-between mb-6">
+        <div className="mb-8 mt-8 flex-1">
+          <div className="grid grid-cols-1 gap-4 mb-6">
             <div>
               {router.query?.searchTerm && (
                 <div className="flex items-center">
@@ -168,7 +172,7 @@ export default function Products({ products, categories, brands }) {
                 </div>
               )}
             </div>
-            <div className="">
+            <div className="text-lg border-b border-gray-400">
               {/* <label htmlFor="sort">Sort by:</label> */}
               <select
                 name="sort"

@@ -43,7 +43,7 @@ const NavSidebar = () => {
         <Searchbar />
       </div>
       <nav
-        className={`${""} flex flex-col justify-center items-center space-y-2 md:space-y-0 md:flex-row md:space-x-8 uppercase justify-self-center font-semibold`}
+        className={`${""} flex flex-col justify-center items-center space-y-2 text-lg uppercase justify-self-center font-semibold`}
       >
         <Link href="/">
           <a
@@ -82,7 +82,9 @@ const NavSidebar = () => {
         </Link>
         <Link href={{ pathname: "/signin", query: {} }}>
           <a onClick={closeMenuSidebar}>
-            <button className="btn btn-black mt-10">Sign in</button>
+            <button className="btn btn-black mt-10 py-1 shadow-lg">
+              Sign in
+            </button>
           </a>
         </Link>
       </nav>

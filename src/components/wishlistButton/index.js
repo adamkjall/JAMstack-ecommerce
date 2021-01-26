@@ -67,7 +67,7 @@ const WishlistButton = ({ productId, variant }) => {
   const checked = cookie?.[COOKIE_NAME]?.[productId];
 
   return (
-    <div onClick={handleClick} className="absolute right-0 z-50">
+    <div onClick={handleClick} className="absolute right-0 z-10">
       {checked ? (
         <FilledHeartIcon
           width="24"

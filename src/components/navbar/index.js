@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <header className="fixed z-50 w-full bg-white shadow-md">
-      <nav className={`${styles.nav} container mx-auto py-3 px-6`}>
+      <nav className={`${styles.nav} container mx-auto py-3 px-6 text-lg`}>
         <Link href="/">
           <a className={`${styles.logo} cursor-pointer`}>
             <Logo width="45" />
@@ -61,7 +61,7 @@ const Navbar = () => {
           <div className={styles.searchbarContainer}>
             <Searchbar />
           </div>
-          <div className="flex align-center space-x-4">
+          <div className="flex align-center space-x-2 sm:space-x-4">
             <HeartIcon width="24" className="cursor-pointer" />
             <UserIcon width="24" className="cursor-pointer" />
             <CartIcon
