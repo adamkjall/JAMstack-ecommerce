@@ -39,7 +39,7 @@ function Home({
               }}
             >
               <div>
-                <div className="transform -rotate-6">
+                <div className="transform -rotate-6 font-knewave">
                   <h1 className="text-3xl">{campaign.title}</h1>
                   <h2 className="">{campaign.subTitle}</h2>
                 </div>

@@ -20,7 +20,7 @@ const Hero = ({ title, images, buttonText }) => {
     <div className={styles.heroWrapper}>
       <div className="absolute z-10 inset-0 flex justify-center items-center">
         <h1
-          className={`${styles.title} text-7xl md:text-8xl lg:text-8xl xl:text-9xl text-white px-4`}
+          className={`${styles.title} text-7xl md:text-8xl lg:text-8xl xl:text-9xl text-white px-4 font-knewave`}
         >
           {title}
         </h1>

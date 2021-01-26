@@ -7,6 +7,13 @@
 @tailwind components;
 /* Stop purging. */
 
+@font-face {
+  font-family: "Knewave";
+  src: url("../../public/fonts/Knewave-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 body {
   padding: 0;
@@ -27,6 +34,10 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.font-knewave {
+  font-family: "Knewave";
 }
 
 .btn {

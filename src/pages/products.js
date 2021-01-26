@@ -44,13 +44,18 @@ export default function Products({ products, categories, brands }) {
         if (!value) return { ...acc };
         return { ...acc, [key]: value };
       }, {});
-      router.push({
-        query,
-      });
+      router.push(
+        {
+          query,
+        },
+        undefined,
+        { shallow: true }
+      );
     }
   }, [searchQuery]);
 
   console.log("searchQuery", searchQuery);
+  console.log("Cat", categories);
   // console.log("query", router.query);
 
   // handles which checkboxes are set and stores it in state
@@ -75,7 +80,6 @@ export default function Products({ products, categories, brands }) {
     if (searchQuery?.searchTerm) {
       const query = { ...searchQuery };
       delete query.searchTerm;
-      console.log("query", query);
       setSearchQuery(query);
     }
   }
@@ -238,8 +242,10 @@ export default function Products({ products, categories, brands }) {
 
 export async function getStaticProps({ locale, preview = false }) {
   const products = await getProducts("newest", 40);
-  const categories = await getCategories();
+  let categories = await getCategories();
   const brands = await getBrands();
+
+  // categories = categories.filter(category => name)
 
   return {
     props: {

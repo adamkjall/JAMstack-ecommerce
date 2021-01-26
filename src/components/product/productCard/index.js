@@ -29,7 +29,7 @@ const ProductCard = ({
 
   return (
     <div className="relative rounded-sm shadow-lg p-4 cursor-pointer bg-white max-w-sm">
-      <div className="float-right z-20">
+      <div className="relative">
         <WishlistButton productId={id} />
       </div>
       <Link href={"/product" + path}>
