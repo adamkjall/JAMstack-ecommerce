@@ -5,7 +5,7 @@ import Layout from "components/layout";
 import { UIProvider } from "contexts/ui";
 import { CookiesProvider } from "react-cookie";
 
-import "../styles/index.css";
+import "../styles/index.scss";
 
 function MyApp({ Component, pageProps }) {
   return (

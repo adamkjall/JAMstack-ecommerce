@@ -73,6 +73,10 @@ a {
 
 .slick-slider .slick-dots {
   bottom: -65px;
+
+  @media screen and (max-width: 467px) {
+    bottom: -130px;
+  }
 }
 
 .slick-slider .slick-arrow.slick-prev:before,

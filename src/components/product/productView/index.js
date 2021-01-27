@@ -124,7 +124,7 @@ const ProductView = ({ product }) => {
         }}
       />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 lg:gap-20 pb-16">
-        <div className="">
+        <div className="mb-4">
           <ImageGallery images={product.images.edges} />
         </div>
         <div className="">
