@@ -180,8 +180,6 @@ export default function Products({ products, categories, brands }) {
                           height="20"
                           className="pt-1 stroke-current text-white"
                           strokeWidth="2"
-                          // stroke={"white"}
-                          // fill={"white"}
                         />
                       </button>
                     </div>
@@ -201,9 +199,8 @@ export default function Products({ products, categories, brands }) {
                       "repeat(auto-fit, minmax(180px, 280px))",
                   }}
                 >
-                  {/* <div className="grid auto-cols-fr gap-8"> */}
                   {searchQuery && result
-                    ? applyFilters(result).map((product) => (
+                    ? applyFilters(result, searchQuery).map((product) => (
                         <ProductCard
                           key={product.id}
                           id={product.id}
@@ -248,9 +245,10 @@ function applyFilters(products, searchQuery) {
         .split(",")
         .find((id) => id == 24);
       if (filterSale) return product.categories.find((id) => id == 24);
-      return true;
+      else return true;
     })
     .filter((product) => {
+      if (!searchQuery?.categoryId) return true;
       const showAll =
         searchQuery?.categoryId.includes("18") &&
         searchQuery?.categoryId.includes("19");
@@ -262,7 +260,6 @@ function applyFilters(products, searchQuery) {
       }
       const women = searchQuery?.categoryId.includes("19");
       if (women) return product.categories.find((id) => id == 19);
-      else return true;
     });
 }
 
@@ -271,6 +268,7 @@ export async function getStaticProps({ locale, preview = false }) {
   let categories = await getCategories();
   const brands = await getBrands();
 
+  // remove parent category "All"
   categories = categories.filter((category) => category.name !== "All");
 
   return {
