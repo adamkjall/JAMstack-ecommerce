@@ -62,7 +62,7 @@ export default function Products({ products, categories, brands }) {
   console.log("searchQuery", searchQuery);
   // console.log("Cat", categories);
   // console.log("query", router.query);
-  console.log("products", result);
+  console.log("result products", result);
 
   // handles which checkboxes are set and stores it in state
   function handleCheck(e, property) {
@@ -91,7 +91,7 @@ export default function Products({ products, categories, brands }) {
   }
 
   return (
-    <div className="md:container overflow-hidden relative md:mx-auto flex flex-col md:flex-row md:px-4 md:pt-4">
+    <div className="lg:container overflow-hidden relative lg:mx-auto flex flex-col md:flex-row lg:px-4 lg:pt-4">
       {showFilter ? (
         <div
           className={`fixed overflow-hidden w-full bg-white z-20 md:mr-10 p-4 flex flex-col -mt-px`}
@@ -134,7 +134,7 @@ export default function Products({ products, categories, brands }) {
       ) : (
         <>
           <div
-            className="md:hidden fixed z-20 w-full px-4 py-2 -mt-px text-white"
+            className="lg:hidden fixed z-20 w-full px-4 py-2 -mt-px text-white"
             style={{ backgroundColor: "#0C7AA4" }}
           >
             <div className="container mx-auto grid grid-cols-2 gap-20 justify-items-center items-center">
@@ -151,7 +151,7 @@ export default function Products({ products, categories, brands }) {
               </div>
             </div>
           </div>
-          <div className="hidden md:block mr-4">
+          <div className="hidden lg:block mr-4">
             <Filter
               categories={categories}
               brands={brands}
@@ -195,48 +195,27 @@ export default function Products({ products, categories, brands }) {
                 <Spinner />
               ) : (
                 <div
-                  className="grid gap-8 w-full px-6 md:px-0"
+                  className="grid gap-8 justify-center w-full px-6 md:px-0"
                   style={{
-                    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                    gridTemplateColumns:
+                      "repeat(auto-fit, minmax(180px, 280px))",
                   }}
                 >
                   {/* <div className="grid auto-cols-fr gap-8"> */}
                   {searchQuery && result
-                    ? result
-                        .filter((product) => {
-                          if (!searchQuery?.categoryId) return;
-                          const filterSale = searchQuery?.categoryId
-                            .split(",")
-                            .find((id) => id == 24);
-                          if (filterSale)
-                            return product.categories.find((id) => id == 24);
-                          return true;
-                        })
-                        .filter((product) => {
-                          const showAll =
-                            searchQuery?.categoryId.includes("18") &&
-                            searchQuery?.categoryId.includes("19");
-
-                          if (showAll) return true;
-                          const men = searchQuery?.categoryId.includes("18");
-                          if (men) {
-                            return product.categories.find((id) => id == 18);
-                          } else
-                            return product.categories.find((id) => id == 19);
-                        })
-                        .map((product) => (
-                          <ProductCard
-                            key={product.id}
-                            id={product.id}
-                            name={product.name}
-                            brand={product.brand}
-                            retailPrice={product.calculated_price}
-                            originalPrice={product.price}
-                            currencyCode={"USD"}
-                            path={product.custom_url.url}
-                            imgUrl={product.imgUrl}
-                          />
-                        ))
+                    ? applyFilters(result).map((product) => (
+                        <ProductCard
+                          key={product.id}
+                          id={product.id}
+                          name={product.name}
+                          brand={product.brand}
+                          retailPrice={product.calculated_price}
+                          originalPrice={product.price}
+                          currencyCode={"USD"}
+                          path={product.custom_url.url}
+                          imgUrl={product.imgUrl}
+                        />
+                      ))
                     : products.map(({ node: product }) => (
                         <ProductCard
                           key={product.id}
@@ -259,6 +238,32 @@ export default function Products({ products, categories, brands }) {
       )}
     </div>
   );
+}
+
+function applyFilters(products, searchQuery) {
+  return products
+    .filter((product) => {
+      if (!searchQuery?.categoryId) return true;
+      const filterSale = searchQuery?.categoryId
+        .split(",")
+        .find((id) => id == 24);
+      if (filterSale) return product.categories.find((id) => id == 24);
+      return true;
+    })
+    .filter((product) => {
+      const showAll =
+        searchQuery?.categoryId.includes("18") &&
+        searchQuery?.categoryId.includes("19");
+
+      if (showAll) return true;
+      const men = searchQuery?.categoryId.includes("18");
+      if (men) {
+        return product.categories.find((id) => id == 18);
+      }
+      const women = searchQuery?.categoryId.includes("19");
+      if (women) return product.categories.find((id) => id == 19);
+      else return true;
+    });
 }
 
 export async function getStaticProps({ locale, preview = false }) {

@@ -28,7 +28,7 @@ const ProductCard = ({
   const onSale = retailPrice < originalPrice;
 
   return (
-    <div className="relative rounded-sm shadow-lg p-4 cursor-pointer bg-white max-w-sm">
+    <div className="relative rounded-sm shadow-lg p-4 cursor-pointer bg-white">
       <div className="relative">
         <WishlistButton productId={id} />
       </div>
