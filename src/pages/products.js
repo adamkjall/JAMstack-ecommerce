@@ -59,10 +59,10 @@ export default function Products({ products, categories, brands }) {
     }
   }, [searchQuery]);
 
-  console.log("searchQuery", searchQuery);
+  // console.log("searchQuery", searchQuery);
   // console.log("Cat", categories);
   // console.log("query", router.query);
-  console.log("result products", result);
+  // console.log("result products", result);
 
   // handles which checkboxes are set and stores it in state
   function handleCheck(e, property) {
@@ -250,8 +250,10 @@ function applyFilters(products, searchQuery) {
     .filter((product) => {
       if (!searchQuery?.categoryId) return true;
       const showAll =
-        searchQuery?.categoryId.includes("18") &&
-        searchQuery?.categoryId.includes("19");
+        (searchQuery?.categoryId.includes("18") &&
+          searchQuery?.categoryId.includes("19")) ||
+        (!searchQuery?.categoryId.includes("18") &&
+          !searchQuery?.categoryId.includes("19"));
 
       if (showAll) return true;
       const men = searchQuery?.categoryId.includes("18");

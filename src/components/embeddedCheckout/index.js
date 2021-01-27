@@ -13,7 +13,6 @@ function EmbeddedCheckout(props) {
 
   useEffect(() => {
     const handleEmbed = async () => {
-      console.log("cookie", cookie);
       try {
         const resp = await axios.post("/api/bigcommerce/embedded-checkout", {
           cartId: data?.id,

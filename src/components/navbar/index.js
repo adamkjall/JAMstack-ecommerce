@@ -15,7 +15,7 @@ import styles from "./styles.module.scss";
 
 const Navbar = () => {
   const { openCartSidebar, openMenuSidebar } = useUI();
-  const { query } = useRouter();
+  const { query, pathname } = useRouter();
 
   return (
     <header className="fixed z-50 w-full bg-white shadow-md">
@@ -35,6 +35,9 @@ const Navbar = () => {
           <div
             className={`${styles.menuLinksContainer} flex space-x-8 uppercase justify-self-center font-semibold`}
           >
+            <Link href="/">
+              <a className={`${pathname == "/" ? "navBorder" : ""}`}>Home</a>
+            </Link>
             <Link href={{ pathname: "/products", query: { categoryId: 19 } }}>
               <a className={`${query?.categoryId == 19 ? "navBorder" : ""}`}>
                 Women
@@ -46,10 +49,10 @@ const Navbar = () => {
               </a>
             </Link>
             {/*  TODO go to sale */}
-            <Link href={{ pathname: "/products", query: {} }}>
+            <Link href={{ pathname: "/products", query: { categoryId: 24 } }}>
               <a
                 className={`${
-                  query?.categoryId == 20 ? "navBorder" : ""
+                  query?.categoryId == 24 ? "navBorder" : ""
                 } text-red-500`}
               >
                 Sale

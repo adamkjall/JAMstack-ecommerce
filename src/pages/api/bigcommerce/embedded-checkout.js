@@ -16,7 +16,6 @@ export default async (req, res) => {
         }
       );
 
-      // console.log("resp", resp);
       res.setHeader("Content-Type", "application/json");
       res.status(200).json(resp.data);
     } catch (err) {

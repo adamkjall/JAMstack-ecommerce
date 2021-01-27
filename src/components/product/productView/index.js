@@ -105,7 +105,7 @@ const ProductView = ({ product }) => {
   const inStock = selectedVariant?.node.inventory?.isInStock ?? true;
 
   return (
-    <div className="container mx-auto px-6 xl:px-28 my-8 mb-24">
+    <div className="container mx-auto px-6 xl:px-28 mt-8 ">
       <NextSeo
         title={product.name}
         description={product.description}
@@ -239,25 +239,29 @@ const ProductView = ({ product }) => {
         </div>
       </div>
       {product.relatedProducts.edges.length > 0 && (
-        <div>
-          <h2 className="text-xl mt-12">Related products</h2>
+        <div className="-mx-6" style={{ backgroundColor: "#F05A2B" }}>
+          <h2 className="text-xl mt-12 text-white font-bold p-6">
+            Related products
+          </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {product.relatedProducts.edges
-              .slice(0, 4)
-              .map(({ node: product }) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  brand={product.brand?.name}
-                  retailPrice={product.prices.price.value}
-                  originalPrice={product.prices.basePrice.value}
-                  currencyCode={product.prices.price.currencyCode}
-                  path={product.path}
-                  imgUrl={product.defaultImage.url320wide}
-                />
-              ))}
+          <div style={{ backgroundColor: "#F7AC95" }}>
+            <div className="px-6 py-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {product.relatedProducts.edges
+                .slice(0, 4)
+                .map(({ node: product }) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    brand={product.brand?.name}
+                    retailPrice={product.prices.price.value}
+                    originalPrice={product.prices.basePrice.value}
+                    currencyCode={product.prices.price.currencyCode}
+                    path={product.path}
+                    imgUrl={product.defaultImage.url320wide}
+                  />
+                ))}
+            </div>
           </div>
         </div>
       )}

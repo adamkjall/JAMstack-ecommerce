@@ -14,7 +14,6 @@ export const UIProvider = ({ children }) => {
   const openMenuSidebar = () => setDisplayMenuSidebar(true);
   const closeMenuSidebar = () => setDisplayMenuSidebar(false);
 
-  console.log("sidebar", displayMenuSidebar);
   return (
     <UIContext.Provider
       value={{

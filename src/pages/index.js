@@ -163,7 +163,6 @@ export async function getStaticProps({ locale, preview = false }) {
   const categories = await getCategories();
   const hero = await getHero();
   const campaign = await getCampaign();
-  console.log("campaign", campaign);
 
   return {
     props: {
