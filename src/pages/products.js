@@ -97,22 +97,30 @@ export default function Products({ products, categories, brands }) {
           className={`fixed overflow-hidden w-full bg-white z-20 md:mr-10 p-4 flex flex-col -mt-px`}
           style={{ height: "calc(100vh - 70px" }}
         >
-          <Filter
-            categories={categories}
-            brands={brands}
-            handleChange={handleCheck}
-            searchQuery={searchQuery}
-          />
+          <div>
+            <button
+              className="float-right inline-block"
+              onClick={() => setShowFilter(false)}
+            >
+              <CloseIcon width="32" />
+            </button>
+            <Filter
+              categories={categories}
+              brands={brands}
+              handleChange={handleCheck}
+              searchQuery={searchQuery}
+            />
+          </div>
           <div className="flex justify-center items-end flex-1">
             <div className="grid grid-cols-2 w-full">
               <button
-                className="btn btn-blue"
+                className="btn btn-blue rounded-none"
                 onClick={() => setShowFilter(false)}
               >
                 Apply
               </button>
               <button
-                className="btn btn-black"
+                className="btn btn-black rounded-none"
                 onClick={() => {
                   setSearchQuery({});
                   setShowFilter(false);
@@ -196,6 +204,7 @@ export default function Products({ products, categories, brands }) {
                   {searchQuery && result
                     ? result
                         .filter((product) => {
+                          if (!searchQuery?.categoryId) return;
                           const filterSale = searchQuery?.categoryId
                             .split(",")
                             .find((id) => id == 24);
