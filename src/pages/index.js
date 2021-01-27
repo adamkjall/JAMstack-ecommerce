@@ -16,6 +16,7 @@ function Home({
   bestSellingProducts,
   newestProducts,
 }) {
+  console.log("hero", hero);
   return (
     <div>
       <main className="">

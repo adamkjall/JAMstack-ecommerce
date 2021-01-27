@@ -33,6 +33,13 @@ const Hero = ({ title, images, buttonText }) => {
           <img
             key={image.sys.id}
             src={"https:" + image.fields.file.url}
+            srcSet={`
+              https:${image.fields.file.url} 1920w,
+              https:${image.fields.file.url}?w=1340&h=900 1340w,
+              https:${image.fields.file.url}?w=960&h=640 960w,
+              https:${image.fields.file.url}?w=576&h=384 576w,
+              https:${image.fields.file.url}?w=384&h=256 384w,
+            `}
             className={styles.heroImage}
             alt="hero"
           />
@@ -41,5 +48,6 @@ const Hero = ({ title, images, buttonText }) => {
     </div>
   );
 };
-
+// w 395 384
+// h 188 256
 export default Hero;
