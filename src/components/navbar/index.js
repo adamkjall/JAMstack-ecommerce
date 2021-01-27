@@ -69,11 +69,13 @@ const Navbar = () => {
           <div className="flex align-center space-x-2 sm:space-x-4">
             <HeartIcon width="24" className="cursor-pointer hidden sm:block" />
             <UserIcon width="24" className="cursor-pointer hidden sm:block" />
-            <CartIcon
-              width="24"
-              onClick={openCartSidebar}
-              className="cursor-pointer"
-            />
+            <button name="cart">
+              <CartIcon
+                width="30"
+                onClick={openCartSidebar}
+                className="cursor-pointer cartIcon pt-px"
+              />
+            </button>
           </div>
         </div>
       </nav>
@@ -87,6 +89,9 @@ const Navbar = () => {
         }
         .navBorder::after {
           transform: scaleX(1);
+        }
+        .cartIcon {
+          width: 50px;
         }
       `}</style>
     </header>
