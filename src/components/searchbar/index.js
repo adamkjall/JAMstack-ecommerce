@@ -26,7 +26,7 @@ const Searchbar = () => {
 
   return (
     <div className="relative mx-auto text-gray-800">
-      <label for="search hidden">Searchbox</label>
+      <label htmlFor="search hidden">Searchbox</label>
       <input
         id="search"
         className="border-b border-gray-700 h-9 w-40 px-3 pr-10  text-sm focus:outline-none"
