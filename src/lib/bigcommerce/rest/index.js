@@ -33,7 +33,9 @@ export async function getCategoryById(categoryId) {
 }
 
 export async function getProductsByCategoryId(categoryId) {
-  return await myFetch(`catalog/products?categories:in=${categoryId}`);
+  return await myFetch(
+    `catalog/products?categories:in=${categoryId}&is_visible=true`
+  );
 }
 
 export async function getProductImages(productId) {
@@ -61,6 +63,7 @@ export async function getProducts({
   const sortParam = sortBy ? "sort=" + sortBy : "";
   const directionPram = direction ? "direction=" + direction : "";
   const brandParam = brandId ? "brand_id:in=" + brandId : "";
+  const isVisible = "is_visible=true";
 
   // request params
   const params = [
@@ -69,6 +72,7 @@ export async function getProducts({
     sortParam,
     directionPram,
     brandParam,
+    isVisible,
   ]
     .filter((param) => param)
     .join("&");

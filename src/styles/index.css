@@ -41,11 +41,16 @@ a {
 }
 
 .btn {
-  @apply font-mono font-bold text-lg py-1.5 px-4 rounded-sm;
+  @apply font-mono font-bold text-lg py-1.5 px-4 rounded-sm transition-all ease-in-out duration-75;
 }
 
 .btn-black {
   @apply bg-black hover:bg-white hover:text-black hover:border-black text-white border-transparent border-2;
+}
+
+.btn-blue {
+  background-color: #0c7aa4;
+  @apply hover:bg-white hover:text-black hover:border-black text-white border-transparent border-2;
 }
 
 /* Slider / Image gallery */

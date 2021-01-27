@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 
 import ProductCard from "components/product/productCard";
 import Spinner from "components/spinner";
+import Filter from "components/filter";
+import SortBy from "components/sortBy";
 
 import { getProducts } from "lib/bigcommerce/graphql/operations";
 import { getCategories, getBrands } from "lib/bigcommerce/rest";
@@ -58,8 +60,9 @@ export default function Products({ products, categories, brands }) {
   }, [searchQuery]);
 
   console.log("searchQuery", searchQuery);
-  console.log("Cat", categories);
+  // console.log("Cat", categories);
   // console.log("query", router.query);
+  console.log("products", result);
 
   // handles which checkboxes are set and stores it in state
   function handleCheck(e, property) {
@@ -88,136 +91,72 @@ export default function Products({ products, categories, brands }) {
   }
 
   return (
-    <div className="container overflow-hidden relative mx-auto flex flex-col md:flex-row ">
+    <div className="md:container overflow-hidden relative md:mx-auto flex flex-col md:flex-row md:px-4 md:pt-4">
       {showFilter ? (
         <div
           className={`fixed overflow-hidden w-full bg-white z-20 md:mr-10 p-4 flex flex-col -mt-px`}
           style={{ height: "calc(100vh - 70px" }}
         >
-          <div className="categories">
-            <div className="flex justify-between items-center">
-              <h3 className="text-2xl font-bold mb-2">Categories</h3>
-            </div>
-            {!categories ? (
-              <Spinner />
-            ) : (
-              <ul>
-                {categories
-                  .sort((a, b) => a.sort_order - b.sort_order)
-                  .map((c) => (
-                    <li
-                      className={`${
-                        c.id == searchQuery?.categoryId ||
-                        (!searchQuery?.categoryId && c.id == 23) // id:23 = "All" is preselected
-                          ? "font-bold"
-                          : ""
-                      } cursor-pointer text-xl`}
-                      key={c.id}
-                      onClick={() =>
-                        setSearchQuery((opt) => ({ ...opt, categoryId: c.id }))
-                      }
-                    >
-                      {c.name}
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </div>
-          <div className="brands mt-4">
-            <h3 className="text-2xl font-bold mb-2">Brands</h3>
-            {!brands ? (
-              <Spinner />
-            ) : (
-              <div>
-                {brands.map((brand) => (
-                  <div key={brand.id}>
-                    <input
-                      className="cursor-pointer"
-                      type="checkbox"
-                      id={brand.id}
-                      name={brand.name}
-                      value={brand.id}
-                      checked={searchQuery?.brandId?.includes(brand.id)}
-                      onChange={(e) => handleCheck(e, "brandId")}
-                    />
-                    <label className="ml-2 text-xl" htmlFor={brand.id}>
-                      {brand.name}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div
-            className="flex justify-center items-end flex-1"
-            onClick={() => setShowFilter(false)}
-          >
-            <div className="flex">
-              <span className="pr-2 pb-2 text-xl">Hide filters</span>
-
-              <CloseIcon width="24" />
+          <Filter
+            categories={categories}
+            brands={brands}
+            handleChange={handleCheck}
+            searchQuery={searchQuery}
+          />
+          <div className="flex justify-center items-end flex-1">
+            <div className="grid grid-cols-2 w-full">
+              <button
+                className="btn btn-blue"
+                onClick={() => setShowFilter(false)}
+              >
+                Apply
+              </button>
+              <button
+                className="btn btn-black"
+                onClick={() => {
+                  setSearchQuery({});
+                  setShowFilter(false);
+                }}
+              >
+                Reset
+              </button>
             </div>
           </div>
         </div>
       ) : (
         <>
           <div
-            className="fixed z-20 w-full grid grid-cols-2 gap-4 justify-items-start items-center px-4 py-2 -mt-px text-white"
+            className="md:hidden fixed z-20 w-full px-4 py-2 -mt-px text-white"
             style={{ backgroundColor: "#0C7AA4" }}
           >
-            <div
-              className="w-full flex justify-between items-center"
-              onClick={() => setShowFilter(true)}
-            >
-              <span className="">Filters</span>
-              <SettingsIcon width="18" fill="white" stroke="white" />
-            </div>
-
-            {/* <label htmlFor="sort">Sort by:</label> */}
-            <div className="w-full">
-              <select
-                name="sort"
-                id="sort"
-                className="outline-none bg-transparent w-full"
-                onChange={(e) =>
-                  setSearchQuery((opt) => {
-                    const value = e.target.value;
-                    if (value.includes(",")) {
-                      return {
-                        ...opt,
-                        sortBy: value.split(",")[0],
-                        direction: value.split(",")[1],
-                      };
-                    }
-
-                    return {
-                      ...opt,
-                      sortBy: value,
-                    };
-                  })
-                }
+            <div className="container mx-auto grid grid-cols-2 gap-20 justify-items-center items-center">
+              <div
+                className="w-full flex justify-between items-center"
+                onClick={() => setShowFilter(true)}
               >
-                <option value="id,desc" className="text-black">
-                  Newest
-                </option>
-                <option value="total_sold" className="text-black">
-                  Popular
-                </option>
-                <option value="price,asc" className="text-black">
-                  Price (asc)
-                </option>
-                <option value="price,desc" className="text-black">
-                  Price (desc)
-                </option>
-              </select>
+                <span className="">Filter</span>
+                <SettingsIcon width="18" fill="white" stroke="white" />
+              </div>
+
+              <div className="w-full">
+                <SortBy setSearchQuery={setSearchQuery} />
+              </div>
             </div>
+          </div>
+          <div className="hidden md:block mr-4">
+            <Filter
+              categories={categories}
+              brands={brands}
+              handleChange={handleCheck}
+              searchQuery={searchQuery}
+            />
           </div>
           {!products ? (
             <Spinner />
           ) : (
-            <div className="px-4 mb-8 mt-8 flex-1">
-              <div className="grid grid-cols-1 gap-4 mb-6">
-                <div>
+            <div className="mb-8 flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="col-span-2 justify-self-center mt-12 md:mt-0">
                   {router.query?.searchTerm && (
                     <div className="flex items-center">
                       <h2 className="text-xl">
@@ -240,26 +179,55 @@ export default function Products({ products, categories, brands }) {
                     </div>
                   )}
                 </div>
+                <div className="hidden md:block justify-self-end">
+                  <SortBy setSearchQuery={setSearchQuery} />
+                </div>
               </div>
               {loading ? (
                 <Spinner />
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div
+                  className="grid gap-8 w-full"
+                  style={{
+                    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                  }}
+                >
                   {/* <div className="grid auto-cols-fr gap-8"> */}
                   {searchQuery && result
-                    ? result.map((product) => (
-                        <ProductCard
-                          key={product.id}
-                          id={product.id}
-                          name={product.name}
-                          brand={product.brand}
-                          retailPrice={product.calculated_price}
-                          originalPrice={product.price}
-                          currencyCode={"USD"}
-                          path={product.custom_url.url}
-                          imgUrl={product.imgUrl}
-                        />
-                      ))
+                    ? result
+                        .filter((product) => {
+                          const filterSale = searchQuery?.categoryId
+                            .split(",")
+                            .find((id) => id == 24);
+                          if (filterSale)
+                            return product.categories.find((id) => id == 24);
+                          return true;
+                        })
+                        .filter((product) => {
+                          const showAll =
+                            searchQuery?.categoryId.includes("18") &&
+                            searchQuery?.categoryId.includes("19");
+
+                          if (showAll) return true;
+                          const men = searchQuery?.categoryId.includes("18");
+                          if (men) {
+                            return product.categories.find((id) => id == 18);
+                          } else
+                            return product.categories.find((id) => id == 19);
+                        })
+                        .map((product) => (
+                          <ProductCard
+                            key={product.id}
+                            id={product.id}
+                            name={product.name}
+                            brand={product.brand}
+                            retailPrice={product.calculated_price}
+                            originalPrice={product.price}
+                            currencyCode={"USD"}
+                            path={product.custom_url.url}
+                            imgUrl={product.imgUrl}
+                          />
+                        ))
                     : products.map(({ node: product }) => (
                         <ProductCard
                           key={product.id}
@@ -289,7 +257,7 @@ export async function getStaticProps({ locale, preview = false }) {
   let categories = await getCategories();
   const brands = await getBrands();
 
-  // categories = categories.filter(category => name)
+  categories = categories.filter((category) => category.name !== "All");
 
   return {
     props: {
