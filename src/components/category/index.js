@@ -30,8 +30,6 @@ const Category = ({
       src={"https:" + imageUrl}
       objectFit="cover"
       layout="fill"
-      // width={600}
-      // height={950}
       alt={`Category ${categoryName}`}
     />
   </div>

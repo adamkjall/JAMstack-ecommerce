@@ -14,7 +14,6 @@ import useSearch from "hooks/useSearch";
 import { shallowEqual } from "utils";
 
 import CloseIcon from "../../public/icons/close.svg";
-import NextIcon from "../../public/icons/next.svg";
 import SettingsIcon from "../../public/icons/settings.svg";
 
 export default function Products({ products, categories, brands }) {

@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import Slider from "react-slick";
 
 import styles from "./styles.module.scss";
@@ -38,17 +36,6 @@ const Hero = ({ title, images, buttonText }) => {
             className={styles.heroImage}
             alt="hero"
           />
-          // <Image
-          //   key={image.sys.id}
-          //   src={"https:" + image.fields.file.url}
-          //   className="hero-image"
-          //   // width={image.fields.file.details.image.width}
-          //   // height={image.fields.file.details.image.height * 0.8}
-          //   layout="responsive"
-          //   objectFit="cover"
-          //   width={1900}
-          //   height={980}
-          // />
         ))}
       </Slider>
     </div>

@@ -12,9 +12,9 @@ import CrossIcon from "../../../../public/icons/close.svg";
 const CartSidebar = () => {
   const { data, isEmpty } = useCart();
   const { displayCartSidebar, closeCartSidebar } = useUI();
-  const { price: subTotal } = usePrice(
-    data && { amount: data.base_amount, currencyCode: data.currency.code }
-  );
+  // const { price: subTotal } = usePrice(
+  //   data && { amount: data.base_amount, currencyCode: data.currency.code }
+  // );
   const { price: total } = usePrice(
     data && { amount: data.cart_amount, currencyCode: data.currency.code }
   );
@@ -74,11 +74,6 @@ const CartSidebar = () => {
           </div>
           <div>
             <ul>
-              {/* TODO what to show here */}
-              {/* <li className="flex justify-between">
-                <span>Subtotal</span>
-                <span>{subTotal}</span>
-              </li> */}
               <li className="flex justify-between">
                 <span>Total</span>
                 <span>{total}</span>

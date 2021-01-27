@@ -8,8 +8,6 @@ import NextIcon from "../../../public/icons/next.svg";
 const ImageGallery = ({ images }) => {
   const sliderSettings = {
     dots: true,
-    // centerMode: true,
-    // centerPadding: "0px",
     dotsClass: "slick-dots slick-thumb",
     lazyload: true,
     infinite: true,
@@ -17,7 +15,6 @@ const ImageGallery = ({ images }) => {
     slidesToShow: 1,
     slidesToScroll: 1,
     swipeToSlide: true,
-    // arrows: false,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     customPaging: (i) =>
@@ -37,7 +34,6 @@ const ImageGallery = ({ images }) => {
     <Slider {...sliderSettings}>
       {images.map((image, index) => (
         <div key={index}>
-          {/* TODO Optimize with srcSet & size */}
           <ImageMagnify
             {...{
               smallImage: {
