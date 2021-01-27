@@ -22,7 +22,12 @@ const ImageGallery = ({ images }) => {
     prevArrow: <PrevArrow />,
     customPaging: (i) =>
       i < images.length ? (
-        <Image src={images[i]?.node.url160wide} width="80" height="80" />
+        <Image
+          src={images[i]?.node.url160wide}
+          width="80"
+          height="80"
+          alt="product thumbnail"
+        />
       ) : (
         <a></a>
       ),

@@ -101,6 +101,7 @@ export default function Products({ products, categories, brands }) {
             <button
               className="float-right inline-block"
               onClick={() => setShowFilter(false)}
+              name="close menu"
             >
               <CloseIcon width="32" />
             </button>
@@ -174,6 +175,7 @@ export default function Products({ products, categories, brands }) {
                       <button
                         onClick={resetSearchTerm}
                         className="ml-4  bg-gray-700 rounded-full shadow-sm"
+                        name="clear search"
                       >
                         <CloseIcon
                           width="20"

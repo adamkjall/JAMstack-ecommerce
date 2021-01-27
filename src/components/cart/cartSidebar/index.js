@@ -47,7 +47,11 @@ const CartSidebar = () => {
       } fixed transform top-0 right-0 w-full md:w-96 h-full bg-white ease-in-out transition-all duration-300 z-50 p-4 shadow-lg`}
     >
       <header className="mb-4">
-        <button className="focus:outline-none" onClick={closeCartSidebar}>
+        <button
+          name="close cart"
+          className="focus:outline-none"
+          onClick={closeCartSidebar}
+        >
           <CrossIcon width="24" />
         </button>
       </header>
@@ -93,6 +97,7 @@ const CartSidebar = () => {
             } w-full font-mono font-bold text-lg text-white py-1.5 px-4 mt-6 border-transparent border-2`}
             onClick={closeCartSidebar}
             disabled={items.length === 0}
+            name="close cart"
           >
             Checkout
           </button>

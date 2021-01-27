@@ -29,6 +29,7 @@ const Navbar = () => {
           <button
             className={`${styles.hamburgerMenu} focus:outline-none`}
             onClick={openMenuSidebar}
+            name="menu"
           >
             <MenuIcon width="24" />
           </button>

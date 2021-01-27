@@ -35,7 +35,11 @@ const NavSidebar = () => {
       } fixed top-0 -left-full w-full h-full transform ease-in-out transition-all duration-300 z-50 p-4 bg-white`}
     >
       <header className="mb-4">
-        <button className="focus:outline-none" onClick={closeMenuSidebar}>
+        <button
+          className="focus:outline-none"
+          onClick={closeMenuSidebar}
+          name="close menu"
+        >
           <CrossIcon width="24" />
         </button>
       </header>

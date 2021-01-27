@@ -36,6 +36,7 @@ const Hero = ({ title, images, buttonText }) => {
             key={image.sys.id}
             src={"https:" + image.fields.file.url}
             className={styles.heroImage}
+            alt="hero"
           />
           // <Image
           //   key={image.sys.id}

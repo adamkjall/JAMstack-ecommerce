@@ -174,6 +174,7 @@ const ProductView = ({ product }) => {
                                     src={imageUrl}
                                     layout="fill"
                                     objectFit="cover"
+                                    alt="product color"
                                   />
                                 </div>
                               ) : (
