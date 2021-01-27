@@ -14,7 +14,7 @@ export default function Footer() {
           <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
             {/* <!-- Column 2 Content --> */}
 
-            <h4 className="text-white">Important</h4>
+            <h3 className="text-white">Important</h3>
             <ul className="nav navbar-nav">
               <li id="navi-2" className="leading-7 text-sm">
                 <a className="text-white underline text-small" href="/page-1">
@@ -31,7 +31,7 @@ export default function Footer() {
 
           <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
             {/* <!-- Column 3 Content --> */}
-            <h4 className="text-white">Info</h4>
+            <h3 className="text-white">Info</h3>
             <ul className="">
               <li id="navi-2" className="leading-7 text-sm">
                 <a className="text-white underline text-small" href="/page-1">
@@ -49,7 +49,7 @@ export default function Footer() {
           <div className="w-full overflow-hidden sm:my-1 sm:px-1 sm:w-1/2 md:my-px md:px-px md:w-1/2 lg:my-2 lg:px-2 lg:w-1/4 xl:my-2 xl:px-2 xl:w-1/4 pb-6">
             {/* <!-- Column 4 Content --> */}
 
-            <h4 className="text-white">Products</h4>
+            <h3 className="text-white">Products</h3>
             <ul className="">
               <li id="navi-2" className="leading-7 text-sm">
                 <a className="text-white underline text-small" href="/page-1">

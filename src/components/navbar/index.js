@@ -22,6 +22,7 @@ const Navbar = () => {
       <nav className={`${styles.nav} container mx-auto py-3 px-4 text-lg`}>
         <Link href="/">
           <a className={`${styles.logo} cursor-pointer`}>
+            <span className="hidden">Go to home</span>
             <Logo width="45" />
           </a>
         </Link>
