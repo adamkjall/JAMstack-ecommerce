@@ -105,162 +105,169 @@ const ProductView = ({ product }) => {
   const inStock = selectedVariant?.node.inventory?.isInStock ?? true;
 
   return (
-    <div className="container mx-auto px-6 xl:px-28 mt-8 ">
-      <NextSeo
-        title={product.name}
-        description={product.description}
-        openGraph={{
-          type: "website",
-          title: product.name,
-          description: product.description,
-          images: [
-            {
-              url: product.images.edges?.[0]?.node.urlOriginal,
-              width: 800,
-              height: 600,
-              alt: product.name,
-            },
-          ],
-        }}
-      />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 lg:gap-20 pb-16">
-        <div className="mb-4">
-          <ImageGallery images={product.images.edges} />
-        </div>
-        <div className="">
-          <div>
-            <div className="brand">{product?.brand?.name}</div>
-            <h2 className="text-2xl font-semibold">{product.name}</h2>
-            <div className="price flex justify-between text-4xl mt-3 font-bold">
-              <span className={`${onSale && "text-red-500"}`}>{price}</span>
-              {onSale && (
-                <span className="line-through opacity-40">{basePrice}</span>
-              )}
-            </div>
-            <div>
-              {choices && (
-                <div className="options mt-5">
-                  {/* TODO refactor component  */}
-                  {colors && (
-                    <div className="">
-                      <div className="mb-2">
-                        <strong>Color:</strong> {choices.color}
-                      </div>
-                      <div className="flex">
-                        {Object.entries(colors).map(([color, imageUrl]) => (
-                          <div
-                            key={color}
-                            className={`${
-                              choices.color === color && "border-2 border-black"
-                            }  px-1 py-1.5 flex items-center cursor-pointer`}
-                            onClick={() =>
-                              setChoices((choices) => ({
-                                ...choices,
-                                color: color,
-                              }))
-                            }
-                          >
-                            {imageUrl ? (
-                              <div
-                                style={{
-                                  position: "relative",
-                                  width: "60px",
-                                  height: "60px",
-                                }}
-                              >
-                                <Image
-                                  src={imageUrl}
-                                  layout="fill"
-                                  objectFit="cover"
-                                />
-                              </div>
-                            ) : (
-                              <div className="px-1">{color}</div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {sizes && (
-                    <div className="mt-2">
-                      <div className="mb-2">
-                        <strong>Size:</strong>
-                      </div>
-                      <div className="flex space-x-3">
-                        {/* TODO refactor component  */}
-                        {sizes.map((size) => (
-                          <div
-                            key={size.entityId}
-                            className={`${
-                              choices.size === size.label &&
-                              (!size.inventory || size.inventory.isInStock)
-                                ? "bg-green-500 text-white"
-                                : size.inventory && !size?.inventory?.isInStock
-                                ? "bg-red-400"
-                                : "bg-gray-200"
-                            } font-bold px-4 py-2 cursor-pointer`}
-                            onClick={() =>
-                              setChoices((choices) => ({
-                                ...choices,
-                                size: size.label,
-                              }))
-                            }
-                          >
-                            {size.label}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* TODO refactor button */}
-              <div>
-                <button
-                  className={`${
-                    inStock ? "bg-black" : "bg-gray-400"
-                  }  text-white px-4 py-1 rounded-sm mt-6`}
-                  onClick={addToCart}
-                  disabled={loading || !inStock}
-                >
-                  ADD TO CART
-                </button>
-              </div>
-              {!inStock && (
-                <div className="text-red-600">Item not in stock</div>
-              )}
-            </div>
+    <div>
+      <div className="container mx-auto px-6 lg:px-28 my-8">
+        <NextSeo
+          title={product.name}
+          description={product.description}
+          openGraph={{
+            type: "website",
+            title: product.name,
+            description: product.description,
+            images: [
+              {
+                url: product.images.edges?.[0]?.node.urlOriginal,
+                width: 800,
+                height: 600,
+                alt: product.name,
+              },
+            ],
+          }}
+        />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 lg:gap-20 pb-16">
+          <div className="mb-4 px-6">
+            <ImageGallery images={product.images.edges} />
           </div>
-          <div className={styles.parsedWrapper}>
-            {parse(product.description)}
+          <div className="">
+            <div>
+              <div className="brand">{product?.brand?.name}</div>
+              <h2 className="text-2xl font-semibold">{product.name}</h2>
+              <div className="price flex justify-between text-4xl mt-3 font-bold">
+                <span className={`${onSale && "text-red-500"}`}>{price}</span>
+                {onSale && (
+                  <span className="line-through opacity-40">{basePrice}</span>
+                )}
+              </div>
+              <div>
+                {choices && (
+                  <div className="options mt-5">
+                    {/* TODO refactor component  */}
+                    {colors && (
+                      <div className="">
+                        <div className="mb-2">
+                          <strong>Color:</strong> {choices.color}
+                        </div>
+                        <div className="flex">
+                          {Object.entries(colors).map(([color, imageUrl]) => (
+                            <div
+                              key={color}
+                              className={`${
+                                choices.color === color &&
+                                "border-2 border-black"
+                              }  px-1 py-1.5 flex items-center cursor-pointer`}
+                              onClick={() =>
+                                setChoices((choices) => ({
+                                  ...choices,
+                                  color: color,
+                                }))
+                              }
+                            >
+                              {imageUrl ? (
+                                <div
+                                  style={{
+                                    position: "relative",
+                                    width: "60px",
+                                    height: "60px",
+                                  }}
+                                >
+                                  <Image
+                                    src={imageUrl}
+                                    layout="fill"
+                                    objectFit="cover"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="px-1">{color}</div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {sizes && (
+                      <div className="mt-2">
+                        <div className="mb-2">
+                          <strong>Size:</strong>
+                        </div>
+                        <div className="flex space-x-3">
+                          {/* TODO refactor component  */}
+                          {sizes.map((size) => (
+                            <div
+                              key={size.entityId}
+                              className={`${
+                                choices.size === size.label &&
+                                (!size.inventory || size.inventory.isInStock)
+                                  ? "bg-green-500 text-white"
+                                  : size.inventory &&
+                                    !size?.inventory?.isInStock
+                                  ? "bg-red-400"
+                                  : "bg-gray-200"
+                              } font-bold px-4 py-2 cursor-pointer`}
+                              onClick={() =>
+                                setChoices((choices) => ({
+                                  ...choices,
+                                  size: size.label,
+                                }))
+                              }
+                            >
+                              {size.label}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* TODO refactor button */}
+                <div>
+                  <button
+                    className={`${
+                      inStock ? "bg-black" : "bg-gray-400"
+                    }  text-white px-4 py-1 rounded-sm mt-6`}
+                    onClick={addToCart}
+                    disabled={loading || !inStock}
+                  >
+                    ADD TO CART
+                  </button>
+                </div>
+                {!inStock && (
+                  <div className="text-red-600">Item not in stock</div>
+                )}
+              </div>
+            </div>
+            <div className={styles.parsedWrapper}>
+              {parse(product.description)}
+            </div>
           </div>
         </div>
       </div>
       {product.relatedProducts.edges.length > 0 && (
-        <div className="-mx-6" style={{ backgroundColor: "#F05A2B" }}>
-          <h2 className="text-xl mt-12 text-white font-bold p-6">
-            Related products
-          </h2>
-
-          <div style={{ backgroundColor: "#F7AC95" }}>
-            <div className="px-6 py-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-              {product.relatedProducts.edges
-                .slice(0, 4)
-                .map(({ node: product }) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    brand={product.brand?.name}
-                    retailPrice={product.prices.price.value}
-                    originalPrice={product.prices.basePrice.value}
-                    currencyCode={product.prices.price.currencyCode}
-                    path={product.path}
-                    imgUrl={product.defaultImage.url320wide}
-                  />
-                ))}
+        <div style={{ backgroundColor: "#0C7AA4" }}>
+          <div className="container mx-auto">
+            <h2 className="text-2xl mt-12 text-white font-bold p-6">
+              Related products
+            </h2>
+          </div>
+          <div style={{ backgroundColor: "#074962" }}>
+            <div className="container mx-auto">
+              <div className="px-6 py-20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {product.relatedProducts.edges
+                  .slice(0, 4)
+                  .map(({ node: product }) => (
+                    <ProductCard
+                      key={product.id}
+                      id={product.id}
+                      name={product.name}
+                      brand={product.brand?.name}
+                      retailPrice={product.prices.price.value}
+                      originalPrice={product.prices.basePrice.value}
+                      currencyCode={product.prices.price.currencyCode}
+                      path={product.path}
+                      imgUrl={product.defaultImage.url320wide}
+                    />
+                  ))}
+              </div>
             </div>
           </div>
         </div>
