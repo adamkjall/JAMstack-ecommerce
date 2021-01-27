@@ -65,8 +65,8 @@ const Navbar = () => {
             <Searchbar />
           </div>
           <div className="flex align-center space-x-2 sm:space-x-4">
-            <HeartIcon width="24" className="cursor-pointer" />
-            <UserIcon width="24" className="cursor-pointer" />
+            <HeartIcon width="24" className="cursor-pointer hidden sm:block" />
+            <UserIcon width="24" className="cursor-pointer hidden sm:block" />
             <CartIcon
               width="24"
               onClick={openCartSidebar}
