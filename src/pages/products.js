@@ -187,7 +187,7 @@ export default function Products({ products, categories, brands }) {
                 <Spinner />
               ) : (
                 <div
-                  className="grid gap-8 w-full"
+                  className="grid gap-8 w-full px-6 md:px-0"
                   style={{
                     gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
                   }}
