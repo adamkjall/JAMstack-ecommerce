@@ -41,6 +41,8 @@ const Hero = ({ title, images, buttonText }) => {
               https:${image.fields.file.url}?w=384&h=256 384w,
             `}
             className={styles.heroImage}
+            width="100vw"
+            height="100vh"
             alt="hero"
           />
         ))}
