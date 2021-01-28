@@ -21,7 +21,7 @@ const Navbar = () => {
     <header className="fixed z-50 w-full bg-white shadow-md">
       <nav className={`${styles.nav} container mx-auto py-3 px-4 text-lg`}>
         <Link href="/">
-          <a className={`${styles.logo} cursor-pointer`}>
+          <a className={`${styles.logo} cursor-pointer focus:outline-none`}>
             <span className="hidden">Go to home</span>
             <Logo width="45" />
           </a>
@@ -69,7 +69,7 @@ const Navbar = () => {
           <div className="flex align-center space-x-2 sm:space-x-4">
             <HeartIcon width="24" className="cursor-pointer hidden sm:block" />
             <UserIcon width="24" className="cursor-pointer hidden sm:block" />
-            <button name="cart">
+            <button name="cart" className="focus:outline-none">
               <CartIcon
                 width="30"
                 onClick={openCartSidebar}
